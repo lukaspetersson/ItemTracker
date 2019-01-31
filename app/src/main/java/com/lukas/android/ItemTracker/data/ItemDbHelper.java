@@ -9,7 +9,7 @@ import com.lukas.android.ItemTracker.data.ItemContract.ItemEntry;
 public class ItemDbHelper extends SQLiteOpenHelper {
 
     //name database file
-    private static final String DATABASE_NAME = "bookshelf.db";
+    private static final String DATABASE_NAME = "ItemTracker.db";
 
     //give unique version
     private static final int DATABASE_VERSION = 2;

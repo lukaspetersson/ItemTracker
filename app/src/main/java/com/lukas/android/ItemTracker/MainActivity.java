@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,7 +23,7 @@ public class MainActivity extends FragmentActivity {
     ImageView previousDay;
     ImageView nextDay;
     FloatingActionButton scanFab;
-    ListView itemsList;
+    ViewPager itemsList;
 
     long currentDate;
     private final long MILI_IN_DAY = 86400000;
@@ -37,41 +38,44 @@ public class MainActivity extends FragmentActivity {
         nextDay = findViewById(R.id.next_day);
         previousDay = findViewById(R.id.previous_day);
         scanFab = findViewById(R.id.scan_fab);
-        itemsList = findViewById(R.id.items_list);
+        itemsList = findViewById(R.id.items_pager);
 
         currentDate = System.currentTimeMillis();
         setDayDisplay();
 
-        itemsList.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this, itemsList));
 
     }
 
-    public void openScan(View view){
+    public void openScan(View view) {
 
     }
-    public void goToNextDay(View view){
+
+    public void goToNextDay(View view) {
         currentDate += MILI_IN_DAY;
         setDayDisplay();
     }
-    public void goToPreviousDay(View view){
+
+    public void goToPreviousDay(View view) {
         currentDate -= MILI_IN_DAY;
         setDayDisplay();
     }
 
-    private void setDayDisplay(){
+    private void setDayDisplay() {
         DateFormat formatter = new SimpleDateFormat("d/M");
         dayDisplay.setText(formatter.format(currentDate));
 
         //reload adapter
     }
-
+}
 
 
     /*************************************************************************************************
      * Handle Swipe events on the list view
      **************************************************************************************************/
 
-   public class OnSwipeTouchListener implements View.OnTouchListener {
+    /*        itemsList.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this, itemsList));
+
+    public class OnSwipeTouchListener implements View.OnTouchListener {
 
        ListView list;
        private GestureDetector gestureDetector;
@@ -132,4 +136,4 @@ public class MainActivity extends FragmentActivity {
 
        }
    }
-}
+}*/

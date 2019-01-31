@@ -36,14 +36,12 @@
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/items_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/items_pager"
         android:layout_below="@+id/date_bar"
-        android:divider="@null"
-        android:drawSelectorOnTop="true">
-    </ListView>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/scan_fab"
