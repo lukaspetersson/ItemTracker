@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,8 +40,7 @@ public class MainActivity extends FragmentActivity {
         scanFab = findViewById(R.id.scan_fab);
         itemsList = findViewById(R.id.items_pager);
 
-        mAdapter =  new PagerAdapterMain(getSupportFragmentManager(), this);
-
+        mAdapter =  new PagerAdapterMain(getSupportFragmentManager());
         itemsList.setAdapter(mAdapter);
 
         currentDate = System.currentTimeMillis();
@@ -54,16 +54,19 @@ public class MainActivity extends FragmentActivity {
     public void goToNextDay(View view) {
         currentDate += MILI_IN_DAY;
         setDayDisplay();
+        itemsList.setCurrentItem(itemsList.getCurrentItem() + 1);
     }
 
     public void goToPreviousDay(View view) {
         currentDate -= MILI_IN_DAY;
         setDayDisplay();
+        itemsList.setCurrentItem(itemsList.getCurrentItem() - 1);
     }
 
     private void setDayDisplay() {
         DateFormat formatter = new SimpleDateFormat("d/M");
         dayDisplay.setText(formatter.format(currentDate));
+
 
         //reload adapter
     }
