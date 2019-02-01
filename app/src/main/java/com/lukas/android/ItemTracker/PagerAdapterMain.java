@@ -14,34 +14,31 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-public class AdapterMain extends FragmentPagerAdapter {
+public class PagerAdapterMain extends FragmentPagerAdapter {
     Context mContext;
-    String[] mItems;
-    LayoutInflater mInflater;
 
-
-
-    public AdapterMain(FragmentManager fm) {
+    public PagerAdapterMain(FragmentManager fm, Context context) {
         super(fm);
+        mContext = context;
     }
 
     @Override
     public Fragment getItem(int pos) {
         switch(pos) {
-            case 0: return ItemListFragment.newInstance(0);
-            case 1: return ItemListFragment.newInstance(1);
-            case 2: return ItemListFragment.newInstance(2);
-            case 3: return ItemListFragment.newInstance(3);
-            case 4: return ItemListFragment.newInstance(4);
-            case 5: return ItemListFragment.newInstance(5);
-            case 6: return ItemListFragment.newInstance(6);
-            default: return ItemListFragment.newInstance(2);
+            case 0: return ItemListFragment.newInstance(0, mContext);
+            case 1: return ItemListFragment.newInstance(1, mContext);
+            case 2: return ItemListFragment.newInstance(2, mContext);
+            case 3: return ItemListFragment.newInstance(3, mContext);
+            case 4: return ItemListFragment.newInstance(4, mContext);
+            case 5: return ItemListFragment.newInstance(5, mContext);
+            case 6: return ItemListFragment.newInstance(6, mContext);
+            default: return ItemListFragment.newInstance(2, mContext);
         }
     }
 
     @Override
     public int getCount() {
-        return mItems.length;
+        return 7;
     }
 
   /*  @Override

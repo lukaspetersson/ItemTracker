@@ -1,5 +1,6 @@
 package com.lukas.android.ItemTracker;
 
+import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -7,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.support.v7.app.AppCompatActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -22,7 +22,7 @@ public class MainActivity extends FragmentActivity {
     FloatingActionButton scanFab;
     ViewPager itemsList;
 
-    AdapterMain mAdapter;
+    PagerAdapterMain mAdapter;
 
     long currentDate;
     private final long MILI_IN_DAY = 86400000;
@@ -39,9 +39,8 @@ public class MainActivity extends FragmentActivity {
         scanFab = findViewById(R.id.scan_fab);
         itemsList = findViewById(R.id.items_pager);
 
-        String[] test = {"hej", "då"};
+        mAdapter =  new PagerAdapterMain(getSupportFragmentManager(), this);
 
-        mAdapter = new AdapterMain(1);
         itemsList.setAdapter(mAdapter);
 
         currentDate = System.currentTimeMillis();
