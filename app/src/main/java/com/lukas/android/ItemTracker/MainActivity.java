@@ -116,18 +116,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openScan(View view) {
-        Intent openManual = new Intent(MainActivity.this, BarcodeCaptureActivity.class);
-        startActivity(openManual);
+        Intent openScan = new Intent(MainActivity.this, BarcodeCaptureActivity.class);
+        startActivity(openScan);
     }
 
     public void goToNextWeek(View view) {
-        currentDate += MILIS_IN_DAY;
-        ItemsList.setCurrentItem(ItemsList.getCurrentItem() + 1);
+        currentDate += MILIS_IN_DAY*DAYS_IN_WEEK;
+        setUpDateBar();
+        //reload adater
     }
 
     public void goToPreviousWeek(View view) {
-        currentDate -= MILIS_IN_DAY;
-        ItemsList.setCurrentItem(ItemsList.getCurrentItem() - 1);
+        currentDate -= MILIS_IN_DAY*DAYS_IN_WEEK;
+        setUpDateBar();
+        //reload adater
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -148,6 +150,8 @@ public class MainActivity extends AppCompatActivity {
             ItemsList.setCurrentItem(START_DAY);
             return true;
         }else if (id == R.id.action_error) {
+            Intent openExpired = new Intent(MainActivity.this, ExpiredActivity.class);
+            startActivity(openExpired);
             return true;
         }
         return super.onOptionsItemSelected(item);

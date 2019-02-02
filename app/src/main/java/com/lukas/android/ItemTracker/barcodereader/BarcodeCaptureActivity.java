@@ -42,6 +42,7 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import com.lukas.android.ItemTracker.AddManualActivity;
 import com.lukas.android.ItemTracker.barcodereader.ui.camera.CameraSource;
 import com.lukas.android.ItemTracker.barcodereader.ui.camera.CameraSourcePreview;
 import com.lukas.android.ItemTracker.R;
@@ -369,7 +370,8 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
     }
 
     public void addManual(View v){
-
+        Intent openManual = new Intent(BarcodeCaptureActivity.this, AddManualActivity.class);
+        startActivity(openManual);
     }
 
     public void sendInfo(View v) {

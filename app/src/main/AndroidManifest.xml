@@ -13,7 +13,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddManualActivity"></activity>
+        <activity android:name=".ExpiredActivity"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".AddManualActivity"
+            android:parentActivityName=".barcodereader.BarcodeCaptureActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".barcodereader.BarcodeCaptureActivity"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
@@ -26,10 +36,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".barcodereader.BarcodeCaptureActivity"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
