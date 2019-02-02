@@ -368,6 +368,10 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
 
     }
 
+    public void addManual(View v){
+
+    }
+
     public void sendInfo(View v) {
 
     }
