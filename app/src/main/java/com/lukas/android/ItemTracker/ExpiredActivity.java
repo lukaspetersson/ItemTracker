@@ -20,7 +20,7 @@ public class ExpiredActivity extends AppCompatActivity {
         setContentView(R.layout.activity_expired);
         setTitle(R.string.expired_title);
 
-        mAdapter = new ListAdapterMain(this, new ArrayList<String>());
+        mAdapter = new ListAdapterMain(this, new ArrayList<Item>());
 
         itemList = findViewById(R.id.expired_list);
         itemList.setAdapter(mAdapter);
@@ -33,7 +33,10 @@ public class ExpiredActivity extends AppCompatActivity {
             }
         });
 
-        String[] test = {"test1", "test2", "test3"};
+        Item[] test = new Item[3];
+        test[0] = new Item("first", 1549110410009L);
+        test[1] = new Item("second", 1549310180009L);
+        test[2] = new Item("first", 1549210440009L);
 
         mAdapter.clear();
         mAdapter.addAll(test);

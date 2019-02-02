@@ -21,12 +21,15 @@ public class ItemListFragment  extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.item_list, container, false);
 
-        mAdapter = new ListAdapterMain(getActivity(), new ArrayList<String>());
+        mAdapter = new ListAdapterMain(getActivity(), new ArrayList<Item>());
 
         itemList = v.findViewById(R.id.item_list);
         itemList.setAdapter(mAdapter);
 
-        String[] test = {"test"+getArguments().getInt("day"), "test", "test"};
+        Item[] test = new Item[3];
+        test[0] = new Item("first", 1549300380009L);
+        test[1] = new Item("second", 1549410460009L);
+        test[2] = new Item("first", 1549340490009L);
 
         mAdapter.clear();
         mAdapter.addAll(test);

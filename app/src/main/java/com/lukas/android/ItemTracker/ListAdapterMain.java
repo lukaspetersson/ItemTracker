@@ -8,11 +8,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class ListAdapterMain extends ArrayAdapter<String> {
+public class ListAdapterMain extends ArrayAdapter<Item> {
 
-    public ListAdapterMain(Context context, ArrayList<String> items) {
+    public ListAdapterMain(Context context, ArrayList<Item> items) {
         super(context, 0, items);
     }
 
@@ -25,10 +27,15 @@ public class ListAdapterMain extends ArrayAdapter<String> {
                     R.layout.item_layout, parent, false);
         }
 
-        String currentItem = getItem(position);
+        Item currentItem = getItem(position);
 
-        TextView titleView = (TextView) listItemView.findViewById(R.id.item_title);
-        titleView.setText(currentItem);
+        TextView titleView = listItemView.findViewById(R.id.item_title);
+        titleView.setText(currentItem.getTitle());
+
+        TextView dateView = listItemView.findViewById(R.id.item_expire);
+        DateFormat formatter = new SimpleDateFormat("d/M");
+        String date = formatter.format(currentItem.getDate());
+        dateView.setText(date);
 
         return listItemView;
     }
