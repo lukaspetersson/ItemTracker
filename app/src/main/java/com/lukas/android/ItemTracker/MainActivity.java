@@ -1,11 +1,10 @@
 package com.lukas.android.ItemTracker;
 
-import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,13 +16,17 @@ public class MainActivity extends FragmentActivity {
 
     private static final String TAG = "MainActivity";
 
-    TextView dayDisplay;
-    ImageView previousDay;
-    ImageView nextDay;
-    FloatingActionButton scanFab;
-    ViewPager itemsList;
+    TextView[] DateNumber;
+    TextView[] DateName;
+    ImageView NextWeek;
+    ImageView PreviousWeek;
+    FloatingActionButton ScanFab;
+    ViewPager ItemsList;
 
     PagerAdapterMain mAdapter;
+
+    DateFormat nameFormatter;
+    DateFormat numberFormatter;
 
     long currentDate;
     private final long MILI_IN_DAY = 86400000;
@@ -34,16 +37,34 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dayDisplay = findViewById(R.id.display_day);
-        nextDay = findViewById(R.id.next_day);
-        previousDay = findViewById(R.id.previous_day);
-        scanFab = findViewById(R.id.scan_fab);
-        itemsList = findViewById(R.id.items_pager);
-
-        mAdapter =  new PagerAdapterMain(getSupportFragmentManager());
-        itemsList.setAdapter(mAdapter);
+        PreviousWeek = findViewById(R.id.previous_week);
+        NextWeek = findViewById(R.id.next_week);
+        ScanFab = findViewById(R.id.scan_fab);
+        ItemsList = findViewById(R.id.items_pager);
 
         currentDate = System.currentTimeMillis();
+        nameFormatter = new SimpleDateFormat("E");
+        numberFormatter = new SimpleDateFormat("d");
+
+        DateNumber = new TextView[7];
+        DateName = new TextView[7];
+        for(int i=0; i<7; i++){
+            int numberId = getResources().getIdentifier("num" + i, "id", getPackageName());
+            int nameId = getResources().getIdentifier("name" + i, "id", getPackageName());
+
+            DateNumber[i] = findViewById(numberId);
+            DateName[i] = findViewById(nameId);
+
+            DateNumber[i].setText(numberFormatter.format(currentDate));
+            DateName[i].setText(nameFormatter.format(currentDate));
+
+        }
+
+        mAdapter =  new PagerAdapterMain(getSupportFragmentManager());
+        ItemsList.setAdapter(mAdapter);
+        ItemsList.setCurrentItem(1);
+
+
         setDayDisplay();
     }
 
@@ -51,22 +72,24 @@ public class MainActivity extends FragmentActivity {
 
     }
 
-    public void goToNextDay(View view) {
-        currentDate += MILI_IN_DAY;
-        setDayDisplay();
-        itemsList.setCurrentItem(itemsList.getCurrentItem() + 1);
+    public void goToDay(View view){
+
     }
 
-    public void goToPreviousDay(View view) {
+    public void goToNextWeek(View view) {
+        currentDate += MILI_IN_DAY;
+        setDayDisplay();
+        ItemsList.setCurrentItem(ItemsList.getCurrentItem() + 1);
+    }
+
+    public void goToPreviousWeek(View view) {
         currentDate -= MILI_IN_DAY;
         setDayDisplay();
-        itemsList.setCurrentItem(itemsList.getCurrentItem() - 1);
+        ItemsList.setCurrentItem(ItemsList.getCurrentItem() - 1);
     }
 
     private void setDayDisplay() {
         DateFormat formatter = new SimpleDateFormat("d/M");
-        dayDisplay.setText(formatter.format(currentDate));
-
 
         //reload adapter
     }

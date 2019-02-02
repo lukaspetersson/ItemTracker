@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorBackground"
     tools:context="com.lukas.android.ItemTracker.MainActivity">
 
     <LinearLayout
@@ -11,28 +11,189 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:paddingEnd="8dp"
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+        android:paddingStart="8dp"
+        android:background="@color/colorPrimary"
+        android:onClick="goToDay">
 
         <ImageView
-            android:id="@+id/previous_day"
+            android:id="@+id/previous_week"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/outline_photo_camera_white_24"
-            android:onClick="goToPreviousDay"/>
+            android:onClick="goToPreviousWeek"/>
 
+        <LinearLayout
+        android:id="@+id/date0"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
         <TextView
-            android:id="@+id/display_day"
+            android:id="@+id/num0"
+            android:textColor="#ffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="26/1"
-            android:layout_margin="16dp"/>
+            android:text="1"
+            />
+        <TextView
+            android:id="@+id/name0"
+            android:textColor="#ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="mon"
+            />
+    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/date1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <TextView
+                android:id="@+id/num1"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2"
+                />
+            <TextView
+                android:id="@+id/name1"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="tue"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/date2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <TextView
+                android:id="@+id/num2"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3"
+                />
+            <TextView
+                android:id="@+id/name2"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="wed"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/date3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <TextView
+                android:id="@+id/num3"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4"
+                />
+            <TextView
+                android:id="@+id/name3"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="thu"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/date4"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <TextView
+                android:id="@+id/num4"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                />
+            <TextView
+                android:id="@+id/name4"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="fri"
+                />
+    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/date5"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <TextView
+                android:id="@+id/num5"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6"
+                />
+            <TextView
+                android:id="@+id/name5"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="sat"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/date6"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <TextView
+                android:id="@+id/num6"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7"
+                />
+            <TextView
+                android:id="@+id/name6"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="sun"
+                />
+        </LinearLayout>
 
         <ImageView
-            android:id="@+id/next_day"
+            android:id="@+id/next_week"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/outline_photo_camera_white_24"
-            android:onClick="goToNextDay"/>
+            android:onClick="goToNextWeek"/>
 
     </LinearLayout>
 
