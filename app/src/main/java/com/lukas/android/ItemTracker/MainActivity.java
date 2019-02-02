@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle(R.string.calendar_title);
 
         getSupportActionBar().setElevation(0);
 
@@ -135,9 +136,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         if(1==1){
-            menu.findItem(R.id.action_error).setIcon(R.drawable.error_active_24);
+            menu.findItem(R.id.action_expire).setIcon(R.drawable.error_active_24);
         }else{
-            menu.findItem(R.id.action_error).setIcon(R.drawable.baseline_error_outline_white_24);
+            menu.findItem(R.id.action_expire).setIcon(R.drawable.baseline_error_outline_white_24);
         }
         return true;
     }
@@ -147,11 +148,17 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_time) {
+            currentDate = System.currentTimeMillis();
             ItemsList.setCurrentItem(START_DAY);
+            setUpDateBar();
             return true;
-        }else if (id == R.id.action_error) {
+        }else if (id == R.id.action_expire) {
             Intent openExpired = new Intent(MainActivity.this, ExpiredActivity.class);
             startActivity(openExpired);
+            return true;
+        }else if (id == R.id.action_assortment) {
+            Intent openAssortment = new Intent(MainActivity.this, AssortmentActivity.class);
+            startActivity(openAssortment);
             return true;
         }
         return super.onOptionsItemSelected(item);

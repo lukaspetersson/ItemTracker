@@ -9,5 +9,6 @@ public class ExpiredActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expired);
+        setTitle(R.string.expired_title);
     }
 }

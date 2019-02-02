@@ -3,12 +3,12 @@ package com.lukas.android.ItemTracker;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class AddManualActivity extends AppCompatActivity {
+public class AssortmentActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_manual);
-        setTitle(R.string.manual_item_title);
+        setContentView(R.layout.activity_assortment);
+        setTitle(R.string.assortment_title);
     }
 }

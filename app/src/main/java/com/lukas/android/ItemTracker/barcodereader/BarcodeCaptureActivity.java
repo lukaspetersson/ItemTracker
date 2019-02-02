@@ -81,6 +81,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
+        setTitle(R.string.scan_title);
 
 
         //send screenheight to camerasourcepreview

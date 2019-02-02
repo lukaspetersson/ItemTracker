@@ -13,9 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ExpiredActivity"
+        <activity android:name=".AssortmentActivity"></activity>
+        <activity
+            android:name=".ExpiredActivity"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AddManualActivity"
             android:parentActivityName=".barcodereader.BarcodeCaptureActivity"

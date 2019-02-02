@@ -5,14 +5,20 @@
     tools:context=".BookShelfActivity">
     <item
         android:id="@+id/action_time"
-        android:icon="@drawable/baseline_access_time_white_24"
-        android:orderInCategory="2"
+        android:icon="@drawable/baseline_restore_white_24"
+        android:orderInCategory="1"
         android:title="time"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_error"
-        android:icon="@drawable/baseline_error_outline_white_24"
+        android:id="@+id/action_assortment"
+        android:icon="@drawable/baseline_shopping_cart_white_24"
         android:orderInCategory="2"
+        android:title="error"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_expire"
+        android:icon="@drawable/baseline_error_outline_white_24"
+        android:orderInCategory="3"
         android:title="error"
         app:showAsAction="always" />
 </menu>

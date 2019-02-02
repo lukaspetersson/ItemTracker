@@ -5,9 +5,15 @@
     <string name="flash_off">Flash off</string>
     <string name="auto_focus_on">Autofocus on</string>
     <string name="auto_focus_off">Autofocus off</string>
-    <string name="scan_title">Scan the barcode of book</string>
     <string name="error">Error</string>
     <string name="ok">OK</string>
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
+
+    <string name="assortment_title">Assortment</string>
+    <string name="calendar_title">Calendar</string>
+    <string name="scan_title">Scan barcode</string>
+    <string name="manual_item_title">Search for product</string>
+    <string name="manual_product_title">Add new product</string>
+    <string name="expired_title">Expired items</string>
 </resources>
