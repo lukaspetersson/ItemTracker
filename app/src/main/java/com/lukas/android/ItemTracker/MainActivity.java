@@ -59,7 +59,13 @@ public class MainActivity extends AppCompatActivity {
         ScanFab = findViewById(R.id.scan_fab);
         ItemsList = findViewById(R.id.items_pager);
 
-        currentDate = System.currentTimeMillis();
+        Intent fromExpire = getIntent();
+        long date = fromExpire.getLongExtra("date", System.currentTimeMillis());
+        if (date != 0) {
+            currentDate = date;
+        }else{
+            currentDate = System.currentTimeMillis();
+        }
         nameFormatter = new SimpleDateFormat("E");
         numberFormatter = new SimpleDateFormat("d");
 

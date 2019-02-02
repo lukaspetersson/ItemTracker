@@ -1,5 +1,6 @@
 package com.lukas.android.ItemTracker;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,7 +29,11 @@ public class ExpiredActivity extends AppCompatActivity {
         itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Log.v("ExpiredActivity", "HHHHHHHHHHHHHHHh"+id+"HHH"+position);
+                Item currentItem = mAdapter.getItem(position);
+
+                Intent openMain = new Intent(ExpiredActivity.this, MainActivity.class);
+                openMain.putExtra("date", currentItem.getDate());
+                startActivity(openMain);
 
             }
         });
