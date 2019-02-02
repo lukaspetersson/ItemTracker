@@ -28,13 +28,13 @@ public class ItemListFragment  extends Fragment {
 
         String[] test = {"test"+getArguments().getInt("day"), "test", "test"};
 
-        mAdapter.clear();
+        //mAdapter.clear();
         mAdapter.addAll(test);
 
         return v;
     }
 
-    public static ItemListFragment newInstance(Integer day) {
+    public static ItemListFragment newInstance(int day) {
 
         ItemListFragment f = new ItemListFragment();
         Bundle b = new Bundle();

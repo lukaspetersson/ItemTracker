@@ -5,8 +5,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -18,6 +20,7 @@ public class MainActivity extends FragmentActivity {
 
     TextView[] DateNumber;
     TextView[] DateName;
+    LinearLayout[] DateLable;
     ImageView NextWeek;
     ImageView PreviousWeek;
     FloatingActionButton ScanFab;
@@ -46,33 +49,45 @@ public class MainActivity extends FragmentActivity {
         nameFormatter = new SimpleDateFormat("E");
         numberFormatter = new SimpleDateFormat("d");
 
-        DateNumber = new TextView[7];
-        DateName = new TextView[7];
-        for(int i=0; i<7; i++){
-            int numberId = getResources().getIdentifier("num" + i, "id", getPackageName());
-            int nameId = getResources().getIdentifier("name" + i, "id", getPackageName());
-
-            DateNumber[i] = findViewById(numberId);
-            DateName[i] = findViewById(nameId);
-
-            DateNumber[i].setText(numberFormatter.format(currentDate));
-            DateName[i].setText(nameFormatter.format(currentDate));
-
-        }
+        setUpDateBar();
 
         mAdapter =  new PagerAdapterMain(getSupportFragmentManager());
         ItemsList.setAdapter(mAdapter);
+        ItemsList.setOffscreenPageLimit(7);
         ItemsList.setCurrentItem(1);
 
 
         setDayDisplay();
     }
 
-    public void openScan(View view) {
+    private void setUpDateBar(){
+        DateNumber = new TextView[7];
+        DateName = new TextView[7];
+        DateLable = new LinearLayout[7];
+        for(int i=0; i<7; i++){
+            int numberId = getResources().getIdentifier("num" + i, "id", getPackageName());
+            int nameId = getResources().getIdentifier("name" + i, "id", getPackageName());
+            int labelId = getResources().getIdentifier("date" + i, "id", getPackageName());
 
+            DateNumber[i] = findViewById(numberId);
+            DateName[i] = findViewById(nameId);
+            DateLable[i] = findViewById(labelId);
+
+            DateNumber[i].setText(numberFormatter.format(currentDate));
+            DateName[i].setText(nameFormatter.format(currentDate));
+
+            DateLable[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String id = getResources().getResourceEntryName(view.getId());
+                    int day = Integer.parseInt(id.substring(id.length()-1));
+                    ItemsList.setCurrentItem(day);
+                }
+            });
+        }
     }
 
-    public void goToDay(View view){
+    public void openScan(View view) {
 
     }
 
