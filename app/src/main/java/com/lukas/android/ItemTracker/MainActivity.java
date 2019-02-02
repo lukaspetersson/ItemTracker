@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.lukas.android.ItemTracker.barcodereader.BarcodeCaptureActivity;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -114,7 +116,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openScan(View view) {
-
+        Intent openManual = new Intent(MainActivity.this, BarcodeCaptureActivity.class);
+        startActivity(openManual);
     }
 
     public void goToNextWeek(View view) {
