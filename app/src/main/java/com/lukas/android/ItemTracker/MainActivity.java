@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         DateNumber = new TextView[DAYS_IN_WEEK];
         DateName = new TextView[DAYS_IN_WEEK];
         DateLable = new LinearLayout[DAYS_IN_WEEK];
+        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
         for(int i=0; i<DAYS_IN_WEEK; i++){
             int numberId = getResources().getIdentifier("num" + i, "id", getPackageName());
             int nameId = getResources().getIdentifier("name" + i, "id", getPackageName());
@@ -88,6 +90,13 @@ public class MainActivity extends AppCompatActivity {
 
             DateNumber[i].setText(numberFormatter.format(currentDate + MILIS_IN_DAY*(i-START_DAY)));
             DateName[i].setText(nameFormatter.format(currentDate+ MILIS_IN_DAY*(i-START_DAY)));
+
+            //show what day is actually the current day
+            if(formatter.format(currentDate + MILIS_IN_DAY*(i-START_DAY)).equals(formatter.format(System.currentTimeMillis()))){
+                DateName[i].setTextColor(getResources().getColor(R.color.colorAccent));
+            }else{
+                DateName[i].setTextColor(Color.parseColor("#ffffff"));
+            }
 
             DateLable[i].setOnClickListener(new View.OnClickListener() {
                 @Override
