@@ -17,4 +17,8 @@
     <string name="manual_product_title">Add new product</string>
     <string name="expired_title">Expired items</string>
     <string name="product_title">Add a product</string>
+
+    <string name="product_id">Barcode number</string>
+    <string name="product_name">Product name</string>
+    <string name="product_durability">Product durability</string>
 </resources>
