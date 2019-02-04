@@ -1,9 +1,6 @@
 package com.lukas.android.ItemTracker.barcodereader;
 
 import android.Manifest;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,14 +11,10 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.hardware.Camera;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
@@ -31,9 +24,6 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.vision.MultiProcessor;
@@ -42,17 +32,15 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
-import com.lukas.android.ItemTracker.AddManualActivity;
 import com.lukas.android.ItemTracker.barcodereader.ui.camera.CameraSource;
 import com.lukas.android.ItemTracker.barcodereader.ui.camera.CameraSourcePreview;
 import com.lukas.android.ItemTracker.R;
 import com.lukas.android.ItemTracker.barcodereader.ui.camera.GraphicOverlay;
-import com.lukas.android.ItemTracker.R;
 
 
 import java.io.IOException;
 
-public final class BarcodeCaptureActivity extends AppCompatActivity implements BarcodeGraphicTracker.BarcodeUpdateListener {
+public final class BarcodeProductActivity extends AppCompatActivity implements BarcodeGraphicTracker.BarcodeUpdateListener {
     private static final String TAG = "Barcode-reader";
 
     // intent request code to handle updating play services if needed.
@@ -69,7 +57,6 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
     private ImageView mFlash;
     private ImageView mSquere;
 
-    public static int screenHeight;
     private CameraSource mCameraSource;
     private CameraSourcePreview mPreview;
     private GraphicOverlay<BarcodeGraphic> mGraphicOverlay;
@@ -80,7 +67,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scan);
+        setContentView(R.layout.activity_barcode_product);
         setTitle(R.string.scan_title);
 
 
@@ -88,14 +75,14 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        screenHeight = size.y;
+        BarcodeItemActivity.screenHeight = size.y;
 
         //find context of the views
-        mSquere = findViewById(R.id.squere);
-        mPreview = findViewById(R.id.preview);
-        mGraphicOverlay = findViewById(R.id.graphicOverlay);
-        mFocus = findViewById(R.id.focus);
-        mFlash = findViewById(R.id.flash);
+        mSquere = findViewById(R.id.squere_product);
+        mPreview = findViewById(R.id.preview_product);
+        mGraphicOverlay = findViewById(R.id.graphicOverlay_product);
+        mFocus = findViewById(R.id.focus_product);
+        mFlash = findViewById(R.id.flash_product);
 
 
         //bring views in front of camera
@@ -175,7 +162,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
         }
 
         //ask for permission
-        ActivityCompat.requestPermissions(BarcodeCaptureActivity.this, permissions,
+        ActivityCompat.requestPermissions(BarcodeProductActivity.this, permissions,
                 RC_HANDLE_CAMERA_PERM);
 
     }
@@ -334,7 +321,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.scan_menu, menu);
+        getMenuInflater().inflate(R.menu.barcode_product_menu, menu);
         return true;
     }
 
@@ -342,7 +329,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         if (!showConfirm) {
-            MenuItem menuItem = menu.findItem(R.id.action_confirm);
+            MenuItem menuItem = menu.findItem(R.id.action_confirm_product);
             menuItem.setVisible(false);
         }
         return true;
@@ -353,8 +340,8 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
         //option in appbar is clicked
         switch (item.getItemId()) {
             //confirm is clicked
-            case R.id.action_confirm:
-                sendInfo(null);
+            case R.id.action_confirm_product:
+                sendInfo();
                 return true;
             case android.R.id.home:
                 onBackPressed();
@@ -370,14 +357,11 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
 
     }
 
-    public void addManual(View v){
-        Intent openManual = new Intent(BarcodeCaptureActivity.this, AddManualActivity.class);
-        startActivity(openManual);
-    }
 
-    public void sendInfo(View v) {
+    private void sendInfo() {
 
     }
 
 }
+
 

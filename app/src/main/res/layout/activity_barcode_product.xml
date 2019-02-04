@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/topLayout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true"
+    android:background="@color/colorPrimary"
+    >
+
+    <ImageView
+        android:id="@+id/squere_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/camera_square"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/focus_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/baseline_center_focus_strong_white_36"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:onClick="clickFocus"/>
+
+    <ImageView
+        android:id="@+id/flash_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/baseline_flash_off_white_36"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/preview_product"
+        android:onClick="clickFlash"/>
+
+    <com.lukas.android.ItemTracker.barcodereader.ui.camera.CameraSourcePreview
+        android:id="@+id/preview_product"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+
+        <com.lukas.android.ItemTracker.barcodereader.ui.camera.GraphicOverlay
+            android:id="@+id/graphicOverlay_product"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </com.lukas.android.ItemTracker.barcodereader.ui.camera.CameraSourcePreview>
+
+</android.support.constraint.ConstraintLayout>

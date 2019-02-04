@@ -13,9 +13,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProductActivity"
-            android:parentActivityName=".AssortmentActivity"
+
+        <activity android:name=".barcodereader.BarcodeProductActivity"
+            android:parentActivityName=".ProductActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ProductActivity"
+            android:parentActivityName=".AssortmentActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AssortmentActivity"
             android:parentActivityName=".MainActivity"
@@ -26,10 +31,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".AddManualActivity"
-            android:parentActivityName=".barcodereader.BarcodeCaptureActivity"
+            android:parentActivityName=".barcodereader.BarcodeItemActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".barcodereader.BarcodeCaptureActivity"
+            android:name=".barcodereader.BarcodeItemActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
 

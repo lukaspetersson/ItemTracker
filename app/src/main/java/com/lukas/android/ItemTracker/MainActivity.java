@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.lukas.android.ItemTracker.barcodereader.BarcodeCaptureActivity;
+import com.lukas.android.ItemTracker.barcodereader.BarcodeItemActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -132,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openScan(View view) {
-        Intent openScan = new Intent(MainActivity.this, BarcodeCaptureActivity.class);
+        Intent openScan = new Intent(MainActivity.this, BarcodeItemActivity.class);
         startActivity(openScan);
     }
 

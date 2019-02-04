@@ -21,4 +21,8 @@
     <string name="product_id">Barcode number</string>
     <string name="product_name">Product name</string>
     <string name="product_durability">Product durability</string>
+
+    <string name="sanity_id">Barcode number not valid</string>
+    <string name="sanity_name">Product name not valid</string>
+    <string name="sanity_durability">Product durability not valid</string>
 </resources>

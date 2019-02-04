@@ -14,7 +14,7 @@ import android.view.SurfaceView;
 import android.view.ViewGroup;
 
 import com.google.android.gms.common.images.Size;
-import com.lukas.android.ItemTracker.barcodereader.BarcodeCaptureActivity;
+import com.lukas.android.ItemTracker.barcodereader.BarcodeItemActivity;
 
 import java.io.IOException;
 
@@ -153,7 +153,7 @@ public class CameraSourcePreview extends ViewGroup {
         }
 
         //get screenheight from activity
-        int screenHeight = BarcodeCaptureActivity.screenHeight;
+        int screenHeight = BarcodeItemActivity.screenHeight;
 
         for (int i = 0; i < getChildCount(); ++i) {
             getChildAt(i).layout(0, 0, childWidth, screenHeight);
