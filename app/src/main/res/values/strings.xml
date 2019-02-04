@@ -16,4 +16,5 @@
     <string name="manual_item_title">Search for product</string>
     <string name="manual_product_title">Add new product</string>
     <string name="expired_title">Expired items</string>
+    <string name="product_title">Add a product</string>
 </resources>
