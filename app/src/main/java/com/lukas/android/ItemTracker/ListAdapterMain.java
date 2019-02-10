@@ -29,13 +29,13 @@ public class ListAdapterMain extends ArrayAdapter<Item> {
 
         Item currentItem = getItem(position);
 
-        TextView titleView = listItemView.findViewById(R.id.item_title);
-        titleView.setText(currentItem.getTitle());
+        TextView nameView = listItemView.findViewById(R.id.item_title);
+        nameView.setText(currentItem.getName());
 
-        TextView dateView = listItemView.findViewById(R.id.item_expire);
+        TextView expireView = listItemView.findViewById(R.id.item_expire);
         DateFormat formatter = new SimpleDateFormat("d/M");
-        String date = formatter.format(currentItem.getDate());
-        dateView.setText(date);
+        String date = formatter.format(currentItem.getExpire());
+        expireView.setText(date);
 
         return listItemView;
     }

@@ -2,23 +2,28 @@ package com.lukas.android.ItemTracker;
 
 public class Item {
 
-    private String mTitle;
-    private long mDate;
+    private String mName;
+    private long mExpire;
+    private long mBarcode;
 
 
-    //make Book object
-    public Item(String title, long date) {
-        mTitle = title;
-        mDate = date;
+    public Item(String name, long expire, long barcode) {
+        mName = name;
+        mExpire = expire;
+        mBarcode = barcode;
 
     }
 
-    public String getTitle() {
-        return mTitle;
+    public String getName() {
+        return mName;
     }
 
-    public long getDate() {
-        return mDate;
+    public long getExpire() {
+        return mExpire;
+    }
+
+    public long getBarcode() {
+        return mBarcode;
     }
 
 

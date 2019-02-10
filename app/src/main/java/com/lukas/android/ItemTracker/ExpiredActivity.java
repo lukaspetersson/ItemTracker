@@ -32,16 +32,16 @@ public class ExpiredActivity extends AppCompatActivity {
                 Item currentItem = mAdapter.getItem(position);
 
                 Intent openMain = new Intent(ExpiredActivity.this, MainActivity.class);
-                openMain.putExtra("date", currentItem.getDate());
+                openMain.putExtra("expire", currentItem.getExpire());
                 startActivity(openMain);
 
             }
         });
 
         Item[] test = new Item[3];
-        test[0] = new Item("first", 1549110410009L);
-        test[1] = new Item("second", 1549310180009L);
-        test[2] = new Item("first", 1549210440009L);
+        test[0] = new Item("first", 1549110410009L, 111111111111L);
+        test[1] = new Item("second", 1549310180009L, 111111111111L);
+        test[2] = new Item("first", 1549210440009L, 111111111111L);
 
         mAdapter.clear();
         mAdapter.addAll(test);

@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         ItemsList = findViewById(R.id.items_pager);
 
         Intent fromExpire = getIntent();
-        long date = fromExpire.getLongExtra("date", System.currentTimeMillis());
+        long date = fromExpire.getLongExtra("expire", System.currentTimeMillis());
         if (date != 0) {
             currentDate = date;
         }else{

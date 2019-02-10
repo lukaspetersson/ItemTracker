@@ -27,9 +27,9 @@ public class ItemListFragment  extends Fragment {
         itemList.setAdapter(mAdapter);
 
         Item[] test = new Item[3];
-        test[0] = new Item("first", 1549300380009L);
-        test[1] = new Item("second", 1549410460009L);
-        test[2] = new Item("first", 1549340490009L);
+        test[0] = new Item("first", 1549300380009L, 111111111111L);
+        test[1] = new Item("second", 1549410460009L, 111111111111L);
+        test[2] = new Item("first", 1549340490009L, 111111111111L);
 
         mAdapter.clear();
         mAdapter.addAll(test);
