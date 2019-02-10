@@ -29,11 +29,11 @@ public class ItemProvider extends ContentProvider {
     static {
         //the calls to addURI() go here, for all of the content URI patterns that the provides should recognize
         //paths added to UriMatcher so that the correct number can be returned when match is found
-        sUriMatcher.addURI(ItemContract.CONTENT_AUTHORITY_ITEMS, ItemContract.PATH_ITEMS, ITEMS);
-        sUriMatcher.addURI(ItemContract.CONTENT_AUTHORITY_ITEMS, ItemContract.PATH_ITEMS + "/#", ITEMS_ID);
+        sUriMatcher.addURI(ItemContract.CONTENT_AUTHORITY, ItemContract.PATH_ITEMS, ITEMS);
+        sUriMatcher.addURI(ItemContract.CONTENT_AUTHORITY, ItemContract.PATH_ITEMS + "/#", ITEMS_ID);
 
-        sUriMatcher.addURI(ItemContract.CONTENT_AUTHORITY_PRODUCTS, ItemContract.PATH_PRODUCTS, PRODUCTS);
-        sUriMatcher.addURI(ItemContract.CONTENT_AUTHORITY_PRODUCTS, ItemContract.PATH_PRODUCTS + "/#", PRODUCTS_ID);
+        sUriMatcher.addURI(ItemContract.CONTENT_AUTHORITY, ItemContract.PATH_PRODUCTS, PRODUCTS);
+        sUriMatcher.addURI(ItemContract.CONTENT_AUTHORITY, ItemContract.PATH_PRODUCTS + "/#", PRODUCTS_ID);
     }
 
     //database helper object

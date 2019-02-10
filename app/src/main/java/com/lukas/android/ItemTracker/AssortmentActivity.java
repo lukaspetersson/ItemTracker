@@ -9,6 +9,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,7 +52,7 @@ public class AssortmentActivity extends AppCompatActivity implements
             }
         });
 
-        getSupportLoaderManager().initLoader(PRODUCT_LOADER, null, this);
+        getSupportLoaderManager().initLoader(0, null, this);
     }
 
 
@@ -66,8 +67,8 @@ public class AssortmentActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_add) {
-            Intent openAssortment = new Intent(AssortmentActivity.this, ProductActivity.class);
-            startActivity(openAssortment);
+            Intent openProduct = new Intent(AssortmentActivity.this, ProductActivity.class);
+            startActivity(openProduct);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -93,6 +94,7 @@ public class AssortmentActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        Log.v("AssortmentActivity", "HHHHHHHHHHHHHHHHHHHHH"+ data);
         mAssortmentAdapter.swapCursor(data);
     }
 

@@ -7,12 +7,10 @@ import android.provider.BaseColumns;
 public class ItemContract {
 
 
-    public static final String CONTENT_AUTHORITY_ITEMS = "com.lukas.android.items";
-    public static final String CONTENT_AUTHORITY_PRODUCTS = "com.lukas.android.products";
+    public static final String CONTENT_AUTHORITY = "com.lukas.android.itemtracker";
 
 
-    public static final Uri BASE_CONTENT_URI_ITEMS = Uri.parse("content://" + CONTENT_AUTHORITY_ITEMS);
-    public static final Uri BASE_CONTENT_URI_PRODUCTS = Uri.parse("content://" + CONTENT_AUTHORITY_PRODUCTS);
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_ITEMS = "items";
     public static final String PATH_PRODUCTS = "products";
@@ -24,21 +22,21 @@ public class ItemContract {
 
         //The MIME type of the for a list of items
         public static final String CONTENT_LIST_TYPE_ITEMS =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY_ITEMS + "/" + PATH_ITEMS;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_ITEMS;
         //The MIME type of the for a single item
         public static final String CONTENT_ITEM_TYPE_ITEMS =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY_ITEMS + "/" + PATH_ITEMS;
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_ITEMS;
 
         //The MIME type of the for a list of products
         public static final String CONTENT_LIST_TYPE_PRODUCTS =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY_PRODUCTS + "/" + PATH_PRODUCTS;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PRODUCTS;
         //The MIME type of the for a single product
         public static final String CONTENT_ITEM_TYPE_PRODUCTS =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY_PRODUCTS + "/" + PATH_PRODUCTS;
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PRODUCTS;
 
         // access item data in provider with the content URI
-        public static final Uri CONTENT_URI_ITEMS = Uri.withAppendedPath(BASE_CONTENT_URI_ITEMS, PATH_ITEMS);
-        public static final Uri CONTENT_URI_PRODUCTS = Uri.withAppendedPath(BASE_CONTENT_URI_PRODUCTS, PATH_PRODUCTS);
+        public static final Uri CONTENT_URI_ITEMS = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_ITEMS);
+        public static final Uri CONTENT_URI_PRODUCTS = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_PRODUCTS);
 
         //column names for the item table
         public final static String TABLE_NAME_PRODUCTS = "products";

@@ -5,8 +5,8 @@
     <string name="flash_off">Flash off</string>
     <string name="auto_focus_on">Autofocus on</string>
     <string name="auto_focus_off">Autofocus off</string>
-    <string name="error">Error</string>
     <string name="ok">OK</string>
+    <string name="error">Error</string>
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
 
@@ -16,7 +16,8 @@
     <string name="manual_item_title">Search for product</string>
     <string name="manual_product_title">Add new product</string>
     <string name="expired_title">Expired items</string>
-    <string name="product_title">Add a product</string>
+    <string name="product_add_title">Add a product</string>
+    <string name="product_edit_title">Edit product</string>
 
     <string name="product_id">Barcode number</string>
     <string name="product_name">Product name</string>
@@ -25,4 +26,9 @@
     <string name="sanity_id">Barcode number not valid</string>
     <string name="sanity_name">Product name not valid</string>
     <string name="sanity_durability">Product durability not valid</string>
+
+    <string name="insert_product_successful">Product added</string>
+    <string name="update_product_successful">Product updated</string>
+    <string name="delete_product_successful">Product deleted</string>
+
 </resources>

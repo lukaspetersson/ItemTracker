@@ -38,6 +38,11 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
 
+        <provider
+            android:name=".data.ItemProvider"
+            android:authorities="com.lukas.android.itemtracker"
+            android:exported="false" />
+
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
