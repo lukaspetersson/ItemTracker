@@ -13,10 +13,14 @@ import com.lukas.android.ItemTracker.data.ItemContract.ItemEntry;
 
 public class ItemProvider extends ContentProvider {
 
-    // URI matcher number for the content URI for the books table
-    private static final int BOOKS = 100;
-    // URI matcher number for the content URI for a single book in the books table
-    private static final int BOOK_ID = 101;
+    // URI matcher number for the content URI for all items
+    private static final int ITEMS = 100;
+    // URI matcher number for the content URI for a single item
+    private static final int ITEMS_ID = 101;
+    // URI matcher number for the content URI for all products
+    private static final int PRODUCTS = 200;
+    // URI matcher number for the content URI for a single product
+    private static final int PRODUCTS_ID = 201;
 
     //create UriMatcher to match with the correct number
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
