@@ -2,19 +2,19 @@ package com.lukas.android.ItemTracker;
 
 public class Product {
 
-    private String mTitle;
+    private String mName;
     private int mDurability;
     private int mBarcode;
 
-    public Product(String title, int durability, int barcode) {
-        mTitle = title;
+    public Product(String name, int durability, int barcode) {
+        mName = name;
         mDurability = durability;
         mBarcode = barcode;
 
     }
 
-    public String getTitle() {
-        return mTitle;
+    public String getName() {
+        return mName;
     }
     public int getDurability() {
         return mDurability;
