@@ -29,8 +29,11 @@ public class ItemProvider extends ContentProvider {
     static {
         //the calls to addURI() go here, for all of the content URI patterns that the provides should recognize
         //paths added to UriMatcher so that the correct number can be returned when match is found
-        sUriMatcher.addURI(ItemContract.CONTENT_AUTHORITY, ItemContract.PATH_ITEMS, BOOKS);
-        sUriMatcher.addURI(ItemContract.CONTENT_AUTHORITY, ItemContract.PATH_ITEMS + "/#", BOOK_ID);
+        sUriMatcher.addURI(ItemContract.CONTENT_AUTHORITY_ITEMS, ItemContract.PATH_ITEMS, ITEMS);
+        sUriMatcher.addURI(ItemContract.CONTENT_AUTHORITY_ITEMS, ItemContract.PATH_ITEMS + "/#", ITEMS_ID);
+
+        sUriMatcher.addURI(ItemContract.CONTENT_AUTHORITY_PRODUCTS, ItemContract.PATH_PRODUCTS, PRODUCTS);
+        sUriMatcher.addURI(ItemContract.CONTENT_AUTHORITY_PRODUCTS, ItemContract.PATH_PRODUCTS + "/#", PRODUCTS_ID);
     }
 
     //database helper object
@@ -46,51 +49,39 @@ public class ItemProvider extends ContentProvider {
         return true;
     }
 
-    //query the info provided by the parameters from a given URI
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
-        // get readable database
         SQLiteDatabase database = mDbHelper.getReadableDatabase();
-
-        // cursor holds result of query
         Cursor cursor;
 
-        //find match for URI number
         int match = sUriMatcher.match(uri);
         switch (match) {
-            //entire table queryed
-            case BOOKS:
-                // For the BOOKS code, query the books table directly with the given
-                // projection, selection, selection arguments, and sort order. The cursor
-                // could contain multiple rows of the books table.
-
-                if (sortOrder.equals("rating") || sortOrder.equals("_id")) {
-                    //if we are sorting based on integers, reverce order så highers rating or latest book is displayed first
-                    //load the cursor with the queryed info
-                    cursor = database.query(ItemEntry.TABLE_NAME, projection, selection, selectionArgs,
-                            null, null, sortOrder + " DESC");
-                } else {
-                    //if we sort based on numbers we make it case insensative
-                    //load the cursor with the queryed info
-                    cursor = database.query(ItemEntry.TABLE_NAME, projection, selection, selectionArgs,
-                            null, null, "UPPER(" + sortOrder + ")");
-                }
+            case ITEMS:
+                    cursor = database.query(ItemEntry.TABLE_NAME_ITEMS, projection, selection, selectionArgs,
+                            null, null, sortOrder);
 
                 break;
-            //single book queryed
-            case BOOK_ID:
-                //selection provides the table we want the book from and "=?"
-                // selectionArgs fill the space of the ? to get info from specific row
+            case ITEMS_ID:
                 selection = ItemEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
 
-                //load cursor with the queryd info of the single book
-                cursor = database.query(ItemEntry.TABLE_NAME, projection, selection, selectionArgs,
+                cursor = database.query(ItemEntry.TABLE_NAME_ITEMS, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+                break;
+            case PRODUCTS:
+                cursor = database.query(ItemEntry.TABLE_NAME_PRODUCTS, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+
+                break;
+            case PRODUCTS_ID:
+                selection = ItemEntry._ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+
+                cursor = database.query(ItemEntry.TABLE_NAME_PRODUCTS, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
             default:
-                //throw illigal argument and displays the uri if there is an error
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
 
@@ -107,141 +98,180 @@ public class ItemProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             //we only need this one case because you can only insert 1 book at the time
-            case BOOKS:
-                return insertPet(uri, contentValues);
+            case ITEMS:
+                return insertItem(uri, contentValues);
+            case PRODUCTS:
+                return insertProduct(uri, contentValues);
             default:
-                //throw illigal argument and displays the uri if there is an error
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
         }
     }
 
-    //contentvalues are inserted in database
-    private Uri insertPet(Uri uri, ContentValues values) {
-        //sanity check!
-
-        //check that the title is not null
-        String title = values.getAsString(ItemEntry.COLUMN_TITLE);
-        if (title == null) {
-            throw new IllegalArgumentException("Book requires a title");
+    private Uri insertItem(Uri uri, ContentValues values) {
+        String name = values.getAsString(ItemEntry.COLUMN_NAME);
+        if (name == null) {
+            throw new IllegalArgumentException("Item requires a name");
         }
 
-        //check that the status is valid
-        Integer status = values.getAsInteger(ItemEntry.COLUMN_STATUS);
-        if (status == null || !ItemEntry.isValidStatus(status)) {
-            throw new IllegalArgumentException("Book requires valid status");
+        String expire = values.getAsString(ItemEntry.COLUMN_EXPIRE);
+        if (expire == null) {
+            throw new IllegalArgumentException("Item requires a expire date");
         }
 
-        //if the rating is provided, check that it is a valid number
-        Integer rating = values.getAsInteger(ItemEntry.COLUMN_RATING);
-        if (rating != null && rating < 0 && rating > 5) {
-            throw new IllegalArgumentException("Book requires valid rating");
+        Integer barcode = values.getAsInteger(ItemEntry.COLUMN_BARCODE);
+        if (barcode > 99999999999L) {
+            throw new IllegalArgumentException("Item requires valid barcode id");
         }
 
-        //no need to check the author and date, any value is valid
-
-        //get writeable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
-        //insert the new book with the given values
-        long id = database.insert(ItemEntry.TABLE_NAME, null, values);
+        long id = database.insert(ItemEntry.TABLE_NAME_ITEMS, null, values);
         //if id is -1 there is an error
         if (id == -1) {
             Log.e(LOG_TAG, "Failed to insert row for " + uri);
             return null;
         }
 
-        //notify all listeners that the data has changed
         getContext().getContentResolver().notifyChange(uri, null);
 
-        //return the new URI with the id
+        return ContentUris.withAppendedId(uri, id);
+    }
+    private Uri insertProduct(Uri uri, ContentValues values) {
+        String name = values.getAsString(ItemEntry.COLUMN_NAME);
+        if (name == null) {
+            throw new IllegalArgumentException("Product requires a name");
+        }
+
+        Integer durability = values.getAsInteger(ItemEntry.COLUMN_DURABILITY);
+        if (durability == 0) {
+            throw new IllegalArgumentException("Product requires a expire date");
+        }
+
+        Integer barcode = values.getAsInteger(ItemEntry.COLUMN_BARCODE);
+        if (barcode > 99999999999L) {
+            throw new IllegalArgumentException("Product requires valid barcode id");
+        }
+
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        long id = database.insert(ItemEntry.TABLE_NAME_PRODUCTS, null, values);
+        //if id is -1 there is an error
+        if (id == -1) {
+            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            return null;
+        }
+
+        getContext().getContentResolver().notifyChange(uri, null);
+
         return ContentUris.withAppendedId(uri, id);
     }
 
-    //updates data in the database with new ContentValues
     @Override
     public int update(Uri uri, ContentValues contentValues, String selection,
                       String[] selectionArgs) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
-            //entire table
-            case BOOKS:
-                return updatePet(uri, contentValues, selection, selectionArgs);
-            //single book
-            case BOOK_ID:
-                //selection provides the table we want the book from and "=?"
-                // selectionArgs fill the space of the ? to get info from specific row
+            case ITEMS:
+                return updateItem(uri, contentValues, selection, selectionArgs);
+            case ITEMS_ID:
                 selection = ItemEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                return updatePet(uri, contentValues, selection, selectionArgs);
+                return updateItem(uri, contentValues, selection, selectionArgs);
+            case PRODUCTS:
+                return updateProduct(uri, contentValues, selection, selectionArgs);
+            case PRODUCTS_ID:
+                selection = ItemEntry._ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                return updateProduct(uri, contentValues, selection, selectionArgs);
             default:
-                //throw illegal argument and displays the uri if there is an error
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
     }
 
-    //update database and return number of rows updated
-    private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        //sanity check!
-        //check that the title is not null
-        String title = values.getAsString(ItemEntry.COLUMN_TITLE);
-        if (title == null) {
-            throw new IllegalArgumentException("Book requires a title");
-        }
-        //check that the status is valid
-        Integer status = values.getAsInteger(ItemEntry.COLUMN_STATUS);
-        if (status == null || !ItemEntry.isValidStatus(status)) {
-            throw new IllegalArgumentException("Book requires valid status");
+    private int updateItem(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        String name = values.getAsString(ItemEntry.COLUMN_NAME);
+        if (name == null) {
+            throw new IllegalArgumentException("Item requires a name");
         }
 
-        //if the rating is provided, check that it is a valid number
-        Integer rating = values.getAsInteger(ItemEntry.COLUMN_RATING);
-        if (rating != null && rating < 0 && rating > 5) {
-            throw new IllegalArgumentException("Book requires valid rating");
+        String expire = values.getAsString(ItemEntry.COLUMN_EXPIRE);
+        if (expire == null) {
+            throw new IllegalArgumentException("Item requires a expire date");
         }
 
-        //no need to check the author and date, any value is valid
+        Integer barcode = values.getAsInteger(ItemEntry.COLUMN_BARCODE);
+        if (barcode > 99999999999L) {
+            throw new IllegalArgumentException("Item requires valid barcode id");
+        }
 
-        //if there are no values to update, then dont try to update the database
         if (values.size() == 0) {
             return 0;
         }
 
-        //otherwise, get writeable database to update the data
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
-        //perform the update on the database and get the number of rows affected
-        int rowsUpdated = database.update(ItemEntry.TABLE_NAME, values, selection, selectionArgs);
-        // If 1 or more rows were updated, then notify all listeners that the data at the given URI has changed
+        int rowsUpdated = database.update(ItemEntry.TABLE_NAME_ITEMS, values, selection, selectionArgs);
+
         if (rowsUpdated != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
-        // Return the number of rows updated
+
+        return rowsUpdated;
+    }
+    private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        String name = values.getAsString(ItemEntry.COLUMN_NAME);
+        if (name == null) {
+            throw new IllegalArgumentException("Product requires a name");
+        }
+
+        Integer durability = values.getAsInteger(ItemEntry.COLUMN_DURABILITY);
+        if (durability == 0) {
+            throw new IllegalArgumentException("Product requires a expire date");
+        }
+
+        Integer barcode = values.getAsInteger(ItemEntry.COLUMN_BARCODE);
+        if (barcode > 99999999999L) {
+            throw new IllegalArgumentException("Product requires valid barcode id");
+        }
+
+        if (values.size() == 0) {
+            return 0;
+        }
+
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        int rowsUpdated = database.update(ItemEntry.TABLE_NAME_PRODUCTS, values, selection, selectionArgs);
+
+        if (rowsUpdated != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
         return rowsUpdated;
     }
 
     //delete data from table
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        //get writeable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
-
-        //track the number of rows that were deleted
         int rowsDeleted;
 
         final int match = sUriMatcher.match(uri);
         switch (match) {
-            // entire table (maybe used in future)
-            case BOOKS:
-                //delete all rows that match the selection and selection args
-                rowsDeleted = database.delete(ItemEntry.TABLE_NAME, selection, selectionArgs);
+            case ITEMS:
+                rowsDeleted = database.delete(ItemEntry.TABLE_NAME_ITEMS, selection, selectionArgs);
                 break;
-            //delete a single row given by the id in the URI
-            case BOOK_ID:
-                //selection provides the table we want the book from and "=?"
-                // selectionArgs fill the space of the ? to get info from specific row
+            case ITEMS_ID:
                 selection = ItemEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                rowsDeleted = database.delete(ItemEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(ItemEntry.TABLE_NAME_ITEMS, selection, selectionArgs);
+                break;
+            case PRODUCTS:
+                rowsDeleted = database.delete(ItemEntry.TABLE_NAME_PRODUCTS, selection, selectionArgs);
+                break;
+            case PRODUCTS_ID:
+                selection = ItemEntry._ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                rowsDeleted = database.delete(ItemEntry.TABLE_NAME_PRODUCTS, selection, selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
@@ -259,10 +289,14 @@ public class ItemProvider extends ContentProvider {
     public String getType(Uri uri) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
-            case BOOKS:
-                return ItemEntry.CONTENT_LIST_TYPE;
-            case BOOK_ID:
-                return ItemEntry.CONTENT_ITEM_TYPE;
+            case ITEMS:
+                return ItemEntry.CONTENT_LIST_TYPE_ITEMS;
+            case ITEMS_ID:
+                return ItemEntry.CONTENT_ITEM_TYPE_ITEMS;
+            case PRODUCTS:
+                return ItemEntry.CONTENT_LIST_TYPE_PRODUCTS;
+            case PRODUCTS_ID:
+                return ItemEntry.CONTENT_ITEM_TYPE_PRODUCTS;
             default:
                 throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
         }
