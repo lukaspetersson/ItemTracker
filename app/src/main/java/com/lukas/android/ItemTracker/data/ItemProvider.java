@@ -113,8 +113,8 @@ public class ItemProvider extends ContentProvider {
             throw new IllegalArgumentException("Item requires a name");
         }
 
-        String expire = values.getAsString(ItemEntry.COLUMN_EXPIRE);
-        if (expire == null) {
+        Integer expire = values.getAsInteger(ItemEntry.COLUMN_EXPIRE);
+        if (expire < 1) {
             throw new IllegalArgumentException("Item requires a expire date");
         }
 
@@ -144,7 +144,7 @@ public class ItemProvider extends ContentProvider {
 
         Integer durability = values.getAsInteger(ItemEntry.COLUMN_DURABILITY);
         if (durability == 0) {
-            throw new IllegalArgumentException("Product requires a expire date");
+            throw new IllegalArgumentException("Product requires a durability");
         }
 
         Integer barcode = values.getAsInteger(ItemEntry.COLUMN_BARCODE);
@@ -194,8 +194,8 @@ public class ItemProvider extends ContentProvider {
             throw new IllegalArgumentException("Item requires a name");
         }
 
-        String expire = values.getAsString(ItemEntry.COLUMN_EXPIRE);
-        if (expire == null) {
+        Integer expire = values.getAsInteger(ItemEntry.COLUMN_EXPIRE);
+        if (expire < 1) {
             throw new IllegalArgumentException("Item requires a expire date");
         }
 
@@ -226,7 +226,7 @@ public class ItemProvider extends ContentProvider {
 
         Integer durability = values.getAsInteger(ItemEntry.COLUMN_DURABILITY);
         if (durability == 0) {
-            throw new IllegalArgumentException("Product requires a expire date");
+            throw new IllegalArgumentException("Product requires a durability");
         }
 
         Integer barcode = values.getAsInteger(ItemEntry.COLUMN_BARCODE);

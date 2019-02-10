@@ -25,7 +25,7 @@ public class ItemDbHelper extends SQLiteOpenHelper {
         String SQL_CREATE_ITEMS_TABLE = "CREATE TABLE " + ItemEntry.TABLE_NAME_ITEMS + " ("
                 + ItemEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + ItemEntry.COLUMN_NAME + " TEXT NOT NULL, "
-                + ItemEntry.COLUMN_EXPIRE + " TEXT NOT NULL, "
+                + ItemEntry.COLUMN_EXPIRE + " INTEGER NOT NULL, "
                 + ItemEntry.COLUMN_BARCODE + " INTEGER NOT NULL);";
 
         String SQL_CREATE_PRODUCT_TABLE = "CREATE TABLE " + ItemEntry.TABLE_NAME_PRODUCTS + " ("
