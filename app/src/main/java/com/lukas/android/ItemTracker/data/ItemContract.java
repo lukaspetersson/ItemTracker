@@ -34,31 +34,12 @@ public class ItemContract {
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_ITEMS);
 
         //column names for the item table
-        public final static String TABLE_NAME = "items";
+        public final static String TABLE_NAME_PRODUCTS = "products";
+        public final static String TABLE_NAME_ITEMS = "items";
         public final static String _ID = BaseColumns._ID;
-        public final static String COLUMN_TITLE = "title";
-        public final static String COLUMN_AUTHOR = "author";
-        public final static String COLUMN_END_DATE = "end_date";
-        public final static String COLUMN_BEGIN_DATE = "begin_date";
-        public final static String COLUMN_STATUS = "status";
-        public final static String COLUMN_RATING = "rating";
-        public final static String COLUMN_THUMBNAIL = "thumbnail";
-        public final static String COLUMN_NOTES = "notes";
-        public final static String COLUMN_VISIBILITY = "visibility";
-
-
-        //Possible values for the status of item
-        public static final int STATUS_TO_READ = 0;
-        public static final int STATUS_READING = 1;
-        public static final int STATUS_FINISHED = 2;
-
-        //returns whether the status is either of the options
-        public static boolean isValidStatus(int status) {
-            if (status == STATUS_TO_READ || status == STATUS_READING || status == STATUS_FINISHED) {
-                return true;
-            }
-            return false;
-        }
-
+        public final static String COLUMN_NAME = "name";
+        public final static String COLUMN_EXPIRE = "expire";
+        public final static String COLUMN_DURABILITY = "durability";
+        public final static String COLUMN_BARCODE = "barcode";
     }
 }

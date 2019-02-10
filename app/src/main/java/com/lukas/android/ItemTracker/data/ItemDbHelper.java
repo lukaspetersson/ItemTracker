@@ -12,7 +12,7 @@ public class ItemDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "ItemTracker.db";
 
     //give unique version
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
 
     //create new instance of the database helper
     public ItemDbHelper(Context context) {
@@ -22,21 +22,23 @@ public class ItemDbHelper extends SQLiteOpenHelper {
     //creates the database
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // create a String that contains the SQL statement to create the Books table
-        //columns are made different types of values and extra specifications
-        String SQL_CREATE_BOOKS_TABLE = "CREATE TABLE " + ItemEntry.TABLE_NAME + " ("
+        String SQL_CREATE_ITEMS_TABLE = "CREATE TABLE " + ItemEntry.TABLE_NAME_ITEMS + " ("
                 + ItemEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + ItemEntry.COLUMN_TITLE + " TEXT NOT NULL, "
-                + ItemEntry.COLUMN_AUTHOR + " TEXT, "
-                + ItemEntry.COLUMN_STATUS + " INTEGER NOT NULL, "
-                + ItemEntry.COLUMN_BEGIN_DATE + " INTEGER, "
-                + ItemEntry.COLUMN_END_DATE + " INTEGER, "
-                + ItemEntry.COLUMN_RATING + " INTEGER DEFAULT 0, "
-                + ItemEntry.COLUMN_NOTES + " TEXT, "
-                + ItemEntry.COLUMN_VISIBILITY + " INTEGER, "
-                + ItemEntry.COLUMN_THUMBNAIL + " TEXT);";
+                + ItemEntry.COLUMN_NAME + " TEXT NOT NULL, "
+                + ItemEntry.COLUMN_EXPIRE + " TEXT NOT NULL, "
+                + ItemEntry.COLUMN_BARCODE + " INTEGER NOT NULL);";
+
+        String SQL_CREATE_PRODUCT_TABLE = "CREATE TABLE " + ItemEntry.TABLE_NAME_PRODUCTS + " ("
+                + ItemEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + ItemEntry.COLUMN_NAME + " TEXT NOT NULL, "
+                + ItemEntry.COLUMN_DURABILITY + " INTEGER NOT NULL, "
+                + ItemEntry.COLUMN_BARCODE + " INTEGER NOT NULL);";
+
+
+
         // execute the SQL statement
-        db.execSQL(SQL_CREATE_BOOKS_TABLE);
+        db.execSQL(SQL_CREATE_PRODUCT_TABLE);
+        db.execSQL(SQL_CREATE_ITEMS_TABLE);
 
 
     }
