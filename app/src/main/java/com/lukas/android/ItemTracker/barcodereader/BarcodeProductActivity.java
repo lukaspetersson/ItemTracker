@@ -2,6 +2,7 @@ package com.lukas.android.ItemTracker.barcodereader;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -24,6 +25,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.vision.MultiProcessor;
@@ -32,6 +34,7 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import com.lukas.android.ItemTracker.ProductActivity;
 import com.lukas.android.ItemTracker.barcodereader.ui.camera.CameraSource;
 import com.lukas.android.ItemTracker.barcodereader.ui.camera.CameraSourcePreview;
 import com.lukas.android.ItemTracker.R;
@@ -39,6 +42,7 @@ import com.lukas.android.ItemTracker.barcodereader.ui.camera.GraphicOverlay;
 
 
 import java.io.IOException;
+
 
 public final class BarcodeProductActivity extends AppCompatActivity implements BarcodeGraphicTracker.BarcodeUpdateListener {
     private static final String TAG = "Barcode-reader";
@@ -83,7 +87,6 @@ public final class BarcodeProductActivity extends AppCompatActivity implements B
         mGraphicOverlay = findViewById(R.id.graphicOverlay_product);
         mFocus = findViewById(R.id.focus_product);
         mFlash = findViewById(R.id.flash_product);
-
 
         //bring views in front of camera
         mFocus.bringToFront();
@@ -320,46 +323,10 @@ public final class BarcodeProductActivity extends AppCompatActivity implements B
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.barcode_product_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        if (!showConfirm) {
-            MenuItem menuItem = menu.findItem(R.id.action_confirm_product);
-            menuItem.setVisible(false);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        //option in appbar is clicked
-        switch (item.getItemId()) {
-            //confirm is clicked
-            case R.id.action_confirm_product:
-                sendInfo();
-                return true;
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onBarcodeDetected(Barcode barcode) {
-        showConfirm = true;
-        invalidateOptionsMenu();
-
-    }
-
-
-    private void sendInfo() {
-
+        Intent backToProduct = new Intent(BarcodeProductActivity.this, ProductActivity.class);
+        backToProduct.putExtra("barcode", barcode.displayValue);
+        startActivity(backToProduct);
     }
 
 }

@@ -1,8 +1,10 @@
 package com.lukas.android.ItemTracker;
 
+import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -40,15 +42,11 @@ public class AssortmentActivity extends AppCompatActivity implements
         assormentList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                /*
-                //intent to open view activity
-                Intent openView = new Intent(BookShelfActivity.this, ViewActivity.class);
 
-                //provides the intent so that the uri follows with it so that activity know what book to show
-                Uri currentBookUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, id);
-                //set the uri on the data field of the intent
-                openView.setData(currentBookUri);
-                startActivity(openView);*/
+                Intent openProduct = new Intent(AssortmentActivity.this, ProductActivity.class);
+                Uri currentBookUri = ContentUris.withAppendedId(ItemContract.ItemEntry.CONTENT_URI_PRODUCTS, id);
+                openProduct.setData(currentBookUri);
+                startActivity(openProduct);
             }
         });
 
@@ -94,7 +92,6 @@ public class AssortmentActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Log.v("AssortmentActivity", "HHHHHHHHHHHHHHHHHHHHH"+ data);
         mAssortmentAdapter.swapCursor(data);
     }
 

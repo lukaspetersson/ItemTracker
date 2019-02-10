@@ -25,7 +25,7 @@ import com.lukas.android.ItemTracker.data.ItemContract;
 public class ProductActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    EditText BarcodeId;
+    public static EditText BarcodeId;
     EditText ProductName;
     EditText ProductDurability;
 
@@ -42,8 +42,7 @@ public class ProductActivity extends AppCompatActivity implements
 
         Intent intent = getIntent();
         mCurrentProductUri = intent.getData();
-
-        //BarcodeId.setText(intent.getStringExtra("title"));
+        BarcodeId.setText(intent.getStringExtra("barcode"));
 
         if (mCurrentProductUri == null) {
             setTitle(R.string.product_add_title);

@@ -8,5 +8,5 @@ tools:context=".barcodereader.BarcodeItemActivity">
     android:icon="@drawable/baseline_done_white_24"
     android:orderInCategory="1"
     android:title="cofirm"
-    app:showAsAction="ifRoom" />
+    app:showAsAction="always" />
 </menu>
