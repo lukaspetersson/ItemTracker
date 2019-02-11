@@ -52,7 +52,6 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
 
     private boolean autoFocus;
     private boolean useFlash;
-    private boolean showConfirm;
 
     private ImageView mFocus;
     private ImageView mFlash;
@@ -95,8 +94,6 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
         //defualt options
         autoFocus = true;
         useFlash = false;
-        showConfirm = false;
-
 
         // Check for the camera permission before accessing the camera, if the permission is not granted yet, request permission.
         int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
@@ -328,22 +325,13 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        if (!showConfirm) {
-            MenuItem menuItem = menu.findItem(R.id.action_confirm_item);
-            menuItem.setVisible(false);
-        }
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //option in appbar is clicked
         switch (item.getItemId()) {
             //confirm is clicked
-            case R.id.action_confirm_item:
-                sendInfo();
+            case R.id.action_add_item:
+                Intent openManual = new Intent(BarcodeItemActivity.this, AddManualActivity.class);
+                startActivity(openManual);
                 return true;
             case android.R.id.home:
                 onBackPressed();
@@ -354,17 +342,7 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
 
     @Override
     public void onBarcodeDetected(Barcode barcode) {
-        showConfirm = true;
-        invalidateOptionsMenu();
 
-    }
-
-    public void addManual(View v){
-        Intent openManual = new Intent(BarcodeItemActivity.this, AddManualActivity.class);
-        startActivity(openManual);
-    }
-
-    private void sendInfo() {
 
     }
 

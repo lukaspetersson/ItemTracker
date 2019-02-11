@@ -48,22 +48,6 @@
         app:layout_constraintEnd_toEndOf="@+id/preview"
         android:onClick="clickFlash"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="Add Manualy"
-        android:background="#ffffff"
-        android:padding="8dp"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@id/focus"
-        app:layout_constraintEnd_toStartOf="@id/flash"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:onClick="addManual"/>
-
-
-
     <com.lukas.android.ItemTracker.barcodereader.ui.camera.CameraSourcePreview
         android:id="@+id/preview"
         android:layout_width="match_parent"

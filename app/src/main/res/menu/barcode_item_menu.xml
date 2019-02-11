@@ -4,9 +4,9 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 tools:context=".barcodereader.BarcodeItemActivity">
 <item
-    android:id="@+id/action_confirm_item"
-    android:icon="@drawable/baseline_done_white_24"
+    android:id="@+id/action_add_item"
+    android:icon="@drawable/baseline_edit_white_24"
     android:orderInCategory="1"
-    android:title="cofirm"
+    android:title="add"
     app:showAsAction="always" />
 </menu>
