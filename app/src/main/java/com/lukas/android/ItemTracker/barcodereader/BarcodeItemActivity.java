@@ -71,7 +71,6 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
         setContentView(R.layout.activity_barcode_item);
         setTitle(R.string.scan_title);
 
-
         //send screenheight to camerasourcepreview
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -342,9 +341,25 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
 
     @Override
     public void onBarcodeDetected(Barcode barcode) {
-
+        final Context c = this;
+        BarcodeItemActivity parent = new BarcodeItemActivity();
+        parent.runOnUiThread(new Runnable() {
+            public void run() {
+                AlertDialog alertDialog = new AlertDialog.Builder(c).create();
+                alertDialog.setTitle("Alert");
+                alertDialog.setMessage("Alert message to be shown");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+            }
+        });
 
     }
+
 
 }
 
