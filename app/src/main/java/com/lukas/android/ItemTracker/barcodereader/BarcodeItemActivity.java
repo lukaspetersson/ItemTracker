@@ -8,7 +8,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.Loader;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Point;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -25,6 +28,9 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.content.CursorLoader;
+import android.app.AlertDialog;
+import android.app.LoaderManager;
 
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -33,15 +39,23 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
 import com.lukas.android.ItemTracker.AddManualActivity;
+import com.lukas.android.ItemTracker.MainActivity;
+import com.lukas.android.ItemTracker.Product;
+import com.lukas.android.ItemTracker.ProductActivity;
 import com.lukas.android.ItemTracker.barcodereader.ui.camera.CameraSource;
 import com.lukas.android.ItemTracker.barcodereader.ui.camera.CameraSourcePreview;
 import com.lukas.android.ItemTracker.R;
 import com.lukas.android.ItemTracker.barcodereader.ui.camera.GraphicOverlay;
+import com.lukas.android.ItemTracker.data.ItemContract;
+import com.lukas.android.ItemTracker.data.ItemDbHelper;
 
 
 import java.io.IOException;
 
-public final class BarcodeItemActivity extends AppCompatActivity implements BarcodeGraphicTracker.BarcodeUpdateListener {
+import static com.lukas.android.ItemTracker.data.ItemContract.ItemEntry.TABLE_NAME_PRODUCTS;
+
+
+public final class BarcodeItemActivity extends AppCompatActivity implements BarcodeGraphicTracker.BarcodeUpdateListener, LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "Barcode-reader";
 
     // intent request code to handle updating play services if needed.
@@ -57,6 +71,8 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
     private ImageView mFlash;
     private ImageView mSquere;
 
+    private BarcodeItemActivity context;
+
     public static int screenHeight;
     private CameraSource mCameraSource;
     private CameraSourcePreview mPreview;
@@ -70,6 +86,8 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barcode_item);
         setTitle(R.string.scan_title);
+
+        context = this;
 
         //send screenheight to camerasourcepreview
         Display display = getWindowManager().getDefaultDisplay();
@@ -341,25 +359,62 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
 
     @Override
     public void onBarcodeDetected(Barcode barcode) {
-        final Context c = this;
-        BarcodeItemActivity parent = new BarcodeItemActivity();
-        parent.runOnUiThread(new Runnable() {
+        runOnUiThread(new Runnable() {
             public void run() {
-                AlertDialog alertDialog = new AlertDialog.Builder(c).create();
-                alertDialog.setTitle("Alert");
-                alertDialog.setMessage("Alert message to be shown");
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
+                mCameraSource.stop();
+                getLoaderManager().initLoader(0, null, context);
             }
         });
-
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
+        String[] projection = {
+                ItemContract.ItemEntry._ID,
+                ItemContract.ItemEntry.COLUMN_NAME,
+                ItemContract.ItemEntry.COLUMN_DURABILITY,
+                ItemContract.ItemEntry.COLUMN_BARCODE
+        };
+
+        return new CursorLoader(this,
+                ItemContract.ItemEntry.CONTENT_URI_PRODUCTS,
+                projection,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor data) {
+        if (data == null || data.getCount() < 1) {
+            return;
+        }
+        if (data.moveToFirst()) {
+            int nameColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_NAME);
+            String name = data.getString(nameColumnIndex);
+
+            int durabilityColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_DURABILITY);
+            int durability = data.getInt(durabilityColumnIndex);
+
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Add Item?");
+            alertDialog.setMessage("Add "+name+"("+durability+")");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            createCameraSource();
+                            startCameraSource();
+                        }
+                    });
+            alertDialog.show();
+
+        }
+    }
+
+    @Override
+    public void onLoaderReset(android.content.Loader<Cursor> loader) {
+    }
 }
 

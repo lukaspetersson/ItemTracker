@@ -23,7 +23,6 @@ import com.lukas.android.ItemTracker.data.ItemContract;
 public class AssortmentActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int PRODUCT_LOADER = 0;
     ListAdapterAssortment mAssortmentAdapter;
 
     @Override
