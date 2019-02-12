@@ -361,11 +361,14 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
     }
 
     @Override
-    public void onBarcodeDetected(Barcode barcode) {
+    public void onBarcodeDetected(final Barcode barcode) {
         runOnUiThread(new Runnable() {
             public void run() {
                 mCameraSource.stop();
-                getLoaderManager().initLoader(0, null, context);
+                Bundle bundle = new Bundle();
+                bundle.putString("barcode", barcode.displayValue);
+                getLoaderManager().restartLoader(0, bundle, context);
+
             }
         });
     }
@@ -380,47 +383,65 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
                 ItemContract.ItemEntry.COLUMN_BARCODE
         };
 
+        String selection = ItemContract.ItemEntry.COLUMN_BARCODE + "=?";
+        String[] selectionArgs = new String[]{args.getString("barcode")};
+
         return new CursorLoader(this,
                 ItemContract.ItemEntry.CONTENT_URI_PRODUCTS,
                 projection,
-                null,
-                null,
+                selection,
+                selectionArgs,
                 null);
     }
 
     @Override
     public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor data) {
         if (data == null || data.getCount() < 1) {
-            return;
-        }
-        if (data.moveToFirst()) {
-            int nameColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_NAME);
-            String name = data.getString(nameColumnIndex);
-
-            int durabilityColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_DURABILITY);
-            int durability = data.getInt(durabilityColumnIndex);
-
-
-            mAlertDialog.setTitle(name);
-            mAlertDialog.setMessage(getString(R.string.found_product)+name+getString(R.string.with_product)+durability+getString(R.string.add_product));
-            mAlertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.cancel),
+            mAlertDialog.setTitle(getString(R.string.no_product_title));
+            mAlertDialog.setMessage(getString(R.string.no_product_subtitle));
+            mAlertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.ok),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            createCameraSource();
-                            startCameraSource();
-                        }
-                    });
-            mAlertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.ok),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
+                            mAlertDialog = new AlertDialog.Builder(BarcodeItemActivity.this).create();
                             createCameraSource();
                             startCameraSource();
                         }
                     });
             if(!mAlertDialog.isShowing()){
                 mAlertDialog.show();
+            }
+        }else{
+            if (data.moveToFirst()) {
+                int nameColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_NAME);
+                String name = data.getString(nameColumnIndex);
+
+                int durabilityColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_DURABILITY);
+                int durability = data.getInt(durabilityColumnIndex);
+
+                mAlertDialog.setTitle(name);
+                mAlertDialog.setMessage(getString(R.string.found_product)+name+getString(R.string.with_product)+durability+getString(R.string.add_product));
+                mAlertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.cancel),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                mAlertDialog = new AlertDialog.Builder(BarcodeItemActivity.this).create();
+                                createCameraSource();
+                                startCameraSource();
+                            }
+                        });
+                mAlertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.ok),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                mAlertDialog = new AlertDialog.Builder(BarcodeItemActivity.this).create();
+                                createCameraSource();
+                                startCameraSource();
+                            }
+                        });
+                if(!mAlertDialog.isShowing()){
+                    mAlertDialog.show();
+                }
             }
         }
     }

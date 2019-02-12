@@ -38,4 +38,7 @@
     <string name="with_product">" with "</string>
     <string name="add_product">" days durability. Do you want to add it to the calendar?"</string>
 
+    <string name="no_product_title">Product not found</string>
+    <string name="no_product_subtitle">"No product is associated with that barcode, make sure it is added to the assortment."</string>
+
 </resources>
