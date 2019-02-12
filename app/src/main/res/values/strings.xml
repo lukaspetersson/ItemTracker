@@ -5,8 +5,11 @@
     <string name="flash_off">Flash off</string>
     <string name="auto_focus_on">Autofocus on</string>
     <string name="auto_focus_off">Autofocus off</string>
+
     <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
     <string name="error">Error</string>
+
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
 
@@ -30,5 +33,9 @@
     <string name="insert_product_successful">Product added</string>
     <string name="update_product_successful">Product updated</string>
     <string name="delete_product_successful">Product deleted</string>
+
+    <string name="found_product">"Found "</string>
+    <string name="with_product">" with "</string>
+    <string name="add_product">" days durability. Do you want to add it to the calendar?"</string>
 
 </resources>

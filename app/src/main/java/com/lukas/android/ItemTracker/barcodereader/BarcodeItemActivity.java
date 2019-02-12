@@ -72,6 +72,8 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
     private ImageView mSquere;
 
     private BarcodeItemActivity context;
+    AlertDialog mAlertDialog;
+
 
     public static int screenHeight;
     private CameraSource mCameraSource;
@@ -102,6 +104,7 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
         mFocus = findViewById(R.id.focus);
         mFlash = findViewById(R.id.flash);
 
+        mAlertDialog = new AlertDialog.Builder(this).create();
 
         //bring views in front of camera
         mFocus.bringToFront();
@@ -397,10 +400,10 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
             int durabilityColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_DURABILITY);
             int durability = data.getInt(durabilityColumnIndex);
 
-            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("Add Item?");
-            alertDialog.setMessage("Add "+name+"("+durability+")");
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+
+            mAlertDialog.setTitle(name);
+            mAlertDialog.setMessage(getString(R.string.found_product)+name+getString(R.string.with_product)+durability+getString(R.string.add_product));
+            mAlertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.cancel),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -408,8 +411,17 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
                             startCameraSource();
                         }
                     });
-            alertDialog.show();
-
+            mAlertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.ok),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            createCameraSource();
+                            startCameraSource();
+                        }
+                    });
+            if(!mAlertDialog.isShowing()){
+                mAlertDialog.show();
+            }
         }
     }
 
