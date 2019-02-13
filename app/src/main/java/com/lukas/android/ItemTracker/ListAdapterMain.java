@@ -1,42 +1,43 @@
 package com.lukas.android.ItemTracker;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.lukas.android.ItemTracker.data.ItemContract;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class ListAdapterMain extends ArrayAdapter<Item> {
+public class ListAdapterMain extends CursorAdapter {
 
-    public ListAdapterMain(Context context, ArrayList<Item> items) {
-        super(context, 0, items);
+    public ListAdapterMain(Context context, Cursor cursor) {
+        super(context, cursor, 0);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+        return LayoutInflater.from(context).inflate(R.layout.item_layout, parent, false);
+    }
 
-        View listItemView = convertView;
-        if (listItemView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.item_layout, parent, false);
-        }
-
-        Item currentItem = getItem(position);
+    @Override
+    public void bindView(View listItemView, Context context, Cursor cursor) {
 
         TextView nameView = listItemView.findViewById(R.id.item_title);
-        nameView.setText(currentItem.getName());
+        int nameColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_NAME);
+        nameView.setText(cursor.getString(nameColumnIndex));
 
         TextView expireView = listItemView.findViewById(R.id.item_expire);
+        int expireColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_EXPIRE);
         DateFormat formatter = new SimpleDateFormat("d/M");
-        String date = formatter.format(currentItem.getExpire());
+        String date = formatter.format(cursor.getLong(expireColumnIndex));
         expireView.setText(date);
-
-        return listItemView;
     }
 }
