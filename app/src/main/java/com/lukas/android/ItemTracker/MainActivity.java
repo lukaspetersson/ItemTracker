@@ -14,13 +14,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.database.Cursor;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v4.app.LoaderManager;
 
 import com.lukas.android.ItemTracker.barcodereader.BarcodeItemActivity;
+import com.lukas.android.ItemTracker.data.ItemContract;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG = "MainActivity";
 
@@ -37,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     DateFormat nameFormatter;
     DateFormat numberFormatter;
     long currentDate;
+
+    private boolean expiredPresent;
 
     private final long MILIS_IN_DAY = 86400000;
     private final int DAYS_IN_WEEK = 7;
@@ -69,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
         setUpDateBar();
         setUpPager();
+        getSupportLoaderManager().initLoader(0, null, this);
     }
 
     private void setUpDateBar(){
@@ -148,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        if(1==1){
+        if(expiredPresent){
             menu.findItem(R.id.action_expire).setIcon(R.drawable.error_active_24);
         }else{
             menu.findItem(R.id.action_expire).setIcon(R.drawable.baseline_error_outline_white_24);
@@ -175,5 +184,41 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+
+        String[] projection = {
+                ItemContract.ItemEntry._ID,
+                ItemContract.ItemEntry.COLUMN_NAME,
+                ItemContract.ItemEntry.COLUMN_EXPIRE,
+                ItemContract.ItemEntry.COLUMN_BARCODE
+        };
+
+        long today = System.currentTimeMillis();
+
+        String selection = ItemContract.ItemEntry.COLUMN_EXPIRE + "<" + today;
+
+        return new CursorLoader(this,
+                ItemContract.ItemEntry.CONTENT_URI_ITEMS,
+                projection,
+                selection,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (data == null || data.getCount() < 1) {
+            expiredPresent = false;
+        }else{
+            expiredPresent = true;
+        }
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
     }
 }
