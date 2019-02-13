@@ -367,7 +367,6 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
     public void onBarcodeDetected(final Barcode barcode) {
         runOnUiThread(new Runnable() {
             public void run() {
-                mCameraSource.stop();
                 Bundle bundle = new Bundle();
                 bundle.putString("barcode", barcode.displayValue);
                 getLoaderManager().restartLoader(0, bundle, context);
@@ -399,11 +398,9 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
 
     @Override
     public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor data) {
-
-        //TODO: hardwhare back buton has to continue video if it is pressed to take away alert
-        //TODO: continue looking for known barcode if it found unknown
+        mAlertDialog.setCancelable(false);
         if (data == null || data.getCount() < 1) {
-            mAlertDialog.setTitle(getString(R.string.no_product_title));
+            /*mAlertDialog.setTitle(getString(R.string.no_product_title));
             mAlertDialog.setMessage(getString(R.string.no_product_subtitle));
             mAlertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.ok),
                     new DialogInterface.OnClickListener() {
@@ -416,9 +413,11 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
                     });
             if(!mAlertDialog.isShowing()){
                 mAlertDialog.show();
-            }
+            }*/
         }else{
             if (data.moveToFirst()) {
+                mCameraSource.stop();
+
                 int nameColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_NAME);
                 final String name = data.getString(nameColumnIndex);
 
@@ -443,8 +442,47 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                //TODO: check if that item is already added
-                                addToCalendar(name, durability, barcode);
+
+                                ItemDbHelper mDbHelper = new ItemDbHelper(context);
+                                SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+                                String[] projection = {
+                                        ItemContract.ItemEntry._ID,
+                                        ItemContract.ItemEntry.COLUMN_BARCODE
+                                };
+
+                                String selection = ItemContract.ItemEntry.COLUMN_BARCODE + "=?";
+                                String[] selectionArgs = new String[]{barcode+""};
+
+                                Cursor cursor = db.query(ItemContract.ItemEntry.TABLE_NAME_ITEMS, projection,
+                                        selection, selectionArgs, null, null, null);
+
+                                if (cursor.getCount() > 0) {
+                                    mAlertDialog = new AlertDialog.Builder(BarcodeItemActivity.this).create();
+                                    mAlertDialog.setTitle(getString(R.string.duplicate_item_title));
+                                    mAlertDialog.setMessage(name+ getString(R.string.duplicate_item_subtitle));
+                                    mAlertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                    addToCalendar(name, durability, barcode);
+                                                }
+                                            });
+                                    mAlertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                    mAlertDialog = new AlertDialog.Builder(BarcodeItemActivity.this).create();
+                                                    createCameraSource();
+                                                    startCameraSource();
+                                                }
+                                            });
+                                    if(!mAlertDialog.isShowing()){
+                                        mAlertDialog.show();
+                                    }
+                                }else{
+                                    addToCalendar(name, durability, barcode);
+                                }
                             }
                         });
                 if(!mAlertDialog.isShowing()){

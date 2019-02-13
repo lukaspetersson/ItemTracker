@@ -9,6 +9,8 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="error">Error</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
@@ -41,4 +43,6 @@
     <string name="no_product_title">Product not found</string>
     <string name="no_product_subtitle">"No product is associated with that barcode, make sure it is added to the assortment."</string>
 
+    <string name="duplicate_item_title">Already added</string>
+    <string name="duplicate_item_subtitle">" is already added to the calendar, do you want to add it again?</string>
 </resources>

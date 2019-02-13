@@ -56,9 +56,9 @@ public class ItemListFragment  extends Fragment implements
             }
         });
 
-        long dayInMilis = System.currentTimeMillis() + getArguments().getInt("day") * 86400000;
+        long dayInMilis = MainActivity.currentDate + getArguments().getInt("day") * 86400000;
         Bundle bundle = new Bundle();
-        bundle.putLong("dayInMilis", dayInMilis);
+        bundle.putLong("displayDay", dayInMilis);
 
         getLoaderManager().restartLoader(0, bundle, this);
 
@@ -78,7 +78,8 @@ public class ItemListFragment  extends Fragment implements
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
-        bundle.getLong("dayInMilis");
+
+        //String selection = MainActivity.sameDayCheckerformatter.format(ItemContract.ItemEntry.COLUMN_EXPIRE) + "=" + MainActivity.sameDayCheckerformatter.format(bundle.getLong("displayDay"));
 
         String[] projection = {
                 ItemContract.ItemEntry._ID,
