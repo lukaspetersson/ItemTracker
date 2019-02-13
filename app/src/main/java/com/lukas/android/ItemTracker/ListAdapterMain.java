@@ -42,8 +42,7 @@ public class ListAdapterMain extends CursorAdapter {
         expireView.setText(date);
 
         /*int croColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_CROSSED);
-        int hhh = cursor.getInt(croColumnIndex);
+        int hhh = cursor.getInt(croColumnIndex);*/
 
-        Log.v("ListAdapterMain","HHHHHHHHHHHHHHHHHHjjj"+hhh);*/
     }
 }

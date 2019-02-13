@@ -1,6 +1,8 @@
 package com.lukas.android.ItemTracker;
 
+import android.content.ContentUris;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,12 +40,17 @@ public class ExpiredActivity extends AppCompatActivity implements
         itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                /*Item currentItem = mAdapter.getItem(position);
+                Uri pickedUri = ContentUris.withAppendedId(ItemContract.ItemEntry.CONTENT_URI_ITEMS, id);
+                Cursor cursor = getContentResolver().query(pickedUri, null, null, null, null);
 
-                Intent openMain = new Intent(ExpiredActivity.this, MainActivity.class);
-                openMain.putExtra("expire", currentItem.getExpire());
-                startActivity(openMain);*/
+                if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                    int expireColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_EXPIRE);
+                    long expire = cursor.getLong(expireColumnIndex);
 
+                    Intent openMain = new Intent(ExpiredActivity.this, MainActivity.class);
+                    openMain.putExtra("expire", expire);
+                    startActivity(openMain);
+                }
             }
         });
 

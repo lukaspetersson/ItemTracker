@@ -401,6 +401,7 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
     public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor data) {
 
         //TODO: hardwhare back buton has to continue video if it is pressed to take away alert
+        //TODO: continue looking for known barcode if it found unknown
         if (data == null || data.getCount() < 1) {
             mAlertDialog.setTitle(getString(R.string.no_product_title));
             mAlertDialog.setMessage(getString(R.string.no_product_subtitle));
@@ -459,12 +460,13 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
 
     private void addToCalendar(String name, int durability, long barcode) {
 
-        long expire = System.currentTimeMillis() + (durability*86400000);
+        long expire = System.currentTimeMillis() - (durability*86400000);
 
         ContentValues insertValues = new ContentValues();
         insertValues.put(ItemContract.ItemEntry.COLUMN_NAME, name);
         insertValues.put(ItemContract.ItemEntry.COLUMN_EXPIRE, expire);
         insertValues.put(ItemContract.ItemEntry.COLUMN_BARCODE, barcode);
+        insertValues.put(ItemContract.ItemEntry.COLUMN_CROSSED, 0);
 
         Uri uri = getContentResolver().insert(ItemContract.ItemEntry.CONTENT_URI_ITEMS, insertValues);
 

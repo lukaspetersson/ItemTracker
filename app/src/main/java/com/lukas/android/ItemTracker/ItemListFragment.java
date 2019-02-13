@@ -84,6 +84,7 @@ public class ItemListFragment  extends Fragment implements
                 ItemContract.ItemEntry._ID,
                 ItemContract.ItemEntry.COLUMN_NAME,
                 ItemContract.ItemEntry.COLUMN_EXPIRE,
+                ItemContract.ItemEntry.COLUMN_CROSSED,
                 ItemContract.ItemEntry.COLUMN_BARCODE
         };
 
