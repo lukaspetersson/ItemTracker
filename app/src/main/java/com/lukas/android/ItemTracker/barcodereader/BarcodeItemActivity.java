@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,9 +15,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Point;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
@@ -414,10 +417,13 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
         }else{
             if (data.moveToFirst()) {
                 int nameColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_NAME);
-                String name = data.getString(nameColumnIndex);
+                final String name = data.getString(nameColumnIndex);
 
                 int durabilityColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_DURABILITY);
-                int durability = data.getInt(durabilityColumnIndex);
+                final int durability = data.getInt(durabilityColumnIndex);
+
+                int barcodeColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_BARCODE);
+                final long barcode = data.getLong(durabilityColumnIndex);
 
                 mAlertDialog.setTitle(name);
                 mAlertDialog.setMessage(getString(R.string.found_product)+name+getString(R.string.with_product)+durability+getString(R.string.add_product));
@@ -434,9 +440,8 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                mAlertDialog = new AlertDialog.Builder(BarcodeItemActivity.this).create();
-                                createCameraSource();
-                                startCameraSource();
+                                //TODO: check if that item is already added
+                                addToCalendar(name, durability, barcode);
                             }
                         });
                 if(!mAlertDialog.isShowing()){
@@ -448,6 +453,28 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
 
     @Override
     public void onLoaderReset(android.content.Loader<Cursor> loader) {
+    }
+
+    private void addToCalendar(String name, int durability, long barcode) {
+
+        long expire = System.currentTimeMillis() + (durability*86400000);
+
+        ContentValues insertValues = new ContentValues();
+        insertValues.put(ItemContract.ItemEntry.COLUMN_NAME, name);
+        insertValues.put(ItemContract.ItemEntry.COLUMN_EXPIRE, expire);
+        insertValues.put(ItemContract.ItemEntry.COLUMN_BARCODE, barcode);
+
+        Uri uri = getContentResolver().insert(ItemContract.ItemEntry.CONTENT_URI_ITEMS, insertValues);
+
+        if (uri == null) {
+            Toast.makeText(this, getString(R.string.error),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, getString(R.string.insert_product_successful),
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        NavUtils.navigateUpFromSameTask(BarcodeItemActivity.this);
     }
 }
 
