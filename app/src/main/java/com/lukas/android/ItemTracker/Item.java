@@ -5,12 +5,14 @@ public class Item {
     private String mName;
     private long mExpire;
     private long mBarcode;
+    private int mCrossed;
 
 
-    public Item(String name, long expire, long barcode) {
+    public Item(String name, long expire, long barcode, int crossed) {
         mName = name;
         mExpire = expire;
         mBarcode = barcode;
+        mCrossed = crossed;
 
     }
 
@@ -24,6 +26,10 @@ public class Item {
 
     public long getBarcode() {
         return mBarcode;
+    }
+
+    public int getCrossed() {
+        return mCrossed;
     }
 
 
