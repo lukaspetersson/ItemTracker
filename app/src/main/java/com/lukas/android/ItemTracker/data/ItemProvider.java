@@ -113,7 +113,7 @@ public class ItemProvider extends ContentProvider {
             throw new IllegalArgumentException("Item requires a name");
         }
 
-        Integer expire = values.getAsInteger(ItemEntry.COLUMN_EXPIRE);
+        Long expire = values.getAsLong(ItemEntry.COLUMN_EXPIRE);
         if (expire < 1) {
             throw new IllegalArgumentException("Item requires a expire date");
         }

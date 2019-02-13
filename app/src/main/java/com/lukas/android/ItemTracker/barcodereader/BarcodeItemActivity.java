@@ -399,6 +399,8 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
 
     @Override
     public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor data) {
+
+        //TODO: hardwhare back buton has to continue video if it is pressed to take away alert
         if (data == null || data.getCount() < 1) {
             mAlertDialog.setTitle(getString(R.string.no_product_title));
             mAlertDialog.setMessage(getString(R.string.no_product_subtitle));

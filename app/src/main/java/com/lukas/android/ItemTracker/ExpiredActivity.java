@@ -8,9 +8,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import android.database.Cursor;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v4.app.LoaderManager;
+
+
+import com.lukas.android.ItemTracker.data.ItemContract;
+
 import java.util.ArrayList;
 
-public class ExpiredActivity extends AppCompatActivity {
+public class ExpiredActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     private ListAdapterMain mAdapter;
     private ListView itemList;
@@ -21,7 +30,7 @@ public class ExpiredActivity extends AppCompatActivity {
         setContentView(R.layout.activity_expired);
         setTitle(R.string.expired_title);
 
-        mAdapter = new ListAdapterMain(this, new ArrayList<Item>());
+        mAdapter = new ListAdapterMain(this, null);
 
         itemList = findViewById(R.id.expired_list);
         itemList.setAdapter(mAdapter);
@@ -29,22 +38,50 @@ public class ExpiredActivity extends AppCompatActivity {
         itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Item currentItem = mAdapter.getItem(position);
+                /*Item currentItem = mAdapter.getItem(position);
 
                 Intent openMain = new Intent(ExpiredActivity.this, MainActivity.class);
                 openMain.putExtra("expire", currentItem.getExpire());
-                startActivity(openMain);
+                startActivity(openMain);*/
 
             }
         });
 
-        Item[] test = new Item[3];
-        test[0] = new Item("first", 1549110410009L, 111111111111L);
-        test[1] = new Item("second", 1549310180009L, 111111111111L);
-        test[2] = new Item("first", 1549210440009L, 111111111111L);
-
-        mAdapter.clear();
-        mAdapter.addAll(test);
+        getSupportLoaderManager().initLoader(0, null, this);
 
     }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+
+        String[] projection = {
+                ItemContract.ItemEntry._ID,
+                ItemContract.ItemEntry.COLUMN_NAME,
+                ItemContract.ItemEntry.COLUMN_EXPIRE,
+                ItemContract.ItemEntry.COLUMN_BARCODE
+        };
+
+        long today = System.currentTimeMillis();
+
+        String selection = ItemContract.ItemEntry.COLUMN_EXPIRE + "<" + today;
+
+        return new CursorLoader(this,
+                ItemContract.ItemEntry.CONTENT_URI_ITEMS,
+                projection,
+                selection,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mAdapter.swapCursor(null);
+    }
+
+
 }

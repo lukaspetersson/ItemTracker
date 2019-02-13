@@ -1,6 +1,7 @@
 package com.lukas.android.ItemTracker;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,9 +11,30 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import android.content.ContentUris;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
+import android.preference.PreferenceManager;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+
+import com.lukas.android.ItemTracker.data.ItemContract;
+
 import java.util.ArrayList;
 
-public class ItemListFragment  extends Fragment {
+public class ItemListFragment  extends Fragment implements
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     private ListAdapterMain mAdapter;
     private ListView itemList;
@@ -21,18 +43,24 @@ public class ItemListFragment  extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.item_list, container, false);
 
-        mAdapter = new ListAdapterMain(getActivity(), new ArrayList<Item>());
+        mAdapter = new ListAdapterMain(getActivity(), null);
 
         itemList = v.findViewById(R.id.item_list);
         itemList.setAdapter(mAdapter);
 
-        Item[] test = new Item[3];
-        test[0] = new Item("first", 1549300380009L, 111111111111L);
+        /*Item[] test = new Item[3];
+        test[0] = new Item("first"+getArguments().getInt("day"), 1549300380009L, 111111111111L);
         test[1] = new Item("second", 1549410460009L, 111111111111L);
         test[2] = new Item("first", 1549340490009L, 111111111111L);
 
         mAdapter.clear();
-        mAdapter.addAll(test);
+        mAdapter.addAll(test);*/
+
+        long dayInMilis = System.currentTimeMillis() + getArguments().getInt("day") * 86400000;
+        Bundle bundle = new Bundle();
+        bundle.putLong("dayInMilis", dayInMilis);
+
+        getLoaderManager().restartLoader(0, bundle, this);
 
         return v;
     }
@@ -45,5 +73,35 @@ public class ItemListFragment  extends Fragment {
         f.setArguments(b);
 
         return f;
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+
+        bundle.getLong("dayInMilis");
+
+        String[] projection = {
+                ItemContract.ItemEntry._ID,
+                ItemContract.ItemEntry.COLUMN_NAME,
+                ItemContract.ItemEntry.COLUMN_EXPIRE,
+                ItemContract.ItemEntry.COLUMN_BARCODE
+        };
+
+        return new CursorLoader(getActivity(),
+                ItemContract.ItemEntry.CONTENT_URI_ITEMS,
+                projection,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mAdapter.swapCursor(null);
     }
 }
