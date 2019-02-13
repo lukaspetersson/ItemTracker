@@ -48,6 +48,14 @@ public class ItemListFragment  extends Fragment implements
         itemList = v.findViewById(R.id.item_list);
         itemList.setAdapter(mAdapter);
 
+        itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Uri pickedUri = ContentUris.withAppendedId(ItemContract.ItemEntry.CONTENT_URI_ITEMS, id);
+                int rowsDeleted = getActivity().getContentResolver().delete(pickedUri, null, null);
+            }
+        });
+
         long dayInMilis = System.currentTimeMillis() + getArguments().getInt("day") * 86400000;
         Bundle bundle = new Bundle();
         bundle.putLong("dayInMilis", dayInMilis);
