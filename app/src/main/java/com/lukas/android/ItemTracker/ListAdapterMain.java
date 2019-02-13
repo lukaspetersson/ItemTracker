@@ -2,6 +2,7 @@ package com.lukas.android.ItemTracker;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,5 +40,10 @@ public class ListAdapterMain extends CursorAdapter {
         DateFormat formatter = new SimpleDateFormat("d/M");
         String date = formatter.format(cursor.getLong(expireColumnIndex));
         expireView.setText(date);
+
+        /*int croColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_CROSSED);
+        int hhh = cursor.getInt(croColumnIndex);
+
+        Log.v("ListAdapterMain","HHHHHHHHHHHHHHHHHHjjj"+hhh);*/
     }
 }

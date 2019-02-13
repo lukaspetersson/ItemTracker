@@ -46,5 +46,6 @@ public class ItemContract {
         public final static String COLUMN_EXPIRE = "expire";
         public final static String COLUMN_DURABILITY = "durability";
         public final static String COLUMN_BARCODE = "barcode";
+        public final static String COLUMN_CROSSED = "crossed";
     }
 }

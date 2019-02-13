@@ -48,14 +48,6 @@ public class ItemListFragment  extends Fragment implements
         itemList = v.findViewById(R.id.item_list);
         itemList.setAdapter(mAdapter);
 
-        /*Item[] test = new Item[3];
-        test[0] = new Item("first"+getArguments().getInt("day"), 1549300380009L, 111111111111L);
-        test[1] = new Item("second", 1549410460009L, 111111111111L);
-        test[2] = new Item("first", 1549340490009L, 111111111111L);
-
-        mAdapter.clear();
-        mAdapter.addAll(test);*/
-
         long dayInMilis = System.currentTimeMillis() + getArguments().getInt("day") * 86400000;
         Bundle bundle = new Bundle();
         bundle.putLong("dayInMilis", dayInMilis);
