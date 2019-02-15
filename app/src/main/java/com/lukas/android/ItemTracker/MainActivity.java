@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements
         setUpDateBar();
         setUpPager();
         getSupportLoaderManager().initLoader(0, null, this);
+
     }
 
     private void setUpDateBar(){
@@ -142,18 +143,19 @@ public class MainActivity extends AppCompatActivity implements
     public void openScan(View view) {
         Intent openScan = new Intent(MainActivity.this, BarcodeItemActivity.class);
         startActivity(openScan);
+
     }
 
     public void goToNextWeek(View view) {
         currentDate += MILIS_IN_DAY*DAYS_IN_WEEK;
         setUpDateBar();
-        //reload adater
+        mAdapter.notifyDataSetChanged();
     }
 
     public void goToPreviousWeek(View view) {
         currentDate -= MILIS_IN_DAY*DAYS_IN_WEEK;
         setUpDateBar();
-        //reload adater
+        mAdapter.notifyDataSetChanged();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
