@@ -78,8 +78,9 @@ public class ItemListFragment  extends Fragment implements
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
-
-        //String selection = MainActivity.sameDayCheckerformatter.format(ItemContract.ItemEntry.COLUMN_EXPIRE) + "=" + MainActivity.sameDayCheckerformatter.format(bundle.getLong("displayDay"));
+        String selection =
+                "strftime('%d-%m-%Y', " + ItemContract.ItemEntry.COLUMN_EXPIRE + " / 1000, 'unixepoch') = '" +
+                        MainActivity.sameDayCheckerformatter.format(bundle.getLong("displayDay")) + "'";
 
         String[] projection = {
                 ItemContract.ItemEntry._ID,
@@ -92,7 +93,7 @@ public class ItemListFragment  extends Fragment implements
         return new CursorLoader(getActivity(),
                 ItemContract.ItemEntry.CONTENT_URI_ITEMS,
                 projection,
-                null,
+                selection,
                 null,
                 null);
     }
