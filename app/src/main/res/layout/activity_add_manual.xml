@@ -6,12 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".AddManualActivity">
+    tools:context=".ManualItemActivity">
 
-    <android.support.v7.widget.SearchView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-    </android.support.v7.widget.SearchView>
 
 </LinearLayout>

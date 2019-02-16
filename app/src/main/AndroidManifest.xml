@@ -30,9 +30,15 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AddManualActivity"
+            android:name=".ManualItemActivity"
             android:parentActivityName=".barcodereader.BarcodeItemActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
         <activity
             android:name=".barcodereader.BarcodeItemActivity"
             android:parentActivityName=".MainActivity"

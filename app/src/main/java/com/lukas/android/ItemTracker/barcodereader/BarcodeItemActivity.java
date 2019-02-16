@@ -32,7 +32,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.content.CursorLoader;
-import android.app.AlertDialog;
 import android.app.LoaderManager;
 
 import com.google.android.gms.vision.MultiProcessor;
@@ -41,10 +40,7 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
-import com.lukas.android.ItemTracker.AddManualActivity;
-import com.lukas.android.ItemTracker.MainActivity;
-import com.lukas.android.ItemTracker.Product;
-import com.lukas.android.ItemTracker.ProductActivity;
+import com.lukas.android.ItemTracker.ManualItemActivity;
 import com.lukas.android.ItemTracker.barcodereader.ui.camera.CameraSource;
 import com.lukas.android.ItemTracker.barcodereader.ui.camera.CameraSourcePreview;
 import com.lukas.android.ItemTracker.R;
@@ -54,8 +50,6 @@ import com.lukas.android.ItemTracker.data.ItemDbHelper;
 
 
 import java.io.IOException;
-
-import static com.lukas.android.ItemTracker.data.ItemContract.ItemEntry.TABLE_NAME_PRODUCTS;
 
 
 public final class BarcodeItemActivity extends AppCompatActivity implements BarcodeGraphicTracker.BarcodeUpdateListener, LoaderManager.LoaderCallbacks<Cursor> {
@@ -353,7 +347,7 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
         switch (item.getItemId()) {
             //confirm is clicked
             case R.id.action_add_item:
-                Intent openManual = new Intent(BarcodeItemActivity.this, AddManualActivity.class);
+                Intent openManual = new Intent(BarcodeItemActivity.this, ManualItemActivity.class);
                 startActivity(openManual);
                 return true;
             case android.R.id.home:
