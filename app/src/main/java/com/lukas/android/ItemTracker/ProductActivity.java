@@ -43,8 +43,8 @@ public class ProductActivity extends AppCompatActivity implements
         Intent intent = getIntent();
         mCurrentProductUri = intent.getData();
         BarcodeId.setText(intent.getStringExtra("barcode"));
-
-        //TODO: if you edit name and durability first, scanning barcode will remove these
+        ProductName.setText(intent.getStringExtra("name"));
+        ProductDurability.setText(intent.getStringExtra("durability"));
 
         if (mCurrentProductUri == null) {
             setTitle(R.string.product_add_title);
@@ -56,7 +56,11 @@ public class ProductActivity extends AppCompatActivity implements
     }
 
     public void openCamera(View view){
+        String name = ProductName.getText().toString().trim();
+        String durability = ProductDurability.getText().toString().trim();
         Intent openScan = new Intent(ProductActivity.this, BarcodeProductActivity.class);
+        openScan.putExtra("name", name);
+        openScan.putExtra("durability", durability);
         startActivity(openScan);
     }
 

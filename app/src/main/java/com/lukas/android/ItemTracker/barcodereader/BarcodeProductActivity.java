@@ -61,6 +61,9 @@ public final class BarcodeProductActivity extends AppCompatActivity implements B
     private ImageView mFlash;
     private ImageView mSquere;
 
+    private String productName;
+    private String productDurability;
+
     private CameraSource mCameraSource;
     private CameraSourcePreview mPreview;
     private GraphicOverlay<BarcodeGraphic> mGraphicOverlay;
@@ -98,6 +101,9 @@ public final class BarcodeProductActivity extends AppCompatActivity implements B
         useFlash = false;
         showConfirm = false;
 
+        Intent intent = getIntent();
+        productDurability = intent.getStringExtra("durability");
+        productName = intent.getStringExtra("name");
 
         // Check for the camera permission before accessing the camera, if the permission is not granted yet, request permission.
         int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
@@ -323,9 +329,30 @@ public final class BarcodeProductActivity extends AppCompatActivity implements B
     }
 
     @Override
+    public void onBackPressed() {
+        Intent backToProduct = new Intent(BarcodeProductActivity.this, ProductActivity.class);
+        backToProduct.putExtra("barcode", "");
+        backToProduct.putExtra("name", productName);
+        backToProduct.putExtra("durability", productDurability);
+        startActivity(backToProduct);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onBarcodeDetected(Barcode barcode) {
         Intent backToProduct = new Intent(BarcodeProductActivity.this, ProductActivity.class);
         backToProduct.putExtra("barcode", barcode.displayValue);
+        backToProduct.putExtra("name", productName);
+        backToProduct.putExtra("durability", productDurability);
         startActivity(backToProduct);
     }
 
