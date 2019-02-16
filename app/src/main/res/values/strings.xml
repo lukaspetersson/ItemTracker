@@ -46,4 +46,6 @@
     <string name="duplicate_item_title">Already added</string>
     <string name="duplicate_item_subtitle">" is already added to the calendar, do you want to add it again?</string>
 
+    <string name="duplicate_product_barcode">Error, make sure barcode isn\'t already added</string>
+
 </resources>

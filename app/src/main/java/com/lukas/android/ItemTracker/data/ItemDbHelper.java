@@ -33,7 +33,7 @@ public class ItemDbHelper extends SQLiteOpenHelper {
                 + ItemEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + ItemEntry.COLUMN_NAME + " TEXT NOT NULL, "
                 + ItemEntry.COLUMN_DURABILITY + " INTEGER NOT NULL, "
-                + ItemEntry.COLUMN_BARCODE + " INTEGER NOT NULL);";
+                + ItemEntry.COLUMN_BARCODE + " INTEGER NOT NULL UNIQUE);";
 
 
 

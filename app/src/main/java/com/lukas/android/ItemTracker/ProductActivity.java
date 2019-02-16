@@ -44,6 +44,8 @@ public class ProductActivity extends AppCompatActivity implements
         mCurrentProductUri = intent.getData();
         BarcodeId.setText(intent.getStringExtra("barcode"));
 
+        //TODO: if you edit name and durability first, scanning barcode will remove these
+
         if (mCurrentProductUri == null) {
             setTitle(R.string.product_add_title);
             invalidateOptionsMenu();
@@ -59,6 +61,8 @@ public class ProductActivity extends AppCompatActivity implements
     }
 
     private void saveProduct() {
+
+        Log.v("ProductActivity", "HHHHHHHHHHHHHHHHHHsss");
 
         String idText = BarcodeId.getText().toString().trim();
         long barcode;
@@ -93,12 +97,11 @@ public class ProductActivity extends AppCompatActivity implements
         insertValues.put(ItemContract.ItemEntry.COLUMN_BARCODE, barcode);
 
         if (mCurrentProductUri == null) {
-            Log.v("ProductActivity", "HHHHHHHHHHHHHHHinsertvalues"+ insertValues);
             Uri newUri = getContentResolver().insert(ItemContract.ItemEntry.CONTENT_URI_PRODUCTS, insertValues);
 
             if (newUri == null) {
-                Toast.makeText(this, getString(R.string.error),
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.duplicate_product_barcode),
+                        Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, getString(R.string.insert_product_successful),
                         Toast.LENGTH_SHORT).show();
@@ -107,8 +110,8 @@ public class ProductActivity extends AppCompatActivity implements
             int rowsAffected = getContentResolver().update(mCurrentProductUri, insertValues, null, null);
 
             if (rowsAffected == 0) {
-                Toast.makeText(this, getString(R.string.error),
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.duplicate_product_barcode),
+                        Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, getString(R.string.update_product_successful),
                         Toast.LENGTH_SHORT).show();
