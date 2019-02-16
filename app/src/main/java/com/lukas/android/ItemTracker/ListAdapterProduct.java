@@ -14,9 +14,9 @@ import com.lukas.android.ItemTracker.data.ItemContract;
 
 import java.util.ArrayList;
 
-public class ListAdapterAssortment extends CursorAdapter {
+public class ListAdapterProduct extends CursorAdapter {
 
-    public ListAdapterAssortment(Context context, Cursor cursor) {
+    public ListAdapterProduct(Context context, Cursor cursor) {
         super(context, cursor, 0);
     }
 

@@ -24,8 +24,8 @@
     <string name="product_add_title">Add a product</string>
     <string name="product_edit_title">Edit product</string>
 
-    <string name="product_id">Barcode number</string>
     <string name="product_name">Product name</string>
+    <string name="product_id">Barcode number</string>
     <string name="product_durability">Product durability</string>
 
     <string name="sanity_id">Barcode number not valid</string>
@@ -45,4 +45,5 @@
 
     <string name="duplicate_item_title">Already added</string>
     <string name="duplicate_item_subtitle">" is already added to the calendar, do you want to add it again?</string>
+
 </resources>

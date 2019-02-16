@@ -2,16 +2,13 @@ package com.lukas.android.ItemTracker;
 
 import android.content.ContentUris;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +20,7 @@ import com.lukas.android.ItemTracker.data.ItemContract;
 public class AssortmentActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    ListAdapterAssortment mAssortmentAdapter;
+    ListAdapterProduct mAssortmentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +30,7 @@ public class AssortmentActivity extends AppCompatActivity implements
 
         ListView assormentList = findViewById(R.id.assortment_list);
 
-        mAssortmentAdapter = new ListAdapterAssortment(this, null);
+        mAssortmentAdapter = new ListAdapterProduct(this, null);
         assormentList.setAdapter(mAssortmentAdapter);
 
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,5 +8,43 @@
     android:background="@color/colorBackground"
     tools:context=".ManualItemActivity">
 
+    <View
+        android:id="@+id/background_top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/background_bottom"
+        android:background="@color/colorPrimary"
+        android:elevation="2dp">
+    </View>
 
-</LinearLayout>
+    <View
+        android:id="@+id/background_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/search_view"
+        android:background="#FFFFFF">
+    </View>
+
+    <SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:background="#FFFFFF"
+        android:elevation="2dp"
+        android:iconifiedByDefault="false"
+        android:queryBackground="@android:color/transparent"
+        android:queryHint="@string/product_name"
+
+        />
+
+    <ListView
+        android:id="@+id/search_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/search_view"
+        android:background="#FFFFFF"
+        android:orientation="vertical" />
+
+
+</RelativeLayout>
