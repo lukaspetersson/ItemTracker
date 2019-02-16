@@ -38,6 +38,8 @@ public class ManualItemActivity extends AppCompatActivity implements
 
         context = this;
 
+        getSupportLoaderManager().initLoader(0, null, context);
+
         setuUpSearch();
     }
 
@@ -45,12 +47,17 @@ public class ManualItemActivity extends AppCompatActivity implements
         searchField.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                Bundle bundle = new Bundle();
+                bundle.putString("text", query);
+                getSupportLoaderManager().restartLoader(0, bundle, context);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                getSupportLoaderManager().restartLoader(0, null, context);
+                Bundle bundle = new Bundle();
+                bundle.putString("text", newText);
+                getSupportLoaderManager().restartLoader(0, bundle, context);
                 return false;
             }
         });
@@ -66,8 +73,13 @@ public class ManualItemActivity extends AppCompatActivity implements
                 ItemContract.ItemEntry.COLUMN_BARCODE
         };
 
-        String selection = ItemContract.ItemEntry.COLUMN_BARCODE + " like '%?%'";
-        String[] selectionArgs = new String[]{bundle.getString("name")};
+        String selection = null;
+        String[] selectionArgs = null;
+
+        if(bundle != null){
+            selection = ItemContract.ItemEntry.COLUMN_NAME + " like ?";
+            selectionArgs = new String[]{"%" + bundle.getString("text") + "%"};
+        }
 
         return new CursorLoader(this,
                 ItemContract.ItemEntry.CONTENT_URI_PRODUCTS,
