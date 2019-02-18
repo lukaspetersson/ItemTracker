@@ -419,7 +419,7 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
                 final int durability = data.getInt(durabilityColumnIndex);
 
                 int barcodeColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_BARCODE);
-                final long barcode = data.getLong(durabilityColumnIndex);
+                final long barcode = data.getLong(barcodeColumnIndex);
 
                 mAlertDialog.setTitle(name);
                 mAlertDialog.setMessage(getString(R.string.found_product)+name+getString(R.string.with_product)+durability+getString(R.string.add_product));

@@ -35,11 +35,9 @@ public class ListAdapterMain extends CursorAdapter {
         int nameColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_NAME);
         nameView.setText(cursor.getString(nameColumnIndex));
 
-        TextView expireView = listItemView.findViewById(R.id.item_expire);
-        int expireColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_EXPIRE);
-        DateFormat formatter = new SimpleDateFormat("d/M");
-        String date = formatter.format(cursor.getLong(expireColumnIndex));
-        expireView.setText(date);
+        TextView barcodeView = listItemView.findViewById(R.id.item_barcode);
+        int barcodeColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_BARCODE);
+        barcodeView.setText(cursor.getLong(barcodeColumnIndex)+"");
 
         /*int croColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_CROSSED);
         int hhh = cursor.getInt(croColumnIndex);*/
