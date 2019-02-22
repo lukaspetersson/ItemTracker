@@ -1,5 +1,6 @@
 package com.lukas.android.ItemTracker;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -52,7 +53,13 @@ public class ItemListFragment  extends Fragment implements
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Uri pickedUri = ContentUris.withAppendedId(ItemContract.ItemEntry.CONTENT_URI_ITEMS, id);
-                int rowsDeleted = getActivity().getContentResolver().delete(pickedUri, null, null);
+                ContentValues insertValues = new ContentValues();
+                insertValues.put(ItemContract.ItemEntry.COLUMN_CROSSED, 1);
+                int rowsAffected = getActivity().getContentResolver().update(pickedUri, insertValues, null, null);
+
+
+
+                //TODO: pressed once crosses the item, press a crossed item makeas an alert apear where you can either restore or permanently delete
             }
         });
 
