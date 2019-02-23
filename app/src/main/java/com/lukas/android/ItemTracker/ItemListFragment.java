@@ -109,7 +109,6 @@ public class ItemListFragment  extends Fragment implements
                     }
 
                 }
-                //TODO: pressed once crosses the item, press a crossed item makeas an alert apear where you can either restore or permanently delete
             }
         });
 

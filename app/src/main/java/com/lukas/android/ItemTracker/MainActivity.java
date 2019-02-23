@@ -201,11 +201,10 @@ public class MainActivity extends AppCompatActivity implements
                 ItemContract.ItemEntry.COLUMN_BARCODE
         };
 
-        long today = System.currentTimeMillis();
-
         String selection =
                 "strftime('%d-%m-%Y', " + ItemContract.ItemEntry.COLUMN_EXPIRE + " / 1000, 'unixepoch') < '" +
-                        MainActivity.sameDayCheckerformatter.format(System.currentTimeMillis()) + "'";
+                        MainActivity.sameDayCheckerformatter.format(System.currentTimeMillis()) + "'"
+                        + " AND " +ItemContract.ItemEntry.COLUMN_CROSSED+ "!=" + 1;
 
         return new CursorLoader(this,
                 ItemContract.ItemEntry.CONTENT_URI_ITEMS,

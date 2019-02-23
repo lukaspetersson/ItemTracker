@@ -100,7 +100,7 @@ public class ProductActivity extends AppCompatActivity implements
 
         ContentValues insertValues = new ContentValues();
         insertValues.put(ItemContract.ItemEntry.COLUMN_NAME, name);
-        insertValues.put(ItemContract.ItemEntry.COLUMN_DURABILITY, durability);
+        insertValues.put(ItemContract.ItemEntry.COLUMN_DURABILITY, -1*durability);
         insertValues.put(ItemContract.ItemEntry.COLUMN_BARCODE, barcode);
 
         if (mCurrentProductUri == null) {
