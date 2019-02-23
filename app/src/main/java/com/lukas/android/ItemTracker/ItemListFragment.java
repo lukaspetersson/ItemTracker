@@ -1,7 +1,9 @@
 package com.lukas.android.ItemTracker;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,6 +32,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.lukas.android.ItemTracker.barcodereader.BarcodeItemActivity;
 import com.lukas.android.ItemTracker.data.ItemContract;
 
 import java.util.ArrayList;
@@ -52,32 +55,60 @@ public class ItemListFragment  extends Fragment implements
         itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Uri pickedUri = ContentUris.withAppendedId(ItemContract.ItemEntry.CONTENT_URI_ITEMS, id);
-/*
+                final Uri pickedUri = ContentUris.withAppendedId(ItemContract.ItemEntry.CONTENT_URI_ITEMS, id);
 
                 Cursor cursor = getActivity().getContentResolver().query(pickedUri, null, null, null, null);
 
                 if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                    int nameColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_NAME);
+                    String name = cursor.getString(nameColumnIndex);
                     int expireColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_EXPIRE);
                     long expire = cursor.getLong(expireColumnIndex);
+                    int barcodeColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_BARCODE);
+                    long barcode = cursor.getLong(barcodeColumnIndex);
+                    int crossedColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_CROSSED);
+                    int crossed = cursor.getInt(crossedColumnIndex);
+                    cursor.close();
 
-                    Intent openMain = new Intent(ExpiredActivity.this, MainActivity.class);
-                    openMain.putExtra("expire", expire);
-                    startActivity(openMain);
+                    final ContentValues insertValues = new ContentValues();
+                    insertValues.put(ItemContract.ItemEntry.COLUMN_NAME, name);
+                    insertValues.put(ItemContract.ItemEntry.COLUMN_EXPIRE, expire);
+                    insertValues.put(ItemContract.ItemEntry.COLUMN_BARCODE, barcode);
+
+                    if(crossed == 0){
+                        insertValues.put(ItemContract.ItemEntry.COLUMN_CROSSED, 1);
+                        int rowsAffected = getActivity().getContentResolver().update(pickedUri, insertValues, null, null);
+                    }else{
+                        AlertDialog mAlertDialog = new AlertDialog.Builder(getContext()).create();
+                        mAlertDialog.setTitle(getString(R.string.handle_item_title));
+                        mAlertDialog.setMessage(getString(R.string.handle_item_subtitle));
+                        mAlertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.cancel),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                        mAlertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.restore),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        insertValues.put(ItemContract.ItemEntry.COLUMN_CROSSED, 0);
+                                        int rowsAffected = getActivity().getContentResolver().update(pickedUri, insertValues, null, null);
+                                    }
+                                });
+                        mAlertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.delete),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        int rowsDeleted = getActivity().getContentResolver().delete(pickedUri, null, null);
+                                    }
+                                });
+                            if(!mAlertDialog.isShowing()){
+                                mAlertDialog.show();
+                            }
+                    }
+
                 }
-*/
-
-
-                ContentValues insertValues = new ContentValues();
-                //TODO: get the corrrekt values
-                insertValues.put(ItemContract.ItemEntry.COLUMN_NAME, "name");
-                insertValues.put(ItemContract.ItemEntry.COLUMN_EXPIRE, 1550876400000L);
-                insertValues.put(ItemContract.ItemEntry.COLUMN_BARCODE, 555555555555L);
-                insertValues.put(ItemContract.ItemEntry.COLUMN_CROSSED, 1);
-                int rowsAffected = getActivity().getContentResolver().update(pickedUri, insertValues, null, null);
-
-
-                    //if view.color = #FFFFF
                 //TODO: pressed once crosses the item, press a crossed item makeas an alert apear where you can either restore or permanently delete
             }
         });

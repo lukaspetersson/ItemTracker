@@ -48,4 +48,8 @@
 
     <string name="duplicate_product_barcode">Error, make sure barcode isn\'t already added</string>
 
+    <string name="handle_item_title">Handle item</string>
+    <string name="handle_item_subtitle">This item is crossed out. It acts as if it is deleted but remains in the database. What do you want to do with it?</string>
+    <string name="restore">Restore</string>
+    <string name="delete">Delete</string>
 </resources>
