@@ -57,6 +57,7 @@ public class ItemListFragment  extends Fragment implements
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 final Uri pickedUri = ContentUris.withAppendedId(ItemContract.ItemEntry.CONTENT_URI_ITEMS, id);
 
+                //check if item already is in calendar
                 Cursor cursor = getActivity().getContentResolver().query(pickedUri, null, null, null, null);
 
                 if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {

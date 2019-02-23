@@ -33,15 +33,13 @@ public class AssortmentActivity extends AppCompatActivity implements
         mAssortmentAdapter = new ListAdapterProduct(this, null);
         assormentList.setAdapter(mAssortmentAdapter);
 
-
-        //makes added books clickable
         assormentList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
                 Intent openProduct = new Intent(AssortmentActivity.this, ProductActivity.class);
-                Uri currentBookUri = ContentUris.withAppendedId(ItemContract.ItemEntry.CONTENT_URI_PRODUCTS, id);
-                openProduct.setData(currentBookUri);
+                Uri currentProductUri = ContentUris.withAppendedId(ItemContract.ItemEntry.CONTENT_URI_PRODUCTS, id);
+                openProduct.setData(currentProductUri);
                 startActivity(openProduct);
             }
         });
