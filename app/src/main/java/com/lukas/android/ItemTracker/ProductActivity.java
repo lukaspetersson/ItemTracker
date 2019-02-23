@@ -65,15 +65,12 @@ public class ProductActivity extends AppCompatActivity implements
     }
 
     private void saveProduct() {
-
-        Log.v("ProductActivity", "HHHHHHHHHHHHHHHHHHsss");
-
         String idText = BarcodeId.getText().toString().trim();
         long barcode;
         if(idText.isEmpty()){
             barcode = 0;
         }else{
-            barcode = Long.parseLong(BarcodeId.getText().toString().trim());
+            barcode = Long.parseLong(idText);
         }
         if (barcode < 99999999999L) {
                 Toast.makeText(this, getString(R.string.sanity_id),
@@ -88,7 +85,13 @@ public class ProductActivity extends AppCompatActivity implements
             return;
         }
 
-        int durability = Integer.parseInt(ProductDurability.getText().toString().trim());
+        String durabilityText = ProductDurability.getText().toString().trim();
+        int durability;
+        if(durabilityText.isEmpty()){
+            durability = 0;
+        }else{
+            durability = Integer.parseInt(durabilityText);
+        }
         if (durability == 0) {
             Toast.makeText(this, getString(R.string.sanity_durability),
                     Toast.LENGTH_SHORT).show();

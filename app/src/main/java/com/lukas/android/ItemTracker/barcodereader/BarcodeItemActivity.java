@@ -492,7 +492,7 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
 
     private void addToCalendar(String name, int durability, long barcode) {
 
-        long expire = System.currentTimeMillis() - (durability*86400000);
+        long expire = System.currentTimeMillis() + (durability*86400000);
 
         ContentValues insertValues = new ContentValues();
         insertValues.put(ItemContract.ItemEntry.COLUMN_NAME, name);
