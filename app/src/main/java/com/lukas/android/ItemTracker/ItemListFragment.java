@@ -53,12 +53,31 @@ public class ItemListFragment  extends Fragment implements
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Uri pickedUri = ContentUris.withAppendedId(ItemContract.ItemEntry.CONTENT_URI_ITEMS, id);
+/*
+
+                Cursor cursor = getActivity().getContentResolver().query(pickedUri, null, null, null, null);
+
+                if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                    int expireColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_EXPIRE);
+                    long expire = cursor.getLong(expireColumnIndex);
+
+                    Intent openMain = new Intent(ExpiredActivity.this, MainActivity.class);
+                    openMain.putExtra("expire", expire);
+                    startActivity(openMain);
+                }
+*/
+
+
                 ContentValues insertValues = new ContentValues();
+                //TODO: get the corrrekt values
+                insertValues.put(ItemContract.ItemEntry.COLUMN_NAME, "name");
+                insertValues.put(ItemContract.ItemEntry.COLUMN_EXPIRE, 1550876400000L);
+                insertValues.put(ItemContract.ItemEntry.COLUMN_BARCODE, 555555555555L);
                 insertValues.put(ItemContract.ItemEntry.COLUMN_CROSSED, 1);
                 int rowsAffected = getActivity().getContentResolver().update(pickedUri, insertValues, null, null);
 
 
-
+                    //if view.color = #FFFFF
                 //TODO: pressed once crosses the item, press a crossed item makeas an alert apear where you can either restore or permanently delete
             }
         });

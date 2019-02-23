@@ -201,7 +201,9 @@ public class MainActivity extends AppCompatActivity implements
 
         long today = System.currentTimeMillis();
 
-        String selection = ItemContract.ItemEntry.COLUMN_EXPIRE + "<" + today;
+        String selection =
+                "strftime('%d-%m-%Y', " + ItemContract.ItemEntry.COLUMN_EXPIRE + " / 1000, 'unixepoch') < '" +
+                        MainActivity.sameDayCheckerformatter.format(System.currentTimeMillis()) + "'";
 
         return new CursorLoader(this,
                 ItemContract.ItemEntry.CONTENT_URI_ITEMS,
