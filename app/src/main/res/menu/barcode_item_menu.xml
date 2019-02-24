@@ -5,7 +5,7 @@ xmlns:tools="http://schemas.android.com/tools"
 tools:context=".barcodereader.BarcodeItemActivity">
 <item
     android:id="@+id/action_add_item"
-    android:icon="@drawable/baseline_edit_white_24"
+    android:icon="@drawable/baseline_search_white_24"
     android:orderInCategory="1"
     android:title="add"
     app:showAsAction="always" />

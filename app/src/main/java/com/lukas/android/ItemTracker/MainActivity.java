@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements
 
     int pagerPosCount;
     int lastPageSwipeCount;
-    boolean isLastPageSwiped;
+    int isLastPageSwiped;
 
     PagerAdapterMain mAdapter;
 
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements
 
         pagerPosCount = 0;
         lastPageSwipeCount = 0;
-        isLastPageSwiped = false;
+        isLastPageSwiped = 0;
 
         setUpDateBar();
         setUpPager();
@@ -138,28 +138,28 @@ public class MainActivity extends AppCompatActivity implements
         ItemsList.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
                 if(state==0){
-                    isLastPageSwiped=false;
-
+                    if(isLastPageSwiped != 0){
+                        ItemsList.setCurrentItem(isLastPageSwiped == 1 ? 0 : 6, false);
+                    }
+                    isLastPageSwiped=0;
                 }
             }
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if(positionOffset == 0){
-                    if(position == 6 && pagerPosCount!=0 && !isLastPageSwiped){
+                    if(position == 6 && pagerPosCount!=0 && isLastPageSwiped == 0){
                         Log.v("HHHHHHH", "next");
                         currentDate += MILIS_IN_DAY*DAYS_IN_WEEK;
                         setUpDateBar();
                         pagerPosCount = 0;
-                        ItemsList.setCurrentItem(0, false);
 
-                        isLastPageSwiped=true;
-                    }else if(position == 0 && pagerPosCount!=0 && !isLastPageSwiped){
+                        isLastPageSwiped=1;
+                    }else if(position == 0 && pagerPosCount!=0 && isLastPageSwiped == 0){
                         Log.v("HHHHHHH", "prev");
                         currentDate -= MILIS_IN_DAY*DAYS_IN_WEEK;
                         setUpDateBar();
                         pagerPosCount = 0;
-                        ItemsList.setCurrentItem(7, false);
 
-                        isLastPageSwiped=true;
+                        isLastPageSwiped=2;
                     }
                     pagerPosCount++;
                 }else{
