@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements
 
     int pagerPosCount;
     int lastPageSwipeCount;
+    boolean isLastPageSwiped;
 
     PagerAdapterMain mAdapter;
 
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements
 
         pagerPosCount = 0;
         lastPageSwipeCount = 0;
+        isLastPageSwiped = false;
 
         setUpDateBar();
         setUpPager();
@@ -130,49 +132,45 @@ public class MainActivity extends AppCompatActivity implements
         mAdapter =  new PagerAdapterMain(getSupportFragmentManager());
         ItemsList.setAdapter(mAdapter);
         ItemsList.setCurrentItem(START_DAY);
-        DateNumber[START_DAY].setTextColor(getResources().getColor(R.color.colorAccent));
         DateLable[START_DAY].setBackground(ContextCompat.getDrawable(this, R.drawable.date_selected));
         final Context context = this;
 
         ItemsList.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
+                if(state==0){
+                    isLastPageSwiped=false;
 
+                }
             }
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-             /*   if(positionOffset == 0){
-                    Log.v("HHHHHHHH", "tihi");
-                    if(position == 6 && pagerPosCount!=0){
-                        if(lastPageSwipeCount%4 == 0){
-                            Log.v("HHHHHHHH", "next"+lastPageSwipeCount);
-                        }
-                        lastPageSwipeCount++;
-                        *//*currentDate += MILIS_IN_DAY*DAYS_IN_WEEK;
+                if(positionOffset == 0){
+                    if(position == 6 && pagerPosCount!=0 && !isLastPageSwiped){
+                        Log.v("HHHHHHH", "next");
+                        currentDate += MILIS_IN_DAY*DAYS_IN_WEEK;
                         setUpDateBar();
-                        mAdapter.notifyDataSetChanged();
-                        ItemsList.setCurrentItem(0);*//*
-                    }else if(position == 0 && pagerPosCount!=0){
-                        if(lastPageSwipeCount%4 == 0){
-                            Log.v("HHHHHHHH", "prev"+lastPageSwipeCount);
-                        }
-                        lastPageSwipeCount++;
-                        *//*currentDate -= MILIS_IN_DAY*DAYS_IN_WEEK;
+                        pagerPosCount = 0;
+                        ItemsList.setCurrentItem(0, false);
+
+                        isLastPageSwiped=true;
+                    }else if(position == 0 && pagerPosCount!=0 && !isLastPageSwiped){
+                        Log.v("HHHHHHH", "prev");
+                        currentDate -= MILIS_IN_DAY*DAYS_IN_WEEK;
                         setUpDateBar();
-                        mAdapter.notifyDataSetChanged();
-                        ItemsList.setCurrentItem(6);*//*
+                        pagerPosCount = 0;
+                        ItemsList.setCurrentItem(7, false);
+
+                        isLastPageSwiped=true;
                     }
                     pagerPosCount++;
                 }else{
-                    Log.v("HHHHHHHH", "öööööö");
                     pagerPosCount = 0;
-                }*/
+                }
             }
             public void onPageSelected(int position) {
                 for(int i=0; i<DAYS_IN_WEEK; i++){
-                    DateNumber[i].setTextColor(Color.parseColor("#ffffff"));
                     DateLable[i].setBackground(null);
                 }
                 DateLable[position].setBackground(ContextCompat.getDrawable(context, R.drawable.date_selected));
-                DateNumber[position].setTextColor(getResources().getColor(R.color.colorAccent));
             }
         });
     }
@@ -187,6 +185,7 @@ public class MainActivity extends AppCompatActivity implements
         currentDate += MILIS_IN_DAY*DAYS_IN_WEEK;
         setUpDateBar();
         mAdapter.notifyDataSetChanged();
+        pagerPosCount = 0;
         ItemsList.setCurrentItem(0, false);
     }
 
@@ -194,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements
         currentDate -= MILIS_IN_DAY*DAYS_IN_WEEK;
         setUpDateBar();
         mAdapter.notifyDataSetChanged();
+        pagerPosCount = 0;
         ItemsList.setCurrentItem(6, false);
     }
 
@@ -240,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements
                 ItemContract.ItemEntry.COLUMN_CROSSED
         };
 
+        //TODO: 1/8 ska vara mer än 30/7
         String selection =
                 "strftime('%d-%m-%Y', " + ItemContract.ItemEntry.COLUMN_EXPIRE + " / 1000, 'unixepoch') < '" +
                         sameDayCheckerformatter.format(System.currentTimeMillis()) + "'"
