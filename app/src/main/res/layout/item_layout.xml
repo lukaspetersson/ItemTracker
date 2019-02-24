@@ -9,7 +9,6 @@
     android:foreground="?android:attr/selectableItemBackground"
     android:id="@+id/item_layout">
 
-    <!--TODO: fix cardview-->
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
