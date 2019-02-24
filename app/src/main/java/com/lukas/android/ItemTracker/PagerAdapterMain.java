@@ -34,6 +34,8 @@ public class PagerAdapterMain extends FragmentPagerAdapter {
         }
     }
 
+
+
     public int getItemPosition(Object object) {
         return POSITION_NONE;
     }
