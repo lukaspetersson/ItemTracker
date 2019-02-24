@@ -32,8 +32,6 @@ import java.text.SimpleDateFormat;
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final String TAG = "MainActivity";
-
     TextView[] DateNumber;
     TextView[] DateName;
     LinearLayout[] DateLable;
@@ -141,33 +139,32 @@ public class MainActivity extends AppCompatActivity implements
 
             }
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if(positionOffsetPixels == 0){
+             /*   if(positionOffset == 0){
+                    Log.v("HHHHHHHH", "tihi");
                     if(position == 6 && pagerPosCount!=0){
-                        /*if(lastPageSwipeCount%2 == 0){
+                        if(lastPageSwipeCount%4 == 0){
+                            Log.v("HHHHHHHH", "next"+lastPageSwipeCount);
                         }
-                        lastPageSwipeCount++;*/
-                        Log.v("HHHHHHHH", "next"+lastPageSwipeCount);
                         lastPageSwipeCount++;
-                        /*currentDate += MILIS_IN_DAY*DAYS_IN_WEEK;
+                        *//*currentDate += MILIS_IN_DAY*DAYS_IN_WEEK;
                         setUpDateBar();
                         mAdapter.notifyDataSetChanged();
-                        ItemsList.setCurrentItem(0);*/
+                        ItemsList.setCurrentItem(0);*//*
                     }else if(position == 0 && pagerPosCount!=0){
-                        /*if(lastPageSwipeCount%2 == 0){
-
+                        if(lastPageSwipeCount%4 == 0){
+                            Log.v("HHHHHHHH", "prev"+lastPageSwipeCount);
                         }
-                        lastPageSwipeCount++;*/
-                        Log.v("HHHHHHHH", "prev"+lastPageSwipeCount);
                         lastPageSwipeCount++;
-                        /*currentDate -= MILIS_IN_DAY*DAYS_IN_WEEK;
+                        *//*currentDate -= MILIS_IN_DAY*DAYS_IN_WEEK;
                         setUpDateBar();
                         mAdapter.notifyDataSetChanged();
-                        ItemsList.setCurrentItem(6);*/
+                        ItemsList.setCurrentItem(6);*//*
                     }
                     pagerPosCount++;
                 }else{
+                    Log.v("HHHHHHHH", "öööööö");
                     pagerPosCount = 0;
-                }
+                }*/
             }
             public void onPageSelected(int position) {
                 for(int i=0; i<DAYS_IN_WEEK; i++){
