@@ -187,14 +187,14 @@ public class MainActivity extends AppCompatActivity implements
         currentDate += MILIS_IN_DAY*DAYS_IN_WEEK;
         setUpDateBar();
         mAdapter.notifyDataSetChanged();
-        ItemsList.setCurrentItem(0);
+        ItemsList.setCurrentItem(0, false);
     }
 
     public void goToPreviousWeek(View view) {
         currentDate -= MILIS_IN_DAY*DAYS_IN_WEEK;
         setUpDateBar();
         mAdapter.notifyDataSetChanged();
-        ItemsList.setCurrentItem(6);
+        ItemsList.setCurrentItem(6, false);
     }
 
     @Override
