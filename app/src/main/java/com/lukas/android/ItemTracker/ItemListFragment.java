@@ -52,6 +52,9 @@ public class ItemListFragment  extends Fragment implements
         itemList = v.findViewById(R.id.item_list);
         itemList.setAdapter(mAdapter);
 
+        itemList.addHeaderView(new View(getContext()));
+        itemList.addFooterView(new View(getContext()));
+
         itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
