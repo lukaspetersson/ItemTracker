@@ -1,13 +1,17 @@
 package com.lukas.android.ItemTracker;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -198,7 +202,8 @@ public class MainActivity extends AppCompatActivity implements
                 ItemContract.ItemEntry._ID,
                 ItemContract.ItemEntry.COLUMN_NAME,
                 ItemContract.ItemEntry.COLUMN_EXPIRE,
-                ItemContract.ItemEntry.COLUMN_BARCODE
+                ItemContract.ItemEntry.COLUMN_BARCODE,
+                ItemContract.ItemEntry.COLUMN_CROSSED
         };
 
         String selection =
@@ -216,10 +221,18 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data == null || data.getCount() < 1) {
-            expiredPresent = false;
-        }else{
+        expiredPresent = false;
+        while(data.moveToNext()){
+            int crossedColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_CROSSED);
+            int crossed = data.getInt(crossedColumnIndex);
+            int expireColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_EXPIRE);
+            long expire = data.getLong(expireColumnIndex);
             expiredPresent = true;
+
+            if(expire < System.currentTimeMillis()-604800000L){
+                Uri uri = ContentUris.withAppendedId(ItemContract.ItemEntry.CONTENT_URI_ITEMS, data.getInt(data.getColumnIndex(MediaStore.Images.ImageColumns._ID)));
+                int rowsDeleted = getContentResolver().delete(uri, null, null);
+            }
         }
         invalidateOptionsMenu();
     }
