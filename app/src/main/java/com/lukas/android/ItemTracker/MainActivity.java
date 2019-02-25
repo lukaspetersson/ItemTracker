@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements
             public void onPageScrollStateChanged(int state) {
                 if(isLastPageSwiped != 0){
                     ItemsList.setCurrentItem(isLastPageSwiped == 1 ? 0 : 6, false);
+                    mAdapter.notifyDataSetChanged();
                 }
                 if(state==0){
                     isLastPageSwiped=0;
