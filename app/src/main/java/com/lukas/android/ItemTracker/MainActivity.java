@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements
 
         getSupportActionBar().setElevation(0);
 
-        PreviousWeek = findViewById(R.id.previous_week);
-        NextWeek = findViewById(R.id.next_week);
+        /*PreviousWeek = findViewById(R.id.previous_week);
+        NextWeek = findViewById(R.id.next_week);*/
         ScanFab = findViewById(R.id.scan_fab);
         ItemsList = findViewById(R.id.items_pager);
 
@@ -139,9 +139,9 @@ public class MainActivity extends AppCompatActivity implements
             public void onPageScrollStateChanged(int state) {
                 if(isLastPageSwiped != 0){
                     if(isLastPageSwiped == 2){
-                        goToPreviousWeek(null);
+                        goToPreviousWeek();
                     }else if(isLastPageSwiped == 1){
-                        goToNextWeek(null);
+                        goToNextWeek();
                     }
                 }
                 if(state==0){
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-    public void goToNextWeek(View view) {
+    private void goToNextWeek() {
         currentDate += MILIS_IN_DAY*DAYS_IN_WEEK;
         setUpDateBar();
         mAdapter.notifyDataSetChanged();
@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements
         ItemsList.setCurrentItem(0, false);
     }
 
-    public void goToPreviousWeek(View view) {
+    private void goToPreviousWeek() {
         currentDate -= MILIS_IN_DAY*DAYS_IN_WEEK;
         setUpDateBar();
         mAdapter.notifyDataSetChanged();

@@ -16,7 +16,7 @@
         android:paddingEnd="8dp"
         android:background="@color/colorPrimary"
         >
-        <ImageView
+        <!--<ImageView
             android:id="@+id/previous_week"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,14 +24,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:onClick="goToPreviousWeek"/>
+            android:onClick="goToPreviousWeek"/>-->
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintStart_toEndOf="@+id/previous_week"
-            app:layout_constraintEnd_toStartOf="@+id/next_week"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             >
@@ -207,7 +207,7 @@
 
         </LinearLayout>
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/next_week"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -215,7 +215,7 @@
             android:src="@drawable/baseline_arrow_forward_white_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent" />-->
 
     </android.support.constraint.ConstraintLayout>
 
