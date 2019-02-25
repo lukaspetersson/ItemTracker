@@ -63,6 +63,7 @@ public final class BarcodeProductActivity extends AppCompatActivity implements B
 
     private String productName;
     private String productDurability;
+    private String previousBarcode;
 
     private CameraSource mCameraSource;
     private CameraSourcePreview mPreview;
@@ -104,6 +105,7 @@ public final class BarcodeProductActivity extends AppCompatActivity implements B
         Intent intent = getIntent();
         productDurability = intent.getStringExtra("durability");
         productName = intent.getStringExtra("name");
+        previousBarcode = intent.getStringExtra("barcode");
 
         // Check for the camera permission before accessing the camera, if the permission is not granted yet, request permission.
         int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
@@ -331,7 +333,7 @@ public final class BarcodeProductActivity extends AppCompatActivity implements B
     @Override
     public void onBackPressed() {
         Intent backToProduct = new Intent(BarcodeProductActivity.this, ProductActivity.class);
-        backToProduct.putExtra("barcode", "");
+        backToProduct.putExtra("barcode", previousBarcode);
         backToProduct.putExtra("name", productName);
         backToProduct.putExtra("durability", productDurability);
         startActivity(backToProduct);

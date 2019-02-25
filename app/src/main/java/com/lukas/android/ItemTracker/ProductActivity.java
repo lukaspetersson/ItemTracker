@@ -58,9 +58,11 @@ public class ProductActivity extends AppCompatActivity implements
     public void openCamera(View view){
         String name = ProductName.getText().toString().trim();
         String durability = ProductDurability.getText().toString().trim();
+        String barcode = BarcodeId.getText().toString().trim();
         Intent openScan = new Intent(ProductActivity.this, BarcodeProductActivity.class);
         openScan.putExtra("name", name);
         openScan.putExtra("durability", durability);
+        openScan.putExtra("barcode", barcode);
         startActivity(openScan);
     }
 
