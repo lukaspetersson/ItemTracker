@@ -3,6 +3,7 @@ package com.lukas.android.ItemTracker;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +43,14 @@ public class ListAdapterMain extends CursorAdapter {
 
         int crossColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_CROSSED);
         int crossed = cursor.getInt(crossColumnIndex);
-        listItemView.setBackgroundColor(Color.parseColor(crossed == 0? "#FFFFFF" : "#c3c5c9"));
-
+        if(crossed == 1){
+            nameView.setPaintFlags(nameView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            barcodeView.setPaintFlags(barcodeView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            listItemView.setBackgroundColor(Color.parseColor("#c3c5c9"));
+        }else{
+            nameView.setPaintFlags(0);
+            barcodeView.setPaintFlags(0);
+            listItemView.setBackgroundColor(Color.parseColor("#ffffff"));
+        }
     }
 }
