@@ -70,10 +70,11 @@ public class ManualItemActivity extends AppCompatActivity implements
 
                     String[] projection = {
                             ItemContract.ItemEntry._ID,
-                            ItemContract.ItemEntry.COLUMN_BARCODE
+                            ItemContract.ItemEntry.COLUMN_BARCODE,
+                            ItemContract.ItemEntry.COLUMN_CROSSED
                     };
 
-                    String selection = ItemContract.ItemEntry.COLUMN_BARCODE + "=?";
+                    String selection = ItemContract.ItemEntry.COLUMN_BARCODE + "=?" + " AND " +ItemContract.ItemEntry.COLUMN_CROSSED+ "!=" + 1;
                     String[] selectionArgs = new String[]{barcode + ""};
 
                     //check if item already is in calendar

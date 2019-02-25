@@ -376,7 +376,7 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
                 ItemContract.ItemEntry._ID,
                 ItemContract.ItemEntry.COLUMN_NAME,
                 ItemContract.ItemEntry.COLUMN_DURABILITY,
-                ItemContract.ItemEntry.COLUMN_BARCODE
+                ItemContract.ItemEntry.COLUMN_BARCODE,
         };
 
         String selection = ItemContract.ItemEntry.COLUMN_BARCODE + "=?";
@@ -442,10 +442,11 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
 
                                 String[] projection = {
                                         ItemContract.ItemEntry._ID,
-                                        ItemContract.ItemEntry.COLUMN_BARCODE
+                                        ItemContract.ItemEntry.COLUMN_BARCODE,
+                                        ItemContract.ItemEntry.COLUMN_CROSSED
                                 };
 
-                                String selection = ItemContract.ItemEntry.COLUMN_BARCODE + "=?";
+                                String selection = ItemContract.ItemEntry.COLUMN_BARCODE + "=?" + " AND " +ItemContract.ItemEntry.COLUMN_CROSSED+ "!=" + 1;
                                 String[] selectionArgs = new String[]{barcode+""};
 
                                 Cursor cursor = db.query(ItemContract.ItemEntry.TABLE_NAME_ITEMS, projection,
