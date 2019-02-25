@@ -138,8 +138,11 @@ public class MainActivity extends AppCompatActivity implements
         ItemsList.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
                 if(isLastPageSwiped != 0){
-                    ItemsList.setCurrentItem(isLastPageSwiped == 1 ? 0 : 6, false);
-                    mAdapter.notifyDataSetChanged();
+                    if(isLastPageSwiped == 2){
+                        goToPreviousWeek(null);
+                    }else if(isLastPageSwiped == 1){
+                        goToNextWeek(null);
+                    }
                 }
                 if(state==0){
                     isLastPageSwiped=0;
@@ -148,16 +151,8 @@ public class MainActivity extends AppCompatActivity implements
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if(positionOffset == 0){
                     if(position == 6 && pagerPosCount!=0 && isLastPageSwiped == 0){
-                        currentDate += MILIS_IN_DAY*DAYS_IN_WEEK;
-                        setUpDateBar();
-                        pagerPosCount = 0;
-
                         isLastPageSwiped=1;
                     }else if(position == 0 && pagerPosCount!=0 && isLastPageSwiped == 0){
-                        currentDate -= MILIS_IN_DAY*DAYS_IN_WEEK;
-                        setUpDateBar();
-                        pagerPosCount = 0;
-
                         isLastPageSwiped=2;
                     }
                     pagerPosCount++;
