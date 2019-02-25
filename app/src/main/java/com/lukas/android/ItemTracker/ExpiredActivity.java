@@ -37,6 +37,9 @@ public class ExpiredActivity extends AppCompatActivity implements
         itemList = findViewById(R.id.expired_list);
         itemList.setAdapter(mAdapter);
 
+        itemList.addHeaderView(new View(this));
+        itemList.addFooterView(new View(this));
+
         itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
