@@ -209,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements
         if (id == R.id.action_time) {
             currentDate = System.currentTimeMillis();
             ItemsList.setCurrentItem(START_DAY);
+            mAdapter.notifyDataSetChanged();
             setUpDateBar();
             return true;
         }else if (id == R.id.action_expire) {
