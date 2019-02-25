@@ -139,7 +139,7 @@ public class ItemListFragment  extends Fragment implements
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
         String selection =
-                "strftime('%d-%m-%Y', " + ItemContract.ItemEntry.COLUMN_EXPIRE + " / 1000, 'unixepoch') = '" +
+                "strftime('%Y%m%d', " + ItemContract.ItemEntry.COLUMN_EXPIRE + " / 1000, 'unixepoch') = '" +
                         MainActivity.sameDayCheckerformatter.format(bundle.getLong("displayDay")) + "'";
 
         String[] projection = {

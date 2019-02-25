@@ -70,9 +70,8 @@ public class ExpiredActivity extends AppCompatActivity implements
                 ItemContract.ItemEntry.COLUMN_CROSSED
         };
 
-        //TODO: 1/8 ska vara mer än 30/7
         String selection =
-                "strftime('%d-%m-%Y', " + ItemContract.ItemEntry.COLUMN_EXPIRE + " / 1000, 'unixepoch') < '" +
+                "strftime('%Y%m%d', " + ItemContract.ItemEntry.COLUMN_EXPIRE + " / 1000, 'unixepoch') < '" +
                         MainActivity.sameDayCheckerformatter.format(System.currentTimeMillis()) + "'"
                         + " AND " +ItemContract.ItemEntry.COLUMN_CROSSED+ "!=" + 1;
 

@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements
     DateFormat nameFormatter;
     DateFormat numberFormatter;
 
-    public static DateFormat sameDayCheckerformatter = new SimpleDateFormat("dd-MM-yyyy");
+    public static DateFormat sameDayCheckerformatter = new SimpleDateFormat("yyyyMMdd");
     public static long currentDate;
 
     private boolean expiredPresent;
@@ -137,24 +137,22 @@ public class MainActivity extends AppCompatActivity implements
 
         ItemsList.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
+                if(isLastPageSwiped != 0){
+                    ItemsList.setCurrentItem(isLastPageSwiped == 1 ? 0 : 6, false);
+                }
                 if(state==0){
-                    if(isLastPageSwiped != 0){
-                        ItemsList.setCurrentItem(isLastPageSwiped == 1 ? 0 : 6, false);
-                    }
                     isLastPageSwiped=0;
                 }
             }
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if(positionOffset == 0){
                     if(position == 6 && pagerPosCount!=0 && isLastPageSwiped == 0){
-                        Log.v("HHHHHHH", "next");
                         currentDate += MILIS_IN_DAY*DAYS_IN_WEEK;
                         setUpDateBar();
                         pagerPosCount = 0;
 
                         isLastPageSwiped=1;
                     }else if(position == 0 && pagerPosCount!=0 && isLastPageSwiped == 0){
-                        Log.v("HHHHHHH", "prev");
                         currentDate -= MILIS_IN_DAY*DAYS_IN_WEEK;
                         setUpDateBar();
                         pagerPosCount = 0;
@@ -240,9 +238,8 @@ public class MainActivity extends AppCompatActivity implements
                 ItemContract.ItemEntry.COLUMN_CROSSED
         };
 
-        //TODO: 1/8 ska vara mer än 30/7
         String selection =
-                "strftime('%d-%m-%Y', " + ItemContract.ItemEntry.COLUMN_EXPIRE + " / 1000, 'unixepoch') < '" +
+                "strftime('%Y%m%d', " + ItemContract.ItemEntry.COLUMN_EXPIRE + " / 1000, 'unixepoch') < '" +
                         sameDayCheckerformatter.format(System.currentTimeMillis()) + "'"
                         + " AND " +ItemContract.ItemEntry.COLUMN_CROSSED+ "!=" + 1;
 
