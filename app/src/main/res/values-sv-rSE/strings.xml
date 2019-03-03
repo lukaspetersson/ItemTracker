@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ItemTracker</string>
+    <string name="flash_on">Blixt på</string>
+    <string name="flash_off">Blixt av</string>
+    <string name="auto_focus_on">Autofokus på</string>
+    <string name="auto_focus_off">Autofokus av</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Avbryt</string>
+    <string name="error">Fel</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nej</string>
+    <string name="no_camera_permission">Den här applikationen kan inte köras eftersom den inte har kameratillstånd. Applikationen kommer nu att avslutas.</string>
+    <string name="low_storage_error">Lågt minne</string>
+    <string name="assortment_title">Sortiment</string>
+    <string name="calendar_title">Kalender</string>
+    <string name="scan_title">Skanna streckkod</string>
+    <string name="manual_item_title">Sök efter produkt</string>
+    <string name="manual_product_title">Lägg till en ny produkt</string>
+    <string name="expired_title">Utgångna föremål</string>
+    <string name="product_add_title">Add a product</string>
+    <string name="product_edit_title">Redigera produkt</string>
+    <string name="product_name">Produkt namn</string>
+    <string name="product_id">Streckkodsnummer</string>
+    <string name="product_durability">Produktens hållbarhet</string>
+    <string name="sanity_id">Streckkodsnummer ej giltigt</string>
+    <string name="sanity_name">Produktnamnet är inte giltigt</string>
+    <string name="sanity_durability">Produktens hållbarhet är inte giltig</string>
+    <string name="insert_product_successful">Produkt tillagd</string>
+    <string name="update_product_successful">Produkt uppdaterad</string>
+    <string name="delete_product_successful">Produkten raderad</string>
+    <string name="found_product">"Hittade "</string>
+    <string name="with_product">" med "</string>
+    <string name="add_product">" dagar hållbarhet. Vill du lägga till det i kalendern?"</string>
+    <string name="no_product_title">Product not found</string>
+    <string name="no_product_subtitle">Ingen produkt är associerad med den streckkoden, se till att den är tillagd i sortimentet.</string>
+    <string name="duplicate_item_title">Redan tillagd</string>
+    <string name="duplicate_item_subtitle">" har redan lagts till i kalendern, vill du lägga till det igen?"</string>
+    <string name="duplicate_product_barcode">Fel, se till att streckkoden inte redan är tillagd</string>
+    <string name="handle_item_title">Hantera föremålet</string>
+    <string name="handle_item_subtitle">Detta föremål är struket. Det beter sig som om det raderas, men finns kvar i databasen. Vad vill du göra med det?</string>
+    <string name="restore">Återställ</string>
+    <string name="delete">Radera</string>
+</resources>
