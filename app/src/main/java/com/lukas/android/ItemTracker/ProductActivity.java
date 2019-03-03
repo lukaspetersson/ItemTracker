@@ -47,6 +47,9 @@ public class ProductActivity extends AppCompatActivity implements
         ProductName.setText(intent.getStringExtra("name"));
         ProductDurability.setText(intent.getStringExtra("durability"));
 
+        /*String barcode = BarcodeId.getText().toString().trim();
+        Log.v("HHHHHHHHHHHHHHH", "HHHHHH"+barcode);*/
+
         if (mCurrentProductUri == null) {
             setTitle(R.string.product_add_title);
             invalidateOptionsMenu();
@@ -64,6 +67,7 @@ public class ProductActivity extends AppCompatActivity implements
         openScan.putExtra("name", name);
         openScan.putExtra("durability", durability);
         openScan.putExtra("barcode", barcode);
+        openScan.setData(mCurrentProductUri);
         startActivity(openScan);
     }
 

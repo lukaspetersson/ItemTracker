@@ -41,6 +41,6 @@
     <string name="handle_item_subtitle">Detta föremål är struket. Det beter sig som om det raderas, men finns kvar i databasen. Vad vill du göra med det?</string>
     <string name="restore">Återställ</string>
     <string name="delete">Radera</string>
-    <string name="delete_product">Radera produkt</string>
+    <string name="delete_product">Radera produkt?</string>
     <string name="are_you_sure">Är du säker på att du vill radera produkten?</string>
 </resources>

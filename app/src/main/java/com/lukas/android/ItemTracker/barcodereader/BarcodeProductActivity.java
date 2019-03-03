@@ -12,6 +12,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -42,6 +43,7 @@ import com.lukas.android.ItemTracker.barcodereader.ui.camera.GraphicOverlay;
 
 
 import java.io.IOException;
+import java.net.URI;
 
 
 public final class BarcodeProductActivity extends AppCompatActivity implements BarcodeGraphicTracker.BarcodeUpdateListener {
@@ -64,6 +66,7 @@ public final class BarcodeProductActivity extends AppCompatActivity implements B
     private String productName;
     private String productDurability;
     private String previousBarcode;
+    private Uri mCurrentProductUri;
 
     private CameraSource mCameraSource;
     private CameraSourcePreview mPreview;
@@ -106,6 +109,7 @@ public final class BarcodeProductActivity extends AppCompatActivity implements B
         productDurability = intent.getStringExtra("durability");
         productName = intent.getStringExtra("name");
         previousBarcode = intent.getStringExtra("barcode");
+        mCurrentProductUri = intent.getData();
 
         // Check for the camera permission before accessing the camera, if the permission is not granted yet, request permission.
         int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
@@ -336,6 +340,7 @@ public final class BarcodeProductActivity extends AppCompatActivity implements B
         backToProduct.putExtra("barcode", previousBarcode);
         backToProduct.putExtra("name", productName);
         backToProduct.putExtra("durability", productDurability);
+        backToProduct.setData(mCurrentProductUri);
         startActivity(backToProduct);
     }
 
@@ -355,6 +360,7 @@ public final class BarcodeProductActivity extends AppCompatActivity implements B
         backToProduct.putExtra("barcode", barcode.displayValue);
         backToProduct.putExtra("name", productName);
         backToProduct.putExtra("durability", productDurability);
+        backToProduct.setData(mCurrentProductUri);
         startActivity(backToProduct);
     }
 
