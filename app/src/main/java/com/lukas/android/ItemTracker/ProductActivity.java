@@ -1,6 +1,7 @@
 package com.lukas.android.ItemTracker;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -169,7 +170,26 @@ public class ProductActivity extends AppCompatActivity implements
             return true;
         }
         else if (id == R.id.action_delete_product) {
-            deleteProduct();
+            AlertDialog mAlertDialog;
+            mAlertDialog = new AlertDialog.Builder(ProductActivity.this).create();
+            mAlertDialog.setTitle(getString(R.string.delete_product));
+            mAlertDialog.setMessage(getString(R.string.are_you_sure));
+            mAlertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            deleteProduct();
+                        }
+                    });
+            mAlertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            if (!mAlertDialog.isShowing()) {
+                mAlertDialog.show();
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
