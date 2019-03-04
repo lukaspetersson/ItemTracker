@@ -43,19 +43,21 @@ public class ProductActivity extends AppCompatActivity implements
 
         Intent intent = getIntent();
         mCurrentProductUri = intent.getData();
-        BarcodeId.setText(intent.getStringExtra("barcode"));
         ProductName.setText(intent.getStringExtra("name"));
         ProductDurability.setText(intent.getStringExtra("durability"));
+        BarcodeId.setText(intent.getStringExtra("barcode"));
 
-        /*String barcode = BarcodeId.getText().toString().trim();
-        Log.v("HHHHHHHHHHHHHHH", "HHHHHH"+barcode);*/
+        //TODO: same barcode product twise when updating crashes app
 
         if (mCurrentProductUri == null) {
             setTitle(R.string.product_add_title);
+
             invalidateOptionsMenu();
         } else {
             setTitle(R.string.product_edit_title);
-            getLoaderManager().initLoader(0, null, this);
+            if(intent.getStringExtra("barcode") == null){
+                getLoaderManager().initLoader(0, null, this);
+            }
         }
     }
 
@@ -79,7 +81,7 @@ public class ProductActivity extends AppCompatActivity implements
         }else{
             barcode = Long.parseLong(idText);
         }
-        if (barcode < 99999999999L) {
+        if (barcode <= 0) {
                 Toast.makeText(this, getString(R.string.sanity_id),
                         Toast.LENGTH_SHORT).show();
             return;
