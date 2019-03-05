@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import android.app.LoaderManager;
 
 import com.lukas.android.ItemTracker.barcodereader.BarcodeProductActivity;
 import com.lukas.android.ItemTracker.data.ItemContract;
+import com.lukas.android.ItemTracker.data.ItemDbHelper;
 
 public class ProductActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
@@ -116,7 +118,7 @@ public class ProductActivity extends AppCompatActivity implements
             Uri newUri = getContentResolver().insert(ItemContract.ItemEntry.CONTENT_URI_PRODUCTS, insertValues);
 
             if (newUri == null) {
-                Toast.makeText(this, getString(R.string.duplicate_product_barcode),
+                Toast.makeText(this, getString(R.string.error),
                         Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, getString(R.string.insert_product_successful),
@@ -126,7 +128,7 @@ public class ProductActivity extends AppCompatActivity implements
             int rowsAffected = getContentResolver().update(mCurrentProductUri, insertValues, null, null);
 
             if (rowsAffected == 0) {
-                Toast.makeText(this, getString(R.string.duplicate_product_barcode),
+                Toast.makeText(this, getString(R.string.error),
                         Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, getString(R.string.update_product_successful),
@@ -172,7 +174,36 @@ public class ProductActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_confirm_product) {
-            saveProduct();
+
+            ItemDbHelper mDbHelper = new ItemDbHelper(this);
+            SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+            String[] projection = {
+                    ItemContract.ItemEntry._ID,
+                    ItemContract.ItemEntry.COLUMN_BARCODE
+            };
+
+            String idText = BarcodeId.getText().toString().trim();
+            long barcode;
+            if(idText.isEmpty()){
+                barcode = 0;
+            }else{
+                barcode = Long.parseLong(idText);
+            }
+
+            String selection = ItemContract.ItemEntry.COLUMN_BARCODE + "=?";
+            String[] selectionArgs = new String[]{barcode+""};
+
+            Cursor cursor = db.query(ItemContract.ItemEntry.TABLE_NAME_PRODUCTS, projection,
+                    selection, selectionArgs, null, null, null);
+
+            if (cursor.getCount() == 0) {
+                saveProduct();
+            }else{
+                Toast.makeText(this, getString(R.string.duplicate_product_barcode),
+                        Toast.LENGTH_LONG).show();
+            }
+            cursor.close();
             return true;
         }
         else if (id == R.id.action_delete_product) {

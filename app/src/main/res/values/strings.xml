@@ -46,7 +46,7 @@
     <string name="duplicate_item_title">Already added</string>
     <string name="duplicate_item_subtitle">" is already added to the calendar, do you want to add it again?</string>
 
-    <string name="duplicate_product_barcode">Error, make sure barcode isn\'t already added</string>
+    <string name="duplicate_product_barcode">Error, product with that barcode already exists</string>
 
     <string name="handle_item_title">Handle item</string>
     <string name="handle_item_subtitle">This item is crossed out. It acts as if it is deleted, but remains in the database. What do you want to do with it?</string>

@@ -36,7 +36,7 @@
     <string name="no_product_subtitle">Ingen produkt är associerad med den streckkoden, se till att den är tillagd i sortimentet.</string>
     <string name="duplicate_item_title">Redan tillagd</string>
     <string name="duplicate_item_subtitle">" har redan lagts till i kalendern, vill du lägga till det igen?"</string>
-    <string name="duplicate_product_barcode">Fel, se till att streckkoden inte redan är tillagd</string>
+    <string name="duplicate_product_barcode">Fel, en produkt med den streckkoden existerar redan</string>
     <string name="handle_item_title">Hantera föremålet</string>
     <string name="handle_item_subtitle">Detta föremål är struket. Det beter sig som om det raderas, men finns kvar i databasen. Vad vill du göra med det?</string>
     <string name="restore">Återställ</string>
