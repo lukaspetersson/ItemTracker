@@ -77,7 +77,7 @@ public class ProductActivity extends AppCompatActivity implements
 
     private void saveProduct() {
         String barcode = BarcodeId.getText().toString().trim();
-        if (barcode.isEmpty()) {
+        if (barcode.length() < 12) {
                 Toast.makeText(this, getString(R.string.sanity_id),
                         Toast.LENGTH_SHORT).show();
             return;
