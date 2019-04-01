@@ -28,7 +28,7 @@ import com.lukas.android.ItemTracker.data.ItemDbHelper;
 public class ProductActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    public static EditText BarcodeId;
+    EditText BarcodeId;
     EditText ProductName;
     EditText ProductDurability;
 
@@ -48,8 +48,6 @@ public class ProductActivity extends AppCompatActivity implements
         ProductName.setText(intent.getStringExtra("name"));
         ProductDurability.setText(intent.getStringExtra("durability"));
         BarcodeId.setText(intent.getStringExtra("barcode"));
-
-        //TODO: same barcode product twise when updating crashes app
 
         if (mCurrentProductUri == null) {
             setTitle(R.string.product_add_title);
@@ -250,7 +248,8 @@ public class ProductActivity extends AppCompatActivity implements
             ProductName.setText(data.getString(nameColumnIndex));
 
             int durabilityColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_DURABILITY);
-            ProductDurability.setText(data.getInt(durabilityColumnIndex) + "");
+            String durabilityString = data.getInt(durabilityColumnIndex) + "";
+            ProductDurability.setText(durabilityString);
 
             int barcodeColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_BARCODE);
             BarcodeId.setText(data.getString(barcodeColumnIndex));

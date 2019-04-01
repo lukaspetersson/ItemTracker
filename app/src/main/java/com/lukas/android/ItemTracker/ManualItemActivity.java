@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,7 +32,6 @@ public class ManualItemActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
     private SearchView searchField;
-    private ListView searchListView;
 
     private ListAdapterProduct mAdapter;
 
@@ -42,10 +42,13 @@ public class ManualItemActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_manual);
         setTitle(R.string.manual_item_title);
-        getSupportActionBar().setElevation(0);
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setElevation(0);
+        }
 
         searchField = findViewById(R.id.search_view);
-        searchListView = findViewById(R.id.search_list);
+        ListView searchListView = findViewById(R.id.search_list);
 
         mAdapter = new ListAdapterProduct(this, null);
         searchListView.setAdapter(mAdapter);
@@ -57,56 +60,58 @@ public class ManualItemActivity extends AppCompatActivity implements
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Uri currentProductUri = ContentUris.withAppendedId(ItemContract.ItemEntry.CONTENT_URI_PRODUCTS, id);
                 Cursor data = getContentResolver().query(currentProductUri, null, null, null, null);
-                if (data.moveToFirst()) {
-                    int nameColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_NAME);
-                    final String name = data.getString(nameColumnIndex);
-                    int durabilityColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_DURABILITY);
-                    final int durability = data.getInt(durabilityColumnIndex);
-                    int barcodeColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_BARCODE);
-                    final String barcode = data.getString(barcodeColumnIndex);
-                    data.close();
+                if(data != null) {
+                    if (data.moveToFirst()) {
+                        int nameColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_NAME);
+                        final String name = data.getString(nameColumnIndex);
+                        int durabilityColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_DURABILITY);
+                        final int durability = data.getInt(durabilityColumnIndex);
+                        int barcodeColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_BARCODE);
+                        final String barcode = data.getString(barcodeColumnIndex);
+                        data.close();
 
-                    ItemDbHelper mDbHelper = new ItemDbHelper(context);
-                    SQLiteDatabase db = mDbHelper.getReadableDatabase();
+                        ItemDbHelper mDbHelper = new ItemDbHelper(context);
+                        SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-                    String[] projection = {
-                            ItemContract.ItemEntry._ID,
-                            ItemContract.ItemEntry.COLUMN_BARCODE,
-                            ItemContract.ItemEntry.COLUMN_CROSSED
-                    };
+                        String[] projection = {
+                                ItemContract.ItemEntry._ID,
+                                ItemContract.ItemEntry.COLUMN_BARCODE,
+                                ItemContract.ItemEntry.COLUMN_CROSSED
+                        };
 
-                    String selection = ItemContract.ItemEntry.COLUMN_BARCODE + "=?" + " AND " +ItemContract.ItemEntry.COLUMN_CROSSED+ "!=" + 1;
-                    String[] selectionArgs = new String[]{barcode};
+                        String selection = ItemContract.ItemEntry.COLUMN_BARCODE + "=?" + " AND " + ItemContract.ItemEntry.COLUMN_CROSSED + "!=" + 1;
+                        String[] selectionArgs = new String[]{barcode};
 
-                    //check if item already is in calendar
-                    Cursor cursor = db.query(ItemContract.ItemEntry.TABLE_NAME_ITEMS, projection,
-                            selection, selectionArgs, null, null, null);
+                        //check if item already is in calendar
+                        Cursor cursor = db.query(ItemContract.ItemEntry.TABLE_NAME_ITEMS, projection,
+                                selection, selectionArgs, null, null, null);
 
-                    if (cursor.getCount() > 0) {
-                        AlertDialog mAlertDialog;
-                        mAlertDialog = new AlertDialog.Builder(ManualItemActivity.this).create();
-                        mAlertDialog.setTitle(getString(R.string.duplicate_item_title));
-                        mAlertDialog.setMessage(name + getString(R.string.duplicate_item_subtitle));
-                        mAlertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        addToCalendar(name, durability, barcode);
-                                    }
-                                });
-                        mAlertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                        if (!mAlertDialog.isShowing()) {
-                            mAlertDialog.show();
+                        if (cursor.getCount() > 0) {
+                            AlertDialog mAlertDialog;
+                            mAlertDialog = new AlertDialog.Builder(ManualItemActivity.this).create();
+                            mAlertDialog.setTitle(getString(R.string.duplicate_item_title));
+                            mAlertDialog.setMessage(name + getString(R.string.duplicate_item_subtitle));
+                            mAlertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            addToCalendar(name, durability, barcode);
+                                        }
+                                    });
+                            mAlertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                            if (!mAlertDialog.isShowing()) {
+                                mAlertDialog.show();
+                            }
+                        } else {
+                            addToCalendar(name, durability, barcode);
                         }
-                    } else {
-                        addToCalendar(name, durability, barcode);
+                        cursor.close();
                     }
-                    cursor.close();
                 }
             }
         });
@@ -161,7 +166,7 @@ public class ManualItemActivity extends AppCompatActivity implements
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+    public @NonNull Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
         String[] projection = {
                 ItemContract.ItemEntry._ID,
@@ -187,12 +192,12 @@ public class ManualItemActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         mAdapter.swapCursor(data);
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
     }
 

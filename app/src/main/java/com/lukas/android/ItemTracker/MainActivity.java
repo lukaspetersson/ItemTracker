@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements
         return new CursorLoader(this,
                 ItemContract.ItemEntry.CONTENT_URI_ITEMS,
                 projection,
-                null,
+                selection,
                 null,
                 null);
     }
