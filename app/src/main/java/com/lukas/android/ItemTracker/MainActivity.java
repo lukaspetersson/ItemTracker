@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements
         return new CursorLoader(this,
                 ItemContract.ItemEntry.CONTENT_URI_ITEMS,
                 projection,
-                selection,
+                null,
                 null,
                 null);
     }
@@ -258,8 +258,9 @@ public class MainActivity extends AppCompatActivity implements
             long expire = data.getLong(expireColumnIndex);
             expiredPresent = true;
 
-            if(expire < System.currentTimeMillis()-604800000L){
-                Uri uri = ContentUris.withAppendedId(ItemContract.ItemEntry.CONTENT_URI_ITEMS, data.getInt(data.getColumnIndex(MediaStore.Images.ImageColumns._ID)));
+            //permanently delete after 1 week if crossed, 4 weeks if not crossed
+            if((expire < System.currentTimeMillis()-604800000L && crossed == 1) || (expire < System.currentTimeMillis()-2419200000L && crossed == 0)){
+                    Uri uri = ContentUris.withAppendedId(ItemContract.ItemEntry.CONTENT_URI_ITEMS, data.getInt(data.getColumnIndex(MediaStore.Images.ImageColumns._ID)));
                 int rowsDeleted = getContentResolver().delete(uri, null, null);
             }
         }
