@@ -69,7 +69,7 @@ public class ItemListFragment  extends Fragment implements
                     int expireColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_EXPIRE);
                     long expire = cursor.getLong(expireColumnIndex);
                     int barcodeColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_BARCODE);
-                    long barcode = cursor.getLong(barcodeColumnIndex);
+                    String barcode = cursor.getString(barcodeColumnIndex);
                     int crossedColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_CROSSED);
                     int crossed = cursor.getInt(crossedColumnIndex);
                     cursor.close();

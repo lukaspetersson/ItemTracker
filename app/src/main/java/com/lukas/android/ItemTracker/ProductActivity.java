@@ -76,14 +76,8 @@ public class ProductActivity extends AppCompatActivity implements
     }
 
     private void saveProduct() {
-        String idText = BarcodeId.getText().toString().trim();
-        long barcode;
-        if(idText.isEmpty()){
-            barcode = 0;
-        }else{
-            barcode = Long.parseLong(idText);
-        }
-        if (barcode <= 0) {
+        String barcode = BarcodeId.getText().toString().trim();
+        if (barcode.isEmpty()) {
                 Toast.makeText(this, getString(R.string.sanity_id),
                         Toast.LENGTH_SHORT).show();
             return;
@@ -183,16 +177,10 @@ public class ProductActivity extends AppCompatActivity implements
                     ItemContract.ItemEntry.COLUMN_BARCODE
             };
 
-            String idText = BarcodeId.getText().toString().trim();
-            long barcode;
-            if(idText.isEmpty()){
-                barcode = 0;
-            }else{
-                barcode = Long.parseLong(idText);
-            }
+            String barcode = BarcodeId.getText().toString().trim();
 
             String selection = ItemContract.ItemEntry.COLUMN_BARCODE + "=?";
-            String[] selectionArgs = new String[]{barcode+""};
+            String[] selectionArgs = new String[]{barcode};
 
             Cursor cursor = db.query(ItemContract.ItemEntry.TABLE_NAME_PRODUCTS, projection,
                     selection, selectionArgs, null, null, null);
@@ -265,7 +253,7 @@ public class ProductActivity extends AppCompatActivity implements
             ProductDurability.setText(data.getInt(durabilityColumnIndex) + "");
 
             int barcodeColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_BARCODE);
-            BarcodeId.setText(data.getLong(barcodeColumnIndex) + "");
+            BarcodeId.setText(data.getString(barcodeColumnIndex));
         }
     }
 

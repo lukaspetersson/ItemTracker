@@ -27,13 +27,13 @@ public class ItemDbHelper extends SQLiteOpenHelper {
                 + ItemEntry.COLUMN_NAME + " TEXT NOT NULL, "
                 + ItemEntry.COLUMN_EXPIRE + " INTEGER NOT NULL, "
                 + ItemEntry.COLUMN_CROSSED + " INTEGER DEFAULT 0, "
-                + ItemEntry.COLUMN_BARCODE + " INTEGER NOT NULL);";
+                + ItemEntry.COLUMN_BARCODE + " TEXT NOT NULL);";
 
         String SQL_CREATE_PRODUCT_TABLE = "CREATE TABLE " + ItemEntry.TABLE_NAME_PRODUCTS + " ("
                 + ItemEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + ItemEntry.COLUMN_NAME + " TEXT NOT NULL, "
                 + ItemEntry.COLUMN_DURABILITY + " INTEGER NOT NULL, "
-                + ItemEntry.COLUMN_BARCODE + " INTEGER NOT NULL UNIQUE);";
+                + ItemEntry.COLUMN_BARCODE + " TEXT NOT NULL UNIQUE);";
 
 
 

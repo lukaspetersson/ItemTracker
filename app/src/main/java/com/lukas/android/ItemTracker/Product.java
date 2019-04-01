@@ -4,9 +4,9 @@ public class Product {
 
     private String mName;
     private int mDurability;
-    private long mBarcode;
+    private String mBarcode;
 
-    public Product(String name, int durability, long barcode) {
+    public Product(String name, int durability, String barcode) {
         mName = name;
         mDurability = durability;
         mBarcode = barcode;
@@ -19,7 +19,7 @@ public class Product {
     public int getDurability() {
         return mDurability;
     }
-    public long getBarcode() {
+    public String getBarcode() {
         return mBarcode;
     }
 }

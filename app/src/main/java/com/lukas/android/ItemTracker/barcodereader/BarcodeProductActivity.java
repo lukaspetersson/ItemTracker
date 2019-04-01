@@ -337,7 +337,7 @@ public final class BarcodeProductActivity extends AppCompatActivity implements B
     @Override
     public void onBackPressed() {
         Intent backToProduct = new Intent(BarcodeProductActivity.this, ProductActivity.class);
-        backToProduct.putExtra("barcode", previousBarcode);
+        backToProduct.putExtra("barcode", previousBarcode.toString());
         backToProduct.putExtra("name", productName);
         backToProduct.putExtra("durability", productDurability);
         backToProduct.setData(mCurrentProductUri);
@@ -357,7 +357,7 @@ public final class BarcodeProductActivity extends AppCompatActivity implements B
     @Override
     public void onBarcodeDetected(Barcode barcode) {
         Intent backToProduct = new Intent(BarcodeProductActivity.this, ProductActivity.class);
-        backToProduct.putExtra("barcode", barcode.displayValue);
+        backToProduct.putExtra("barcode", barcode.displayValue.toString());
         backToProduct.putExtra("name", productName);
         backToProduct.putExtra("durability", productDurability);
         backToProduct.setData(mCurrentProductUri);

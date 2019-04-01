@@ -34,11 +34,11 @@ public class ListAdapterProduct extends CursorAdapter {
 
         TextView durabilityView = listItemView.findViewById(R.id.assortment_durability);
         int durabilityColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_DURABILITY);
-        durabilityView.setText(cursor.getInt(durabilityColumnIndex) + "");
+        durabilityView.setText(cursor.getInt(durabilityColumnIndex)+"");
 
         TextView barcodeView = listItemView.findViewById(R.id.assortment_barcode);
         int barcodeColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_BARCODE);
-        barcodeView.setText(cursor.getLong(barcodeColumnIndex) + "");
+        barcodeView.setText(cursor.getString(barcodeColumnIndex));
 
 
     }

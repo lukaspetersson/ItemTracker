@@ -63,7 +63,7 @@ public class ManualItemActivity extends AppCompatActivity implements
                     int durabilityColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_DURABILITY);
                     final int durability = data.getInt(durabilityColumnIndex);
                     int barcodeColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_BARCODE);
-                    final long barcode = data.getLong(barcodeColumnIndex);
+                    final String barcode = data.getString(barcodeColumnIndex);
                     data.close();
 
                     ItemDbHelper mDbHelper = new ItemDbHelper(context);
@@ -76,7 +76,7 @@ public class ManualItemActivity extends AppCompatActivity implements
                     };
 
                     String selection = ItemContract.ItemEntry.COLUMN_BARCODE + "=?" + " AND " +ItemContract.ItemEntry.COLUMN_CROSSED+ "!=" + 1;
-                    String[] selectionArgs = new String[]{barcode + ""};
+                    String[] selectionArgs = new String[]{barcode};
 
                     //check if item already is in calendar
                     Cursor cursor = db.query(ItemContract.ItemEntry.TABLE_NAME_ITEMS, projection,
@@ -116,7 +116,7 @@ public class ManualItemActivity extends AppCompatActivity implements
         setuUpSearch();
     }
 
-    private void addToCalendar(String name, int durability, long barcode) {
+    private void addToCalendar(String name, int durability, String barcode) {
 
         long expire = System.currentTimeMillis() + (durability*86400000);
 

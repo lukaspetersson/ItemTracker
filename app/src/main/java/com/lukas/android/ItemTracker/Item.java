@@ -4,11 +4,11 @@ public class Item {
 
     private String mName;
     private long mExpire;
-    private long mBarcode;
+    private String mBarcode;
     private int mCrossed;
 
 
-    public Item(String name, long expire, long barcode, int crossed) {
+    public Item(String name, long expire, String barcode, int crossed) {
         mName = name;
         mExpire = expire;
         mBarcode = barcode;
@@ -24,7 +24,7 @@ public class Item {
         return mExpire;
     }
 
-    public long getBarcode() {
+    public String getBarcode() {
         return mBarcode;
     }
 

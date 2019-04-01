@@ -39,7 +39,7 @@ public class ListAdapterMain extends CursorAdapter {
 
         TextView barcodeView = listItemView.findViewById(R.id.item_barcode);
         int barcodeColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_BARCODE);
-        barcodeView.setText(cursor.getLong(barcodeColumnIndex)+"");
+        barcodeView.setText(cursor.getString(barcodeColumnIndex));
 
         int crossColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_CROSSED);
         int crossed = cursor.getInt(crossColumnIndex);

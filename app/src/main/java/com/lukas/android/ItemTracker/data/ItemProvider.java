@@ -118,8 +118,8 @@ public class ItemProvider extends ContentProvider {
             throw new IllegalArgumentException("Item requires a expire date");
         }
 
-        Integer barcode = values.getAsInteger(ItemEntry.COLUMN_BARCODE);
-        if (barcode > 99999999999L) {
+        String barcode = values.getAsString(ItemEntry.COLUMN_BARCODE);
+        if (barcode.length() < 12) {
             throw new IllegalArgumentException("Item requires valid barcode id");
         }
 
@@ -147,9 +147,9 @@ public class ItemProvider extends ContentProvider {
             throw new IllegalArgumentException("Product requires a durability");
         }
 
-        Integer barcode = values.getAsInteger(ItemEntry.COLUMN_BARCODE);
-        if (barcode > 99999999999L) {
-            throw new IllegalArgumentException("Product requires valid barcode id");
+        String barcode = values.getAsString(ItemEntry.COLUMN_BARCODE);
+        if (barcode.length() < 12) {
+            throw new IllegalArgumentException("Item requires valid barcode id");
         }
 
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
@@ -199,9 +199,8 @@ public class ItemProvider extends ContentProvider {
             throw new IllegalArgumentException("Item requires a expire date");
         }
 
-        //TODO: store barcode as string and check lenght of string
-        Integer barcode = values.getAsInteger(ItemEntry.COLUMN_BARCODE);
-        if (barcode > 99999999999L) {
+        String barcode = values.getAsString(ItemEntry.COLUMN_BARCODE);
+        if (barcode.length() < 12) {
             throw new IllegalArgumentException("Item requires valid barcode id");
         }
 
@@ -230,9 +229,9 @@ public class ItemProvider extends ContentProvider {
             throw new IllegalArgumentException("Product requires a durability");
         }
 
-        Integer barcode = values.getAsInteger(ItemEntry.COLUMN_BARCODE);
-        if (barcode > 99999999999L) {
-            throw new IllegalArgumentException("Product requires valid barcode id");
+        String barcode = values.getAsString(ItemEntry.COLUMN_BARCODE);
+        if (barcode.length() < 12) {
+            throw new IllegalArgumentException("Item requires valid barcode id");
         }
 
         if (values.size() == 0) {
