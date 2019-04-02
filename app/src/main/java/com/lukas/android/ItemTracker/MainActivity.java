@@ -93,6 +93,12 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getSupportLoaderManager().restartLoader(0, null, this);
+    }
+
     private void setUpDateBar(){
         DateNumber = new TextView[DAYS_IN_WEEK];
         DateName = new TextView[DAYS_IN_WEEK];
