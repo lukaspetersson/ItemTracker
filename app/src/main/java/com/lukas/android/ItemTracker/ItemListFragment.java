@@ -86,7 +86,7 @@ public class ItemListFragment  extends Fragment implements
                     if(crossed == 0){
                         insertValues.put(ItemContract.ItemEntry.COLUMN_CROSSED, 1);
                         if(getActivity() != null){
-                            int rowsAffected = getActivity().getContentResolver().update(pickedUri, insertValues, null, null);
+                            getActivity().getContentResolver().update(pickedUri, insertValues, null, null);
                         }
                     }else{
                         AlertDialog mAlertDialog = new AlertDialog.Builder(getContext()).create();
@@ -103,14 +103,14 @@ public class ItemListFragment  extends Fragment implements
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
                                         insertValues.put(ItemContract.ItemEntry.COLUMN_CROSSED, 0);
-                                        int rowsAffected = getActivity().getContentResolver().update(pickedUri, insertValues, null, null);
+                                        getActivity().getContentResolver().update(pickedUri, insertValues, null, null);
                                     }
                                 });
                         mAlertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.delete),
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
-                                        int rowsDeleted = getActivity().getContentResolver().delete(pickedUri, null, null);
+                                        getActivity().getContentResolver().delete(pickedUri, null, null);
                                     }
                                 });
                             if(!mAlertDialog.isShowing()){
@@ -158,6 +158,7 @@ public class ItemListFragment  extends Fragment implements
                 ItemContract.ItemEntry.COLUMN_CROSSED,
                 ItemContract.ItemEntry.COLUMN_BARCODE
         };
+
 
         return new CursorLoader(getActivity(),
                 ItemContract.ItemEntry.CONTENT_URI_ITEMS,

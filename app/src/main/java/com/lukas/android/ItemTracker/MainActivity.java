@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity implements
     TextView[] DateNumber;
     TextView[] DateName;
     LinearLayout[] DateLable;
-    ImageView NextWeek;
-    ImageView PreviousWeek;
+    /*ImageView NextWeek;
+    ImageView PreviousWeek;*/
     FloatingActionButton ScanFab;
     ViewPager ItemsList;
 
@@ -272,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements
             //permanently delete after 1 week if crossed, 4 weeks if not crossed
             if((expire < System.currentTimeMillis()-604800000L && crossed == 1) || (expire < System.currentTimeMillis()-2419200000L && crossed == 0)){
                     Uri uri = ContentUris.withAppendedId(ItemContract.ItemEntry.CONTENT_URI_ITEMS, data.getInt(data.getColumnIndex(MediaStore.Images.ImageColumns._ID)));
-                int rowsDeleted = getContentResolver().delete(uri, null, null);
+                getContentResolver().delete(uri, null, null);
             }
         }
         invalidateOptionsMenu();
