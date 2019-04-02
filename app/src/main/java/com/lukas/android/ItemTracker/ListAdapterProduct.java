@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class ListAdapterProduct extends CursorAdapter {
 
-    public ListAdapterProduct(Context context, Cursor cursor) {
+    ListAdapterProduct(Context context, Cursor cursor) {
         super(context, cursor, 0);
     }
 
@@ -34,7 +34,8 @@ public class ListAdapterProduct extends CursorAdapter {
 
         TextView durabilityView = listItemView.findViewById(R.id.assortment_durability);
         int durabilityColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_DURABILITY);
-        durabilityView.setText(cursor.getInt(durabilityColumnIndex)+"");
+        String durabilityString = cursor.getInt(durabilityColumnIndex)+"";
+        durabilityView.setText(durabilityString);
 
         TextView barcodeView = listItemView.findViewById(R.id.assortment_barcode);
         int barcodeColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_BARCODE);

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -22,6 +23,7 @@ import android.database.Cursor;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.app.LoaderManager;
+import android.widget.Toast;
 
 import com.lukas.android.ItemTracker.barcodereader.BarcodeItemActivity;
 import com.lukas.android.ItemTracker.data.ItemContract;
@@ -66,7 +68,9 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
         setTitle(R.string.calendar_title);
 
-        getSupportActionBar().setElevation(0);
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setElevation(0);
+        }
 
         /*PreviousWeek = findViewById(R.id.previous_week);
         NextWeek = findViewById(R.id.next_week);*/
@@ -231,7 +235,8 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+    public @NonNull
+    Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
         String[] projection = {
                 ItemContract.ItemEntry._ID,
@@ -255,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         expiredPresent = false;
         while(data.moveToNext()){
             int crossedColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_CROSSED);
@@ -274,6 +279,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
     }
 }

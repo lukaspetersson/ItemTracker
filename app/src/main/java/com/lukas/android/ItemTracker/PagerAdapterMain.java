@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 public class PagerAdapterMain extends FragmentPagerAdapter {
 
-    public PagerAdapterMain(FragmentManager fm) {
+    PagerAdapterMain(FragmentManager fm) {
         super(fm);
     }
 

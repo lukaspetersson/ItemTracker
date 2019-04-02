@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,15 +42,14 @@ public class ItemListFragment  extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
     private ListAdapterMain mAdapter;
-    private ListView itemList;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.item_list, container, false);
 
         mAdapter = new ListAdapterMain(getActivity(), null);
 
-        itemList = v.findViewById(R.id.item_list);
+        ListView itemList = v.findViewById(R.id.item_list);
         itemList.setAdapter(mAdapter);
 
         itemList.addHeaderView(new View(getContext()));
@@ -60,9 +60,13 @@ public class ItemListFragment  extends Fragment implements
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 final Uri pickedUri = ContentUris.withAppendedId(ItemContract.ItemEntry.CONTENT_URI_ITEMS, id);
 
-                //check if item already is in calendar
-                Cursor cursor = getActivity().getContentResolver().query(pickedUri, null, null, null, null);
 
+                Cursor cursor = null;
+                if (getActivity() != null) {
+                    cursor = getActivity().getContentResolver().query(pickedUri, null, null, null, null);
+
+                }
+                //check if item already is in calendar
                 if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
                     int nameColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_NAME);
                     String name = cursor.getString(nameColumnIndex);
@@ -81,7 +85,9 @@ public class ItemListFragment  extends Fragment implements
 
                     if(crossed == 0){
                         insertValues.put(ItemContract.ItemEntry.COLUMN_CROSSED, 1);
-                        int rowsAffected = getActivity().getContentResolver().update(pickedUri, insertValues, null, null);
+                        if(getActivity() != null){
+                            int rowsAffected = getActivity().getContentResolver().update(pickedUri, insertValues, null, null);
+                        }
                     }else{
                         AlertDialog mAlertDialog = new AlertDialog.Builder(getContext()).create();
                         mAlertDialog.setTitle(getString(R.string.handle_item_title));
@@ -115,8 +121,11 @@ public class ItemListFragment  extends Fragment implements
                 }
             }
         });
+        long dayInMilis = 0;
+        if(getArguments() != null){
+            dayInMilis = MainActivity.currentDate + getArguments().getInt("day") * 86400000;
 
-        long dayInMilis = MainActivity.currentDate + getArguments().getInt("day") * 86400000;
+        }
         Bundle bundle = new Bundle();
         bundle.putLong("displayDay", dayInMilis);
 
@@ -136,7 +145,7 @@ public class ItemListFragment  extends Fragment implements
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+    public @NonNull Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
         String selection =
                 "strftime('%Y%m%d', " + ItemContract.ItemEntry.COLUMN_EXPIRE + " / 1000, 'unixepoch') = '" +
@@ -159,12 +168,12 @@ public class ItemListFragment  extends Fragment implements
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         mAdapter.swapCursor(data);
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
     }
 }

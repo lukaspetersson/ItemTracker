@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class ListAdapterMain extends CursorAdapter {
 
-    public ListAdapterMain(Context context, Cursor cursor) {
+    ListAdapterMain(Context context, Cursor cursor) {
         super(context, cursor, 0);
     }
 
