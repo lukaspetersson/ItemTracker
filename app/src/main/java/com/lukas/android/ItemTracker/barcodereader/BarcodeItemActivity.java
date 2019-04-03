@@ -66,7 +66,6 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
 
     private ImageView mFocus;
     private ImageView mFlash;
-    private ImageView mSquere;
 
     private BarcodeItemActivity context;
     AlertDialog mAlertDialog;
@@ -95,7 +94,7 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
         screenHeight = size.y;
 
         //find context of the views
-        mSquere = findViewById(R.id.squere);
+        ImageView mSquere = findViewById(R.id.squere);
         mPreview = findViewById(R.id.preview);
         mGraphicOverlay = findViewById(R.id.graphicOverlay);
         mFocus = findViewById(R.id.focus);
@@ -478,6 +477,7 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
                                 }else{
                                     addToCalendar(name, durability, barcode);
                                 }
+                                cursor.close();
                             }
                         });
                 if(!mAlertDialog.isShowing()){
