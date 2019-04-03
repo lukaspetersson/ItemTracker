@@ -57,11 +57,9 @@ public final class BarcodeProductActivity extends AppCompatActivity implements B
 
     private boolean autoFocus;
     private boolean useFlash;
-    private boolean showConfirm;
 
     private ImageView mFocus;
     private ImageView mFlash;
-    private ImageView mSquere;
 
     private String productName;
     private String productDurability;
@@ -89,7 +87,7 @@ public final class BarcodeProductActivity extends AppCompatActivity implements B
         BarcodeItemActivity.screenHeight = size.y;
 
         //find context of the views
-        mSquere = findViewById(R.id.squere_product);
+        ImageView mSquere = findViewById(R.id.squere_product);
         mPreview = findViewById(R.id.preview_product);
         mGraphicOverlay = findViewById(R.id.graphicOverlay_product);
         mFocus = findViewById(R.id.focus_product);
@@ -103,7 +101,6 @@ public final class BarcodeProductActivity extends AppCompatActivity implements B
         //defualt options
         autoFocus = true;
         useFlash = false;
-        showConfirm = false;
 
         Intent intent = getIntent();
         productDurability = intent.getStringExtra("durability");
@@ -337,7 +334,7 @@ public final class BarcodeProductActivity extends AppCompatActivity implements B
     @Override
     public void onBackPressed() {
         Intent backToProduct = new Intent(BarcodeProductActivity.this, ProductActivity.class);
-        backToProduct.putExtra("barcode", previousBarcode.toString());
+        backToProduct.putExtra("barcode", previousBarcode);
         backToProduct.putExtra("name", productName);
         backToProduct.putExtra("durability", productDurability);
         backToProduct.setData(mCurrentProductUri);
@@ -357,7 +354,7 @@ public final class BarcodeProductActivity extends AppCompatActivity implements B
     @Override
     public void onBarcodeDetected(Barcode barcode) {
         Intent backToProduct = new Intent(BarcodeProductActivity.this, ProductActivity.class);
-        backToProduct.putExtra("barcode", barcode.displayValue.toString());
+        backToProduct.putExtra("barcode", barcode.displayValue);
         backToProduct.putExtra("name", productName);
         backToProduct.putExtra("durability", productDurability);
         backToProduct.setData(mCurrentProductUri);

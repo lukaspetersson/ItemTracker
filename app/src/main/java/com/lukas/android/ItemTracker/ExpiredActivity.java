@@ -3,6 +3,7 @@ package com.lukas.android.ItemTracker;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +25,6 @@ public class ExpiredActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
     private ListAdapterMain mAdapter;
-    private ListView itemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class ExpiredActivity extends AppCompatActivity implements
 
         mAdapter = new ListAdapterMain(this, null);
 
-        itemList = findViewById(R.id.expired_list);
+        ListView itemList = findViewById(R.id.expired_list);
         itemList.setAdapter(mAdapter);
 
         itemList.addHeaderView(new View(this));
@@ -54,7 +54,9 @@ public class ExpiredActivity extends AppCompatActivity implements
                     openMain.putExtra("expire", expire);
                     startActivity(openMain);
                 }
-                cursor.close();
+                if(cursor != null){
+                    cursor.close();
+                }
             }
         });
 
@@ -63,7 +65,7 @@ public class ExpiredActivity extends AppCompatActivity implements
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+    public @NonNull Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
         String[] projection = {
                 ItemContract.ItemEntry._ID,
@@ -87,12 +89,12 @@ public class ExpiredActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         mAdapter.swapCursor(data);
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
     }
 

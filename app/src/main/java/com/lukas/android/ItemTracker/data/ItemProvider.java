@@ -7,6 +7,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import com.lukas.android.ItemTracker.data.ItemContract.ItemEntry;
 
@@ -50,7 +51,7 @@ public class ItemProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
+    public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
         SQLiteDatabase database = mDbHelper.getReadableDatabase();
         Cursor cursor;
@@ -86,7 +87,9 @@ public class ItemProvider extends ContentProvider {
         }
 
         //set notification on the cursor so it can be updated only if we need to change it
-        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        if(getContext() != null){
+            cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        }
 
         // return the cursor
         return cursor;
@@ -94,7 +97,7 @@ public class ItemProvider extends ContentProvider {
 
     //insert new data into the provider with the given ContentValues
     @Override
-    public Uri insert(Uri uri, ContentValues contentValues) {
+    public Uri insert(@NonNull Uri uri, ContentValues contentValues) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             //we only need this one case because you can only insert 1 book at the time
@@ -131,8 +134,9 @@ public class ItemProvider extends ContentProvider {
             Log.e(LOG_TAG, "Failed to insert row for " + uri);
             return null;
         }
-
-        getContext().getContentResolver().notifyChange(uri, null);
+        if(getContext() != null){
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
 
         return ContentUris.withAppendedId(uri, id);
     }
@@ -160,14 +164,15 @@ public class ItemProvider extends ContentProvider {
             Log.e(LOG_TAG, "Failed to insert row for " + uri);
             return null;
         }
+        if(getContext() != null){
+            getContext().getContentResolver().notifyChange(uri, null);
 
-        getContext().getContentResolver().notifyChange(uri, null);
-
+        }
         return ContentUris.withAppendedId(uri, id);
     }
 
     @Override
-    public int update(Uri uri, ContentValues contentValues, String selection,
+    public int update(@NonNull Uri uri, ContentValues contentValues, String selection,
                       String[] selectionArgs) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
@@ -212,7 +217,7 @@ public class ItemProvider extends ContentProvider {
 
         int rowsUpdated = database.update(ItemEntry.TABLE_NAME_ITEMS, values, selection, selectionArgs);
 
-        if (rowsUpdated != 0) {
+        if (rowsUpdated != 0 && getContext() != null) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
 
@@ -242,7 +247,7 @@ public class ItemProvider extends ContentProvider {
 
         int rowsUpdated = database.update(ItemEntry.TABLE_NAME_PRODUCTS, values, selection, selectionArgs);
 
-        if (rowsUpdated != 0) {
+        if (rowsUpdated != 0 && getContext() != null) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
 
@@ -251,7 +256,7 @@ public class ItemProvider extends ContentProvider {
 
     //delete data from table
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
         int rowsDeleted;
 
@@ -277,7 +282,7 @@ public class ItemProvider extends ContentProvider {
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
         //if 1 or more rows were deleted, then notify all listeners that the data at the given URI has changed
-        if (rowsDeleted != 0) {
+        if (rowsDeleted != 0 && getContext() != null) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         //return the number of rows deleted
@@ -286,7 +291,7 @@ public class ItemProvider extends ContentProvider {
 
     //returns the MIME type of data for the content URI
     @Override
-    public String getType(Uri uri) {
+    public String getType(@NonNull Uri uri) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case ITEMS:
