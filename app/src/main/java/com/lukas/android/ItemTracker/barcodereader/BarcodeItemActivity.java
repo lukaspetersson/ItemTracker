@@ -87,7 +87,7 @@ public final class BarcodeItemActivity extends AppCompatActivity implements Barc
 
         context = this;
 
-        //send screenheight to camerasourcepreview
+        //send screen height to camerasourcepreview
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);

@@ -2,7 +2,6 @@ package com.lukas.android.ItemTracker.barcodereader;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -20,13 +19,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.vision.MultiProcessor;
@@ -43,7 +40,6 @@ import com.lukas.android.ItemTracker.barcodereader.ui.camera.GraphicOverlay;
 
 
 import java.io.IOException;
-import java.net.URI;
 
 
 public final class BarcodeProductActivity extends AppCompatActivity implements BarcodeGraphicTracker.BarcodeUpdateListener {
