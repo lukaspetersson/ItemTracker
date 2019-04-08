@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,9 @@ public class ProductActivity extends AppCompatActivity implements
     EditText ProductDurability;
 
     private Uri mCurrentProductUri;
+    private String originalBarcode;
+
+    private Intent receiveIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +45,11 @@ public class ProductActivity extends AppCompatActivity implements
         ProductName = findViewById(R.id.name_edit);
         ProductDurability = findViewById(R.id.durability_edit);
 
-        Intent intent = getIntent();
-        mCurrentProductUri = intent.getData();
-        ProductName.setText(intent.getStringExtra("name"));
-        ProductDurability.setText(intent.getStringExtra("durability"));
-        BarcodeId.setText(intent.getStringExtra("barcode"));
+        receiveIntent = getIntent();
+        mCurrentProductUri = receiveIntent.getData();
+        ProductName.setText(receiveIntent.getStringExtra("name"));
+        ProductDurability.setText(receiveIntent.getStringExtra("durability"));
+        BarcodeId.setText(receiveIntent.getStringExtra("barcode"));
 
         if (mCurrentProductUri == null) {
             setTitle(R.string.product_add_title);
@@ -53,9 +57,7 @@ public class ProductActivity extends AppCompatActivity implements
             invalidateOptionsMenu();
         } else {
             setTitle(R.string.product_edit_title);
-            if(intent.getStringExtra("barcode") == null){
-                getLoaderManager().initLoader(0, null, this);
-            }
+            getLoaderManager().initLoader(0, null, this);
         }
     }
 
@@ -181,7 +183,12 @@ public class ProductActivity extends AppCompatActivity implements
             Cursor cursor = db.query(ItemContract.ItemEntry.TABLE_NAME_PRODUCTS, projection,
                     selection, selectionArgs, null, null, null);
 
-            if (cursor.getCount() == 0) {
+            boolean saveEdit = false;
+            if(mCurrentProductUri != null){
+                saveEdit = barcode.equals(originalBarcode);
+            }
+
+            if (cursor.getCount() == 0 || saveEdit) {
                 saveProduct();
             }else{
                 Toast.makeText(this, getString(R.string.duplicate_product_barcode),
@@ -250,7 +257,10 @@ public class ProductActivity extends AppCompatActivity implements
             ProductDurability.setText(durabilityString);
 
             int barcodeColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_BARCODE);
-            BarcodeId.setText(data.getString(barcodeColumnIndex));
+            originalBarcode = data.getString(barcodeColumnIndex);
+            if(receiveIntent.getStringExtra("barcode") == null){
+                BarcodeId.setText(originalBarcode);
+            }
         }
     }
 
